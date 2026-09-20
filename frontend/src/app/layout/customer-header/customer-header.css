@@ -1,0 +1,566 @@
+/* =========================================================
+   Customer Header
+   Unified AI Customer Support Design System
+   ========================================================= */
+
+.customer-header {
+  width: min(1180px, calc(100% - 64px));
+  margin: 0 auto;
+
+  min-height: 76px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 28px;
+  padding: 14px 0;
+
+  border-bottom: 1px solid rgba(36, 26, 47, 0.08);
+
+  animation: customerHeaderIn 0.45s ease both;
+}
+
+
+/* =========================================================
+   Brand
+   ========================================================= */
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+
+  color: #241a2f;
+  text-decoration: none;
+
+  font-size: 15px;
+  font-weight: 750;
+  letter-spacing: -0.35px;
+  line-height: 1.15;
+
+  white-space: nowrap;
+
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+}
+
+.brand:hover {
+  transform: translateY(-1px);
+}
+
+.brand-icon {
+  position: relative;
+
+  width: 38px;
+  height: 38px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 38px;
+
+  border-radius: 12px;
+
+  background: linear-gradient(
+    145deg,
+    #f05a3c,
+    #e84d31
+  );
+
+  color: white;
+
+  font-size: 20px;
+  line-height: 1;
+
+  box-shadow:
+    0 7px 18px rgba(240, 90, 60, 0.22);
+
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.brand-icon::after {
+  content: '';
+
+  position: absolute;
+
+  width: 7px;
+  height: 7px;
+
+  right: -2px;
+  bottom: -2px;
+
+  border-radius: 50%;
+
+  background: #14b8a6;
+
+  border: 2px solid white;
+}
+
+.brand:hover .brand-icon {
+  transform: rotate(5deg) scale(1.04);
+
+  box-shadow:
+    0 9px 22px rgba(240, 90, 60, 0.28);
+}
+
+.brand-second {
+  display: inline;
+}
+
+
+/* =========================================================
+   Navigation
+   ========================================================= */
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+nav a {
+  position: relative;
+
+  min-height: 42px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 13px;
+
+  border-radius: 10px;
+
+  color: #756f7c;
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: -0.1px;
+
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.18s ease;
+}
+
+nav a:hover {
+  color: #241a2f;
+
+  background: rgba(20, 184, 166, 0.07);
+
+  transform: translateY(-1px);
+}
+
+nav a::after {
+  content: '';
+
+  position: absolute;
+
+  left: 50%;
+  bottom: 4px;
+
+  width: 0;
+  height: 2px;
+
+  border-radius: 999px;
+
+  background: #14b8a6;
+
+  transform: translateX(-50%);
+
+  transition: width 0.2s ease;
+}
+
+nav a:hover::after {
+  width: 14px;
+}
+
+nav a.active {
+  color: #241a2f;
+
+  background: rgba(240, 90, 60, 0.09);
+}
+
+nav a.active::after {
+  width: 22px;
+
+  background: #f05a3c;
+}
+
+
+/* =========================================================
+   Header Actions
+   ========================================================= */
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  margin-left: auto;
+}
+
+
+/* =========================================================
+   Ask AI CTA
+   ========================================================= */
+
+.header-cta {
+  min-height: 42px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  padding: 0 16px;
+
+  border: 1px solid transparent;
+  border-radius: 10px;
+
+  background: #241a2f;
+  color: white;
+
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  box-shadow:
+    0 5px 14px rgba(36, 26, 47, 0.14);
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.18s ease,
+    box-shadow 0.2s ease;
+}
+
+.header-cta span {
+  color: #f05a3c;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.header-cta:hover {
+  background: #f05a3c;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 20px rgba(240, 90, 60, 0.22);
+}
+
+.header-cta:hover span {
+  color: white;
+  transform: rotate(12deg) scale(1.05);
+}
+
+.header-cta:active {
+  transform: translateY(0) scale(0.98);
+}
+
+
+/* =========================================================
+   Logout Button
+   ========================================================= */
+
+.logout-button {
+  min-height: 42px;
+
+  padding: 0 14px;
+
+  border: 1px solid rgba(36, 26, 47, 0.14);
+  border-radius: 10px;
+
+  background: white;
+  color: #241a2f;
+
+  font: inherit;
+  font-size: 13px;
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.18s ease,
+    box-shadow 0.2s ease;
+}
+
+.logout-button:hover {
+  background: #241a2f;
+  color: white;
+
+  border-color: #241a2f;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 7px 17px rgba(36, 26, 47, 0.16);
+}
+
+.logout-button:active {
+  transform: translateY(0) scale(0.97);
+}
+
+
+/* =========================================================
+   Focus States
+   ========================================================= */
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid rgba(20, 184, 166, 0.3);
+  outline-offset: 3px;
+}
+
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+
+@media (max-width: 1000px) {
+  .customer-header {
+    width: min(100% - 40px, 900px);
+    gap: 18px;
+  }
+
+  .header-cta {
+    display: none;
+  }
+}
+
+
+@media (max-width: 760px) {
+  .customer-header {
+    width: calc(100% - 32px);
+
+    min-height: auto;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+
+    padding: 14px 0;
+  }
+
+  .brand {
+    font-size: 14px;
+  }
+
+  .brand-icon {
+    width: 34px;
+    height: 34px;
+    flex-basis: 34px;
+
+    border-radius: 10px;
+
+    font-size: 18px;
+  }
+
+  nav {
+    order: 3;
+
+    width: 100%;
+
+    padding-top: 5px;
+
+    border-top: 1px solid rgba(36, 26, 47, 0.07);
+
+    justify-content: center;
+  }
+
+  nav a {
+    flex: 1;
+
+    min-height: 40px;
+
+    padding: 0 8px;
+
+    font-size: 12px;
+  }
+
+  .header-actions {
+    margin-left: auto;
+  }
+
+  .logout-button {
+    min-height: 40px;
+    padding: 0 12px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .customer-header {
+    width: calc(100% - 24px);
+  }
+
+  .brand-second {
+    display: inline;
+  }
+
+  .header-actions {
+    gap: 6px;
+  }
+
+  .logout-button {
+    font-size: 12px;
+    padding: 0 10px;
+  }
+
+  nav {
+    gap: 3px;
+  }
+
+  nav a {
+    font-size: 11.5px;
+  }
+}
+
+
+/* =========================================================
+   Reduced Motion
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+/* =========================================================
+   Header Entrance Animation
+   ========================================================= */
+
+@keyframes customerHeaderIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+
+.brand-avatar {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  border: 2px solid rgba(20, 184, 166, 0.45);
+  box-shadow: 0 5px 16px rgba(36, 26, 47, 0.14);
+}
+
+
+/* =========================================================
+   Customer Profile Avatar
+   ========================================================= */
+
+.customer-profile {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  text-decoration: none;
+
+  border-radius: 50%;
+
+  outline: none;
+}
+
+.customer-profile-avatar {
+  width: 42px;
+  height: 42px;
+
+  min-width: 42px;
+
+  border-radius: 50%;
+
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f05a3c,
+      #241a2f
+    );
+
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  border: 2px solid
+    rgba(20, 184, 166, 0.55);
+
+  box-shadow:
+    0 6px 16px
+    rgba(36, 26, 47, 0.14);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.customer-profile-avatar img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+}
+
+.customer-profile-avatar > span {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.customer-profile:hover
+.customer-profile-avatar {
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 8px 20px
+    rgba(36, 26, 47, 0.20);
+}
+
+.customer-profile:focus-visible
+.customer-profile-avatar {
+  outline: 3px solid
+    rgba(20, 184, 166, 0.28);
+
+  outline-offset: 3px;
+}

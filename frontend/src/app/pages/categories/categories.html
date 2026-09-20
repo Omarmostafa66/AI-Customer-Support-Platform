@@ -1,0 +1,183 @@
+<section>
+  <div class="page-header">
+    <div>
+      <p class="workspace-kicker">MANAGEMENT WORKSPACE</p>
+
+      <h1>Categories</h1>
+
+      <p>Manage support categories.</p>
+    </div>
+
+    <div class="action-buttons">
+      <button
+        type="button"
+        class="secondary-button"
+        (click)="load()"
+        [disabled]="loading || busy"
+      >
+        {{ loading ? 'Refreshing...' : 'Refresh' }}
+      </button>
+
+      <button
+        type="button"
+        class="primary-button"
+        (click)="openCreateForm()"
+        [disabled]="busy || loading"
+      >
+        + New Category
+      </button>
+    </div>
+  </div>
+
+  @if (error) {
+  <div class="error-message" role="alert">
+    {{ error }}
+  </div>
+  }
+
+  @if (notice) {
+  <div class="success-message" role="status">
+    {{ notice }}
+  </div>
+  }
+
+  @if (showForm) {
+  <form
+    class="form-card"
+    #editor="ngForm"
+    (ngSubmit)="save()"
+  >
+    <h2>
+      {{ editingId !== null ? 'Edit' : 'Create' }} Category
+    </h2>
+
+    <fieldset [disabled]="busy">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="categories-name">
+            Name *
+          </label>
+
+          <input
+            id="categories-name"
+            name="name"
+            type="text"
+            [(ngModel)]="form.name"
+            required
+            maxlength="120"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="categories-description">
+            Description (optional)
+          </label>
+
+          <textarea
+            id="categories-description"
+            name="description"
+            [(ngModel)]="form.description"
+            rows="3"
+            maxlength="500"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="button"
+          class="secondary-button"
+          (click)="cancelForm()"
+          [disabled]="busy"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          class="primary-button"
+          [disabled]="editor.invalid || busy"
+        >
+          {{ busy ? 'Saving...' : 'Save Category' }}
+        </button>
+      </div>
+    </fieldset>
+  </form>
+  }
+
+  <div class="table-card">
+    @if (loading) {
+    <p
+      class="loading-message"
+      role="status"
+    >
+      Loading categories...
+    </p>
+    } @else if (!loaded) {
+    <p class="empty-message">
+      Categories are unavailable. Use Refresh to try again.
+    </p>
+    } @else if (records.length === 0) {
+    <p class="empty-message">
+      No categories found. Create one to get started.
+    </p>
+    } @else {
+    <table>
+      <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Created</th>
+        <th scope="col">Actions</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      @for (record of records; track record.id) {
+      <tr>
+        <td>
+          #{{ record.id }}
+        </td>
+
+        <td>
+          {{ record.name || '—' }}
+        </td>
+
+        <td class="description-cell">
+          {{ record.description || '—' }}
+        </td>
+
+        <td>
+          {{ (record.createdAt | date: 'medium') || '—' }}
+        </td>
+
+        <td>
+          <div class="action-buttons">
+            <button
+              type="button"
+              class="small-button edit-button"
+              (click)="edit(record)"
+              [disabled]="busy || loading"
+            >
+              Edit
+            </button>
+
+            <button
+              type="button"
+              class="small-button delete-button"
+              (click)="deleteRecord(record)"
+              [disabled]="busy || loading"
+            >
+              {{ busy ? 'Working...' : 'Delete' }}
+            </button>
+          </div>
+        </td>
+      </tr>
+      }
+      </tbody>
+    </table>
+    }
+  </div>
+</section>

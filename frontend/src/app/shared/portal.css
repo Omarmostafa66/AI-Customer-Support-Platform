@@ -1,0 +1,273 @@
+@import './management.css';
+
+/* =========================
+   Portal Theme
+   ========================= */
+
+:host {
+  display: block;
+
+  --portal-plum: #241a2f;
+  --portal-coral: #f05a3c;
+  --portal-teal: #14b8a6;
+
+  --portal-text: #241a2f;
+  --portal-muted: #687080;
+  --portal-border: #e6e2e8;
+  --portal-surface: #ffffff;
+  --portal-soft: #f8f6f9;
+}
+
+
+/* =========================
+   Statistics Grid
+   ========================= */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+
+/* =========================
+   Statistics Cards
+   ========================= */
+
+.stat-card {
+  position: relative;
+  background: var(--portal-surface);
+  border-radius: 15px;
+  padding: 22px;
+  border: 1px solid var(--portal-border);
+  box-shadow: 0 5px 18px rgba(36, 26, 47, 0.055);
+  overflow: hidden;
+  text-decoration: none;
+
+  animation: portalCardIn 0.45s ease both;
+
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    border-color 0.22s ease,
+    background-color 0.22s ease;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20px;
+  width: 30px;
+  height: 3px;
+  border-radius: 0 0 3px 3px;
+  background: var(--portal-coral);
+
+  transition:
+    width 0.22s ease,
+    height 0.22s ease;
+}
+
+.stat-card:nth-child(4n + 2)::before {
+  background: var(--portal-teal);
+}
+
+.stat-card:nth-child(4n + 3)::before {
+  background: var(--portal-plum);
+}
+
+.stat-card:nth-child(4n + 4)::before {
+  background: var(--portal-coral);
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(36, 26, 47, 0.09);
+  border-color: rgba(20, 184, 166, 0.35);
+}
+
+.stat-card:hover::before {
+  width: 44px;
+}
+
+.stat-card:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
+.stat-card:focus-visible {
+  outline: 3px solid rgba(20, 184, 166, 0.18);
+  outline-offset: 3px;
+}
+
+.stat-card h2,
+.stat-card h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--portal-muted);
+  margin: 0 0 14px;
+
+  transition: color 0.18s ease;
+}
+
+.stat-card p {
+  font-size: 30px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.6px;
+  margin: 0;
+  color: var(--portal-plum);
+
+  transition:
+    transform 0.22s ease,
+    color 0.18s ease;
+}
+
+.stat-card:hover p {
+  transform: translateX(2px);
+  color: var(--portal-coral);
+}
+
+
+/* =========================
+   Portal Buttons
+   ========================= */
+
+a.primary-button,
+a.secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
+}
+
+a.primary-button:hover,
+a.secondary-button:hover {
+  transform: translateY(-2px);
+}
+
+a.primary-button:active,
+a.secondary-button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+
+/* =========================
+   Prose / Text Content
+   ========================= */
+
+.prose {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.7;
+}
+
+
+/* =========================
+   Sections
+   ========================= */
+
+.section-title {
+  margin: 24px 0 16px;
+  color: var(--portal-plum);
+}
+
+.details {
+  margin-top: 24px;
+}
+
+
+/* =========================
+   Portal Content Animation
+   ========================= */
+
+.prose,
+.section-title,
+.details {
+  animation: portalFadeUp 0.45s ease both;
+}
+
+
+/* =========================
+   Responsive
+   ========================= */
+
+@media (max-width: 1100px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .stat-card {
+    padding: 20px;
+  }
+
+  .stat-card p {
+    font-size: 28px;
+  }
+
+  .section-title {
+    margin-top: 20px;
+  }
+
+  .details {
+    margin-top: 20px;
+  }
+}
+
+
+/* =========================
+   Animations
+   ========================= */
+
+@keyframes portalCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes portalFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================
+   Reduced Motion
+   ========================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

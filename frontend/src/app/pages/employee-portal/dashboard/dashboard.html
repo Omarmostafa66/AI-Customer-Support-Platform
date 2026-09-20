@@ -1,0 +1,27 @@
+<div class="page-header">
+  <div>
+    <p class="workspace-kicker">SUPPORT WORKSPACE</p>
+    <h1>Support Dashboard</h1>
+    <p>Your assigned support workload.</p>
+  </div>
+  <button
+    class="secondary-button"
+    (click)="reload()"
+    [disabled]="loading || !user.currentEmployeeId()"
+  >
+    Refresh
+  </button>
+</div>
+<app-portal-state [loading]="loading" [error]="error" />
+@if (user.currentEmployeeId() && !loading && !error) {
+  <div class="stats-grid">
+    @for (card of cards; track card.label) {
+      <article class="stat-card">
+        <h2>{{ card.label }}</h2>
+        <p>{{ card.count }}</p>
+      </article>
+    }
+  </div>
+  <h2>Recent Assigned Incidents</h2>
+  <app-portal-incident-table [incidents]="recent" />
+}

@@ -1,0 +1,212 @@
+<section>
+  <div class="page-header">
+    <div>
+      <p class="workspace-kicker">MANAGEMENT WORKSPACE</p>
+      <h1>Messages</h1>
+      <p>Manage customer messages.</p>
+    </div>
+
+    <div class="action-buttons">
+      <button
+        type="button"
+        class="secondary-button"
+        (click)="load(); loadCustomers()"
+        [disabled]="loading || busy || customersLoading"
+      >
+        {{ loading || customersLoading ? 'Refreshing...' : 'Refresh' }}
+      </button>
+
+      <button
+        type="button"
+        class="primary-button"
+        (click)="openCreateForm()"
+        [disabled]="busy || loading"
+      >
+        + New Message
+      </button>
+    </div>
+  </div>
+
+  @if (error) {
+  <div class="error-message" role="alert">
+    {{ error }}
+  </div>
+  }
+
+  @if (customerError) {
+  <div class="error-message" role="alert">
+    {{ customerError }}
+  </div>
+  }
+
+  @if (notice) {
+  <div class="success-message" role="status">
+    {{ notice }}
+  </div>
+  }
+
+  @if (showForm) {
+  <form
+    class="form-card"
+    #editor="ngForm"
+    (ngSubmit)="save()"
+  >
+    <h2>
+      {{ editingId !== null ? 'Edit' : 'Create' }} Message
+    </h2>
+
+    <fieldset [disabled]="busy">
+      @if (editingId === null) {
+      <div class="form-group">
+        <label for="message-customer">
+          Customer (optional)
+        </label>
+
+        <select
+          id="message-customer"
+          name="customer"
+          [(ngModel)]="form.customerId"
+          [disabled]="customersLoading || !!customerError"
+        >
+          <option [ngValue]="null">
+            No customer linked
+          </option>
+
+          @for (customer of customers; track customer.id) {
+          <option [ngValue]="customer.id">
+            {{ customer.name }} — {{ customer.email }}
+          </option>
+          }
+        </select>
+
+        <small class="hint">
+          {{
+          customersLoading
+          ? 'Loading customers...'
+          : customers.length === 0 && !customerError
+          ? 'No customers available.'
+          : ''
+          }}
+        </small>
+      </div>
+      } @else {
+      <p class="hint">
+        Customer: {{ editingCustomer }}.
+        The customer association cannot be changed.
+      </p>
+      }
+
+      <div class="form-group">
+        <label for="message-text">
+          Message text *
+        </label>
+
+        <textarea
+          id="message-text"
+          name="txt"
+          [(ngModel)]="form.txt"
+          required
+          rows="5"
+        ></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="button"
+          class="secondary-button"
+          (click)="cancelForm()"
+          [disabled]="busy"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          class="primary-button"
+          [disabled]="busy || editor.invalid"
+        >
+          {{ busy ? 'Saving...' : 'Save Message' }}
+        </button>
+      </div>
+    </fieldset>
+  </form>
+  }
+
+  <div class="table-card">
+    @if (loading) {
+    <p
+      class="loading-message"
+      role="status"
+    >
+      Loading messages...
+    </p>
+    } @else if (!loaded) {
+    <p class="empty-message">
+      Messages are unavailable. Use Refresh to try again.
+    </p>
+    } @else if (records.length === 0) {
+    <p class="empty-message">
+      No messages found. Create one to get started.
+    </p>
+    } @else {
+    <table>
+      <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Message</th>
+        <th scope="col">Customer</th>
+        <th scope="col">Customer email</th>
+        <th scope="col">Created</th>
+        <th scope="col">Actions</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      @for (record of records; track record.id) {
+      <tr>
+        <td>#{{ record.id }}</td>
+
+        <td class="text-cell">
+          {{ record.txt || '—' }}
+        </td>
+
+        <td>
+          {{ record.customer?.name || 'No customer linked' }}
+        </td>
+
+        <td>
+          {{ record.customer?.email || '—' }}
+        </td>
+
+        <td>
+          {{ (record.createdAt | date: 'medium') || '—' }}
+        </td>
+
+        <td>
+          <div class="action-buttons">
+            <button
+              type="button"
+              class="small-button edit-button"
+              (click)="edit(record)"
+              [disabled]="busy || loading"
+            >
+              Edit
+            </button>
+
+            <button
+              type="button"
+              class="small-button delete-button"
+              (click)="deleteRecord(record)"
+              [disabled]="busy || loading"
+            >
+              {{ busy ? 'Working...' : 'Delete' }}
+            </button>
+          </div>
+        </td>
+      </tr>
+      }
+      </tbody>
+    </table>
+    }
+  </div>
+</section>

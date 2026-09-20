@@ -1,0 +1,164 @@
+/* =========================
+   Employee Assigned Incidents
+   ========================= */
+
+:host {
+  display: block;
+}
+
+
+/* =========================
+   Page Header
+   ========================= */
+
+.page-header .secondary-button {
+  flex-shrink: 0;
+}
+
+
+/* =========================
+   Incident Filters
+   ========================= */
+
+.filters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: end;
+
+  margin-bottom: 22px;
+  padding: 20px 22px;
+
+  border: 1px solid #e5e1e8;
+  border-radius: 14px;
+  background: #ffffff;
+
+  box-shadow: 0 5px 18px rgba(36, 26, 47, 0.045);
+
+  animation: assignedFiltersIn 0.45s ease both;
+}
+
+.filters:hover {
+  border-color: rgba(20, 184, 166, 0.25);
+  box-shadow: 0 9px 24px rgba(36, 26, 47, 0.07);
+}
+
+
+/* =========================
+   Filter Labels
+   ========================= */
+
+.filters .form-group label {
+  color: #241a2f;
+}
+
+
+/* =========================
+   Filter Selects
+   ========================= */
+
+.filters .form-group select {
+  min-height: 44px;
+  background: #fcfbfd;
+}
+
+.filters .form-group select:hover {
+  border-color: rgba(20, 184, 166, 0.45);
+}
+
+.filters .form-group select:focus {
+  border-color: #14b8a6;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.11);
+}
+
+
+/* =========================
+   Incident Results
+   ========================= */
+
+app-portal-incident-table {
+  display: block;
+
+  animation: assignedTableIn 0.5s ease both;
+}
+
+
+/* =========================
+   Filter Accent
+   ========================= */
+
+:host::after {
+  content: '';
+  display: block;
+
+  width: 42px;
+  height: 3px;
+
+  margin-top: 24px;
+
+  border-radius: 0 0 3px 3px;
+  background: #f05a3c;
+}
+
+
+/* =========================
+   Responsive
+   ========================= */
+
+@media (max-width: 700px) {
+  .filters {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 18px;
+  }
+
+  .page-header .secondary-button {
+    width: 100%;
+  }
+
+  :host::after {
+    margin-top: 20px;
+  }
+}
+
+
+/* =========================
+   Animations
+   ========================= */
+
+@keyframes assignedFiltersIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes assignedTableIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================
+   Reduced Motion
+   ========================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

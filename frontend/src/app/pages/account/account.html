@@ -1,0 +1,797 @@
+<div class="account-page">
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div>
+      <span class="eyebrow">ACCOUNT</span>
+
+      <h1>My Account</h1>
+
+      <p>
+        Manage your personal information, profile photo, and security settings.
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="back-link"
+      (click)="goBack()"
+    >
+      <span aria-hidden="true">←</span>
+      <span>Back</span>
+    </button>
+  </section>
+
+
+  <!-- Loading -->
+  @if (loading) {
+  <section class="loading-card">
+    <div class="loading-spinner"></div>
+    <p>Loading your account...</p>
+  </section>
+  }
+
+
+  @if (!loading && account) {
+
+  <!-- Profile Hero -->
+  <section class="profile-hero">
+
+    <div class="profile-identity">
+
+      <div class="avatar-wrapper">
+
+        @if (avatarSource) {
+
+        <button
+          type="button"
+          class="avatar-photo-button"
+          (click)="togglePhotoAction()"
+          [attr.aria-label]="'Show photo actions for ' + displayName"
+        >
+          <img
+            class="profile-avatar"
+            [src]="avatarSource"
+            [alt]="displayName + ' profile photo'"
+          />
+        </button>
+
+        @if (photoActionVisible) {
+        <button
+          type="button"
+          class="avatar-open-photo-button"
+          (click)="openPhoto()"
+          aria-label="Open profile photo"
+        >
+          <span class="avatar-open-icon">
+            ↗
+          </span>
+
+          <span class="avatar-open-text">
+            Open Photo
+          </span>
+        </button>
+        }
+
+        } @else {
+
+        <div class="profile-avatar avatar-placeholder">
+          {{ initials }}
+        </div>
+
+        }
+
+
+        <button
+          type="button"
+          class="avatar-edit-button"
+          title="Change profile photo"
+          aria-label="Change profile photo"
+          (click)="avatarInput.click()"
+          [disabled]="avatarUploading"
+        >
+          <span aria-hidden="true">✎</span>
+        </button>
+
+
+        <input
+          #avatarInput
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          hidden
+          (change)="onAvatarSelected($event)"
+        />
+
+      </div>
+
+
+      <div class="profile-summary">
+
+        <div class="profile-name-row">
+          <h2>{{ displayName }}</h2>
+
+          <span
+            class="role-badge"
+            [ngClass]="roleBadgeClass"
+          >
+            {{ roleLabel }}
+          </span>
+        </div>
+
+        <p class="profile-email">
+          {{ account.email }}
+        </p>
+
+        @if (account.employeeRole) {
+        <p class="profile-position">
+          {{ employeeRoleLabel }}
+        </p>
+        }
+
+      </div>
+
+    </div>
+
+
+    <div class="profile-actions">
+
+      <button
+        type="button"
+        class="secondary-button"
+        (click)="avatarInput.click()"
+        [disabled]="avatarUploading"
+      >
+        <span aria-hidden="true">↑</span>
+
+        @if (avatarUploading) {
+        Uploading...
+        } @else {
+        Change Photo
+        }
+      </button>
+
+      @if (account.hasAvatar) {
+      <button
+        type="button"
+        class="text-danger-button"
+        (click)="removeAvatar()"
+        [disabled]="avatarUploading"
+      >
+        Remove
+      </button>
+      }
+
+    </div>
+
+  </section>
+
+
+  <!-- Avatar Preview -->
+  @if (avatarPreview) {
+  <section class="avatar-preview-card">
+
+    <div class="preview-info">
+
+      <div class="preview-icon">
+        ✓
+      </div>
+
+      <div>
+        <strong>New profile photo selected</strong>
+
+        <span>
+          Your photo will be uploaded when you confirm it.
+        </span>
+      </div>
+
+    </div>
+
+
+    <div class="preview-actions">
+
+      <button
+        type="button"
+        class="secondary-button"
+        (click)="cancelAvatarSelection()"
+        [disabled]="avatarUploading"
+      >
+        Cancel
+      </button>
+
+      <button
+        type="button"
+        class="primary-button"
+        (click)="uploadAvatar()"
+        [disabled]="avatarUploading"
+      >
+        @if (avatarUploading) {
+        Uploading...
+        } @else {
+        Upload Photo
+        }
+      </button>
+
+    </div>
+
+  </section>
+  }
+
+
+  <!-- Personal Information -->
+  <section class="account-card">
+
+    <div class="card-header">
+
+      <div>
+        <span class="card-eyebrow">PROFILE</span>
+
+        <h2>Personal Information</h2>
+
+        <p>
+          Keep your account information up to date.
+        </p>
+      </div>
+
+      @if (!editingProfile) {
+      <button
+        type="button"
+        class="secondary-button"
+        (click)="startEditing()"
+      >
+        <span aria-hidden="true">✎</span>
+        Edit Profile
+      </button>
+      }
+
+    </div>
+
+
+    @if (!editingProfile) {
+
+    <div class="info-grid">
+
+      <div class="info-item">
+        <span class="info-label">Full Name</span>
+        <span class="info-value">
+          {{ account.name || 'Not provided' }}
+        </span>
+      </div>
+
+
+      <div class="info-item">
+        <span class="info-label">Email Address</span>
+        <span class="info-value">
+          {{ account.email }}
+        </span>
+      </div>
+
+
+      <div class="info-item">
+        <span class="info-label">Phone Number</span>
+        <span class="info-value">
+          {{ account.phoneNumber || 'Not provided' }}
+        </span>
+      </div>
+
+
+      <div class="info-item">
+        <span class="info-label">Address</span>
+        <span class="info-value">
+          {{ account.address || 'Not provided' }}
+        </span>
+      </div>
+
+
+      <div class="info-item">
+        <span class="info-label">Gender</span>
+        <span class="info-value">
+          {{ account.gender || 'Not provided' }}
+        </span>
+      </div>
+
+
+      <div class="info-item">
+        <span class="info-label">Age</span>
+        <span class="info-value">
+          {{ account.age || 'Not provided' }}
+        </span>
+      </div>
+
+
+      <div class="info-item">
+        <span class="info-label">Account Type</span>
+        <span class="info-value">
+          {{ roleLabel }}
+        </span>
+      </div>
+
+
+      @if (account.employeeRole) {
+      <div class="info-item">
+        <span class="info-label">Position</span>
+        <span class="info-value">
+          {{ employeeRoleLabel }}
+        </span>
+      </div>
+      }
+
+
+      @if (account.salary !== null) {
+      <div class="info-item">
+        <span class="info-label">Salary</span>
+        <span class="info-value salary-value">
+          {{ account.salary | number:'1.0-2' }}
+        </span>
+      </div>
+      }
+
+    </div>
+
+    } @else {
+
+    <!-- Edit Profile Form -->
+    <form
+      class="profile-form"
+      (ngSubmit)="saveProfile()"
+    >
+
+      <div class="form-grid">
+
+        <div class="form-field">
+          <label for="account-name">
+            Full Name
+          </label>
+
+          <input
+            id="account-name"
+            type="text"
+            name="name"
+            [(ngModel)]="profileForm.name"
+            placeholder="Enter your full name"
+            autocomplete="name"
+            required
+          />
+        </div>
+
+
+        <div class="form-field">
+          <label for="account-email">
+            Email Address
+          </label>
+
+          <input
+            id="account-email"
+            type="email"
+            name="email"
+            [(ngModel)]="profileForm.email"
+            placeholder="Enter your email"
+            autocomplete="email"
+            required
+          />
+        </div>
+
+
+        <div class="form-field">
+          <label for="account-phone">
+            Phone Number
+          </label>
+
+          <input
+            id="account-phone"
+            type="tel"
+            name="phoneNumber"
+            [(ngModel)]="profileForm.phoneNumber"
+            placeholder="Enter your phone number"
+            autocomplete="tel"
+          />
+        </div>
+
+
+        <div class="form-field">
+          <label for="account-address">
+            Address
+          </label>
+
+          <input
+            id="account-address"
+            type="text"
+            name="address"
+            [(ngModel)]="profileForm.address"
+            placeholder="Enter your address"
+            autocomplete="street-address"
+          />
+        </div>
+
+
+        <div class="form-field">
+          <label for="account-gender">
+            Gender
+          </label>
+
+          <select
+            id="account-gender"
+            name="gender"
+            [(ngModel)]="profileForm.gender"
+          >
+            <option value="">Select gender</option>
+            <option value="MALE">Male</option>
+            <option value="FEMALE">Female</option>
+          </select>
+        </div>
+
+
+        <div class="form-field">
+          <label for="account-age">
+            Age
+          </label>
+
+          <input
+            id="account-age"
+            type="number"
+            name="age"
+            [(ngModel)]="profileForm.age"
+            min="1"
+            max="120"
+            placeholder="Enter your age"
+          />
+        </div>
+
+      </div>
+
+
+      @if (account.employeeRole || account.salary !== null) {
+
+      <div class="readonly-section">
+
+        <div class="readonly-header">
+          <span class="card-eyebrow">
+            WORK INFORMATION
+          </span>
+
+          <p>
+            Work information is managed by the administration.
+          </p>
+        </div>
+
+
+        <div class="readonly-grid">
+
+          @if (account.employeeRole) {
+          <div class="readonly-item">
+            <span>Position</span>
+            <strong>
+              {{ employeeRoleLabel }}
+            </strong>
+          </div>
+          }
+
+
+          @if (account.salary !== null) {
+          <div class="readonly-item">
+            <span>Salary</span>
+            <strong>
+              {{ account.salary | number:'1.0-2' }}
+            </strong>
+          </div>
+          }
+
+        </div>
+
+      </div>
+
+      }
+
+
+      <div class="form-actions">
+
+        <button
+          type="button"
+          class="secondary-button"
+          (click)="cancelEditing()"
+          [disabled]="savingProfile"
+        >
+          Cancel
+        </button>
+
+
+        <button
+          type="submit"
+          class="primary-button"
+          [disabled]="savingProfile"
+        >
+          @if (savingProfile) {
+          Saving...
+          } @else {
+          Save Changes
+          }
+        </button>
+
+      </div>
+
+    </form>
+
+    }
+
+  </section>
+
+
+  <!-- Security -->
+  <section class="account-card security-card">
+
+    <div class="card-header">
+
+      <div>
+        <span class="card-eyebrow">
+          SECURITY
+        </span>
+
+        <h2>Password & Security</h2>
+
+        <p>
+          Keep your account protected with a strong password.
+        </p>
+      </div>
+
+      <div class="security-icon">
+        <span aria-hidden="true">⌁</span>
+      </div>
+
+    </div>
+
+
+    <form
+      class="password-form"
+      (ngSubmit)="changePassword()"
+    >
+
+      <div class="password-grid">
+
+        <!-- Current Password -->
+        <div class="form-field">
+
+          <label for="current-password">
+            Current Password
+          </label>
+
+          <div class="password-input-wrapper">
+
+            <input
+              id="current-password"
+              [type]="showCurrentPassword ? 'text' : 'password'"
+              name="currentPassword"
+              [(ngModel)]="passwordForm.currentPassword"
+              placeholder="Enter current password"
+              autocomplete="current-password"
+              required
+            />
+
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="showCurrentPassword = !showCurrentPassword"
+              [attr.aria-label]="
+                showCurrentPassword
+                  ? 'Hide current password'
+                  : 'Show current password'
+              "
+            >
+              @if (showCurrentPassword) {
+              Hide
+              } @else {
+              Show
+              }
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- New Password -->
+        <div class="form-field">
+
+          <label for="new-password">
+            New Password
+          </label>
+
+          <div class="password-input-wrapper">
+
+            <input
+              id="new-password"
+              [type]="showNewPassword ? 'text' : 'password'"
+              name="newPassword"
+              [(ngModel)]="passwordForm.newPassword"
+              placeholder="Enter new password"
+              autocomplete="new-password"
+              required
+              minlength="6"
+            />
+
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="showNewPassword = !showNewPassword"
+              [attr.aria-label]="
+                showNewPassword
+                  ? 'Hide new password'
+                  : 'Show new password'
+              "
+            >
+              @if (showNewPassword) {
+              Hide
+              } @else {
+              Show
+              }
+            </button>
+
+          </div>
+
+          <span class="field-hint">
+            Minimum 6 characters.
+          </span>
+
+        </div>
+
+
+        <!-- Confirm Password -->
+        <div class="form-field">
+
+          <label for="confirm-password">
+            Confirm New Password
+          </label>
+
+          <div class="password-input-wrapper">
+
+            <input
+              id="confirm-password"
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              name="confirmPassword"
+              [(ngModel)]="passwordForm.confirmPassword"
+              placeholder="Confirm new password"
+              autocomplete="new-password"
+              required
+            />
+
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="showConfirmPassword = !showConfirmPassword"
+              [attr.aria-label]="
+                showConfirmPassword
+                  ? 'Hide password confirmation'
+                  : 'Show password confirmation'
+              "
+            >
+              @if (showConfirmPassword) {
+              Hide
+              } @else {
+              Show
+              }
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="password-footer">
+
+        <div class="password-note">
+
+          <span class="password-note-icon">
+            !
+          </span>
+
+          <p>
+            Choose a password that you do not use on other websites.
+          </p>
+
+        </div>
+
+
+        <button
+          type="submit"
+          class="primary-button"
+          [disabled]="changingPassword"
+        >
+          @if (changingPassword) {
+          Updating...
+          } @else {
+          Change Password
+          }
+        </button>
+
+      </div>
+
+    </form>
+
+  </section>
+
+
+  <!-- Account Metadata -->
+  <section class="account-meta">
+
+    <div class="meta-item">
+      <span class="meta-label">
+        Account ID
+      </span>
+
+      <strong>
+        #{{ account.id }}
+      </strong>
+    </div>
+
+
+    <div class="meta-divider"></div>
+
+
+    <div class="meta-item">
+      <span class="meta-label">
+        Account Type
+      </span>
+
+      <strong>
+        {{ roleLabel }}
+      </strong>
+    </div>
+
+  </section>
+
+  }
+
+</div>
+
+
+<!-- =========================================================
+     Profile Photo Modal
+     ========================================================= -->
+
+@if (photoModalOpen && (avatarPreview || avatarSource)) {
+
+<div
+  class="photo-modal-backdrop"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Profile photo preview"
+  (click)="onPhotoOverlayClick($event)"
+>
+
+  <div class="photo-modal">
+
+    <button
+      type="button"
+      class="photo-modal-close"
+      (click)="closePhoto()"
+      aria-label="Close photo"
+      title="Close"
+    >
+      ×
+    </button>
+
+
+    <div class="photo-modal-header">
+      <span class="photo-modal-eyebrow">
+        PROFILE PHOTO
+      </span>
+
+      <h2>{{ displayName }}</h2>
+    </div>
+
+
+    <div class="photo-modal-image-wrapper">
+
+      <img
+        class="photo-modal-image"
+        [src]="avatarPreview || avatarSource!"
+        [alt]="displayName + ' profile photo'"
+      />
+
+    </div>
+
+  </div>
+
+</div>
+
+}

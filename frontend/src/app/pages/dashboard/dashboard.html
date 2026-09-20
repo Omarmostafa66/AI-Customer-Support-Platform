@@ -1,0 +1,432 @@
+<section class="dashboard-page">
+
+  <!-- =====================================================
+       Page Header
+       ===================================================== -->
+
+  <header class="page-header">
+
+    <div class="header-content">
+
+      <div class="header-kicker">
+        <span class="kicker-line"></span>
+        MANAGEMENT WORKSPACE
+      </div>
+
+      <h1>Dashboard</h1>
+
+      <p>
+        Overview of the AI Customer Support system.
+      </p>
+
+    </div>
+
+    <button
+      class="refresh-button"
+      type="button"
+      (click)="loadDashboard()"
+      [disabled]="loading"
+    >
+
+      @if (loading) {
+      <span
+        class="button-spinner"
+        aria-hidden="true"
+      ></span>
+
+      <span>Refreshing...</span>
+      } @else {
+      <span
+        class="refresh-icon"
+        aria-hidden="true"
+      >
+          ↻
+        </span>
+
+      <span>Refresh</span>
+      }
+
+    </button>
+
+  </header>
+
+
+  <!-- =====================================================
+       Quick Navigation
+       ===================================================== -->
+
+  <nav
+    class="workspace-links"
+    aria-label="Management shortcuts"
+  >
+
+    <a routerLink="/tickets">
+
+      <span class="shortcut-content">
+        <span class="shortcut-title">
+          Manage tickets
+        </span>
+
+        <span class="shortcut-description">
+          View and manage support requests
+        </span>
+      </span>
+
+      <span
+        class="shortcut-arrow"
+        aria-hidden="true"
+      >
+        ↗
+      </span>
+
+    </a>
+
+
+    <a routerLink="/incidents">
+
+      <span class="shortcut-content">
+        <span class="shortcut-title">
+          Review incidents
+        </span>
+
+        <span class="shortcut-description">
+          Monitor reported support incidents
+        </span>
+      </span>
+
+      <span
+        class="shortcut-arrow"
+        aria-hidden="true"
+      >
+        ↗
+      </span>
+
+    </a>
+
+
+    <a routerLink="/customers">
+
+      <span class="shortcut-content">
+        <span class="shortcut-title">
+          Customer directory
+        </span>
+
+        <span class="shortcut-description">
+          Browse customer information
+        </span>
+      </span>
+
+      <span
+        class="shortcut-arrow"
+        aria-hidden="true"
+      >
+        ↗
+      </span>
+
+    </a>
+
+  </nav>
+
+
+  <!-- =====================================================
+       Errors
+       ===================================================== -->
+
+  @for (error of errors; track $index) {
+
+  <div
+    class="error-message"
+    role="alert"
+  >
+
+      <span
+        class="error-icon"
+        aria-hidden="true"
+      >
+        !
+      </span>
+
+    <span>
+        {{ error }}
+      </span>
+
+  </div>
+
+  }
+
+
+  <!-- =====================================================
+       Statistics
+       ===================================================== -->
+
+  @if (loading) {
+
+  <div
+    class="dashboard-loading"
+    role="status"
+  >
+
+      <span
+        class="loading-spinner"
+        aria-hidden="true"
+      ></span>
+
+    <div>
+      <strong>Loading dashboard</strong>
+
+      <span>
+          Fetching the latest support data...
+        </span>
+    </div>
+
+  </div>
+
+  } @else {
+
+  <div class="stats-grid">
+
+    @for (card of cards; track card.label) {
+
+    <a
+      class="stat-card"
+      [routerLink]="card.route"
+    >
+
+      <div class="stat-card-top">
+
+            <span class="stat-label">
+              {{ card.label }}
+            </span>
+
+        <span
+          class="stat-arrow"
+          aria-hidden="true"
+        >
+              ↗
+            </span>
+
+      </div>
+
+      <p
+        class="stat-number"
+        [class.unavailable]="card.count === null"
+      >
+        {{ card.count ?? 'Unavailable' }}
+      </p>
+
+      <div class="stat-card-footer">
+
+        <span class="stat-indicator"></span>
+
+        <span>
+              View details
+            </span>
+
+      </div>
+
+    </a>
+
+    }
+
+  </div>
+
+  }
+
+
+  <!-- =====================================================
+       Recent Tickets
+       ===================================================== -->
+
+  <section class="dashboard-section">
+
+    <div class="section-header">
+
+      <div>
+
+        <div class="section-kicker">
+          SUPPORT ACTIVITY
+        </div>
+
+        <h2>
+          Recently Updated Tickets
+        </h2>
+
+        <p class="hint">
+          Latest recorded ticket updates, ordered by date.
+        </p>
+
+      </div>
+
+      <a
+        class="section-link"
+        routerLink="/tickets"
+      >
+        View all
+        <span aria-hidden="true">→</span>
+      </a>
+
+    </div>
+
+
+    @if (loading) {
+
+    <div
+      class="section-loading"
+      role="status"
+    >
+
+        <span
+          class="loading-spinner small"
+          aria-hidden="true"
+        ></span>
+
+      <span>
+          Loading recent tickets...
+        </span>
+
+    </div>
+
+    } @else if (!ticketsAvailable) {
+
+    <div class="empty-message">
+
+        <span
+          class="empty-icon"
+          aria-hidden="true"
+        >
+          !
+        </span>
+
+      <div>
+        <strong>
+          Recent tickets unavailable
+        </strong>
+
+        <span>
+            Ticket activity could not be loaded right now.
+          </span>
+      </div>
+
+    </div>
+
+    } @else if (recentTickets.length === 0) {
+
+    <div class="empty-message">
+
+        <span
+          class="empty-icon neutral"
+          aria-hidden="true"
+        >
+          —
+        </span>
+
+      <div>
+        <strong>
+          No ticket activity yet
+        </strong>
+
+        <span>
+            No dated ticket activity is available yet.
+          </span>
+      </div>
+
+    </div>
+
+    } @else {
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+        <tr>
+
+          <th scope="col">
+            Ticket
+          </th>
+
+          <th scope="col">
+            Status
+          </th>
+
+          <th scope="col">
+            Priority
+          </th>
+
+          <th scope="col">
+            Last updated
+          </th>
+
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        @for (
+        ticket of recentTickets;
+        track ticket.id
+        ) {
+
+        <tr>
+
+          <td>
+
+            <a
+              class="ticket-link"
+              routerLink="/tickets"
+            >
+                    <span class="ticket-id">
+                      #{{ ticket.id }}
+                    </span>
+
+              <span class="ticket-title">
+                      {{ ticket.title }}
+                    </span>
+            </a>
+
+          </td>
+
+          <td>
+
+                  <span
+                    class="badge"
+                    [attr.data-status]="ticket.status"
+                  >
+                    {{ ticket.status }}
+                  </span>
+
+          </td>
+
+          <td>
+
+                  <span class="priority">
+                    {{ ticket.priority }}
+                  </span>
+
+          </td>
+
+          <td>
+
+                  <span class="date-value">
+                    {{ ticket.updatedAt || ticket.createdAt | date: 'medium' }}
+                  </span>
+
+          </td>
+
+        </tr>
+
+        }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    }
+
+  </section>
+
+</section>

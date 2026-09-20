@@ -1,0 +1,330 @@
+/* =========================
+   Employee Incident Details
+   ========================= */
+
+:host {
+  display: block;
+}
+
+
+/* =========================
+   Header Actions
+   ========================= */
+
+.page-header .action-buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.page-header .action-buttons > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 44px;
+  padding: 11px 16px;
+
+  border: 1px solid #e3dfe6;
+  border-radius: 10px;
+
+  background: #ffffff;
+  color: #241a2f;
+
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.page-header .action-buttons > a:hover {
+  border-color: rgba(20, 184, 166, 0.4);
+  color: #14b8a6;
+  background: rgba(20, 184, 166, 0.035);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(36, 26, 47, 0.07);
+}
+
+.page-header .action-buttons > a:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.page-header .action-buttons > a:focus-visible {
+  outline: 3px solid rgba(20, 184, 166, 0.18);
+  outline-offset: 3px;
+}
+
+
+/* =========================
+   Incident Card
+   ========================= */
+
+.form-card {
+  animation: incidentCardIn 0.5s ease both;
+}
+
+
+/* =========================
+   Incident Title
+   ========================= */
+
+.form-card > h2 {
+  margin-bottom: 24px;
+  color: #241a2f;
+  font-size: 22px;
+  letter-spacing: -0.4px;
+}
+
+
+/* =========================
+   Detail Grid
+   ========================= */
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 0;
+
+  margin: 0 0 26px;
+
+  border: 1px solid #e7e3e9;
+  border-radius: 13px;
+
+  overflow: hidden;
+  background: #ffffff;
+}
+
+
+/* =========================
+   Detail Item
+   ========================= */
+
+.detail-grid > div {
+  min-width: 0;
+  padding: 18px 20px;
+
+  background: #ffffff;
+  border-bottom: 1px solid #eeeaf0;
+
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.detail-grid > div:nth-child(odd) {
+  border-right: 1px solid #eeeaf0;
+}
+
+.detail-grid > div:nth-last-child(-n + 2) {
+  border-bottom: 0;
+}
+
+.detail-grid > div:hover {
+  background: rgba(20, 184, 166, 0.025);
+}
+
+
+/* =========================
+   Detail Labels
+   ========================= */
+
+.detail-grid dt {
+  margin: 0;
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+
+  color: #7a818d;
+}
+
+
+/* =========================
+   Detail Values
+   ========================= */
+
+.detail-grid dd {
+  margin: 7px 0 0;
+
+  font-size: 14px;
+  line-height: 1.6;
+  font-weight: 600;
+
+  color: #241a2f;
+}
+
+
+/* =========================
+   Status Badge
+   ========================= */
+
+.detail-grid .badge {
+  vertical-align: middle;
+}
+
+
+/* =========================
+   Status Update Section
+   ========================= */
+
+.form-card > .form-group {
+  max-width: 460px;
+  margin-top: 4px;
+  margin-bottom: 20px;
+}
+
+.form-card > .form-group label {
+  color: #241a2f;
+}
+
+.form-card > .form-group select {
+  min-height: 44px;
+}
+
+
+/* =========================
+   Action Area
+   ========================= */
+
+.form-card > .action-buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  padding-top: 20px;
+  border-top: 1px solid #eeeaf0;
+}
+
+.form-card > .action-buttons .primary-button {
+  min-width: 130px;
+}
+
+.form-card > .action-buttons .secondary-button {
+  min-width: 145px;
+}
+
+
+/* =========================
+   Resolve Button
+   ========================= */
+
+.form-card > .action-buttons .secondary-button {
+  border-color: rgba(20, 184, 166, 0.28);
+}
+
+.form-card > .action-buttons .secondary-button:hover {
+  background: rgba(20, 184, 166, 0.07);
+  border-color: #14b8a6;
+  color: #0f766e;
+}
+
+
+/* =========================
+   Empty State
+   ========================= */
+
+.empty-message {
+  margin-top: 8px;
+  border: 1px solid #e5e1e8;
+  border-radius: 14px;
+  background: #ffffff;
+
+  animation: incidentCardIn 0.45s ease both;
+}
+
+
+/* =========================
+   Responsive
+   ========================= */
+
+@media (max-width: 800px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-grid > div:nth-child(odd) {
+    border-right: 0;
+  }
+
+  .detail-grid > div:nth-last-child(-n + 2) {
+    border-bottom: 1px solid #eeeaf0;
+  }
+
+  .detail-grid > div:last-child {
+    border-bottom: 0;
+  }
+}
+
+@media (max-width: 650px) {
+  .page-header .action-buttons {
+    width: 100%;
+  }
+
+  .page-header .action-buttons > a,
+  .page-header .action-buttons > button {
+    flex: 1;
+  }
+
+  .form-card {
+    padding: 20px;
+  }
+
+  .form-card > h2 {
+    font-size: 20px;
+  }
+
+  .detail-grid > div {
+    padding: 16px;
+  }
+
+  .form-card > .action-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .form-card > .action-buttons .primary-button,
+  .form-card > .action-buttons .secondary-button {
+    width: 100%;
+  }
+}
+
+
+/* =========================
+   Animation
+   ========================= */
+
+@keyframes incidentCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================
+   Reduced Motion
+   ========================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

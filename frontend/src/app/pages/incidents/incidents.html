@@ -1,0 +1,306 @@
+<section>
+  <div class="page-header">
+    <div>
+      <p class="workspace-kicker">MANAGEMENT WORKSPACE</p>
+      <h1>Incidents</h1>
+      <p>Track incidents, assign ownership, and manage resolution.</p>
+    </div>
+    <div class="action-buttons">
+      <button
+        type="button"
+        class="secondary-button"
+        (click)="load(); loadLookups()"
+        [disabled]="loading || busy">
+        Refresh</button
+      ><button
+      type="button"
+      class="primary-button"
+      (click)="openCreateForm()"
+      [disabled]="busy || loading">
+      + New Incident
+    </button>
+    </div>
+  </div>
+  @if (error) {
+  <div class="error-message" role="alert">{{ error }}</div>
+  }
+  @if (notice) {
+  <div class="success-message" role="status">{{ notice }}</div>
+  }
+  @if (employeeError) {
+  <div class="error-message" role="alert">{{ employeeError }}</div>
+  }
+  @if (categoryError) {
+  <div class="error-message" role="alert">{{ categoryError }}</div>
+  }
+  @if (showForm) {
+  <form class="form-card" (ngSubmit)="save()">
+    <h2>{{ editingId !== null ? 'Edit' : 'Create' }} Incident</h2>
+    <fieldset [disabled]="busy">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="incident-status">Status</label
+          ><select id="incident-status" name="status" [(ngModel)]="form.status">
+          @for (status of statuses; track status) {
+          <option [ngValue]="status">{{ status }}</option>
+          }
+        </select>
+        </div>
+        <div class="form-group">
+          <label for="incident-same">Same message</label
+          ><select id="incident-same" name="sameMessage" [(ngModel)]="form.sameMessage">
+          <option [ngValue]="false">No</option>
+          <option [ngValue]="true">Yes</option>
+        </select>
+        </div>
+        @if (editingId === null) {
+        <div class="form-group">
+          <label for="incident-employee">Employee (optional)</label
+          ><select
+          id="incident-employee"
+          name="employee"
+          [(ngModel)]="form.employeeId"
+          [disabled]="employeesLoading || !!employeeError"
+        >
+          <option [ngValue]="null">Unassigned</option>
+          @for (employee of employees; track employee.id) {
+          <option [ngValue]="employee.id">
+            {{ employee.name }} — {{ employee.email }}
+          </option>
+          }</select
+        ><small class="hint">{{
+          employeesLoading
+          ? 'Loading employees...'
+          : employees.length === 0 && !employeeError
+          ? 'No employees available.'
+          : ''
+          }}</small>
+        </div>
+        <div class="form-group">
+          <label for="incident-category">Category (optional)</label
+          ><select
+          id="incident-category"
+          name="category"
+          [(ngModel)]="form.categoryId"
+          [disabled]="categoriesLoading || !!categoryError"
+        >
+          <option [ngValue]="null">Unassigned</option>
+          @for (category of categories; track category.id) {
+          <option [ngValue]="category.id">{{ category.name }}</option>
+          }</select
+        ><small class="hint">{{
+          categoriesLoading
+          ? 'Loading categories...'
+          : categories.length === 0 && !categoryError
+          ? 'No categories available.'
+          : ''
+          }}</small>
+        </div>
+        }
+      </div>
+      <div class="form-actions">
+        <button type="button" class="secondary-button" (click)="cancelForm()">Cancel</button
+        ><button class="primary-button" type="submit" [disabled]="busy">
+        {{ busy ? 'Saving...' : 'Save Incident' }}
+      </button>
+      </div>
+    </fieldset>
+  </form>
+  }
+  <div class="form-card filters">
+    <div class="form-group">
+      <label for="filter-status">Status</label
+      ><select
+      id="filter-status"
+      [(ngModel)]="filterStatus"
+      (ngModelChange)="load()"
+      [disabled]="loading || busy"
+    >
+      <option value="">All statuses</option>
+      @for (status of statuses; track status) {
+      <option [ngValue]="status">{{ status }}</option>
+      }
+    </select>
+    </div>
+    <div class="form-group">
+      <label for="filter-employee">Employee</label
+      ><select
+      id="filter-employee"
+      [(ngModel)]="filterEmployee"
+      (ngModelChange)="load()"
+      [disabled]="loading || busy || employeesLoading || !!employeeError"
+    >
+      <option [ngValue]="null">All employees</option>
+      @for (employee of employees; track employee.id) {
+      <option [ngValue]="employee.id">{{ employee.name }} (#{{ employee.id }})</option>
+      }
+    </select>
+    </div>
+    <div class="form-group">
+      <label for="filter-same">Same message</label
+      ><select
+      id="filter-same"
+      [(ngModel)]="filterSameMessage"
+      (ngModelChange)="load()"
+      [disabled]="loading || busy"
+    >
+      <option [ngValue]="null">All incidents</option>
+      <option [ngValue]="true">Yes</option>
+      <option [ngValue]="false">No</option>
+    </select>
+    </div>
+  </div>
+  <div class="table-card">
+    @if (loading) {
+    <p class="loading-message" role="status">Loading incidents...</p>
+    } @else if (!loaded) {
+    <p class="empty-message">Incidents are unavailable. Use Refresh to try again.</p>
+    } @else if (visibleRecords.length === 0) {
+    <p class="empty-message">No incidents match the current filters.</p>
+    } @else {
+    <table>
+      <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Status</th>
+        <th scope="col">Employee</th>
+        <th scope="col">Category</th>
+        <th scope="col">Same message</th>
+        <th scope="col">Created</th>
+        <th scope="col">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      @for (record of visibleRecords; track record.id) {
+      <tr>
+        <td>#{{ record.id }}</td>
+        <td>
+          <span class="badge" [attr.data-status]="record.status">{{ record.status }}</span>
+        </td>
+        <td>{{ record.employee?.name || 'Unassigned' }}</td>
+        <td>{{ record.category?.name || 'Unassigned' }}</td>
+        <td>{{ record.sameMessage ? 'Yes' : 'No' }}</td>
+        <td>{{ (record.createdAt | date: 'medium') || '—' }}</td>
+        <td>
+          <div class="action-buttons">
+            <button
+              type="button"
+              class="small-button analyze-button"
+              (click)="view(record)"
+              [disabled]="busy || detailLoading || loading">
+              {{ detailLoading ? 'Loading...' : 'Details / Assign' }}</button
+            ><button
+            type="button"
+            class="small-button edit-button"
+            (click)="edit(record)"
+            [disabled]="busy || loading || detailLoading">
+            Edit</button
+          ><button
+            type="button"
+            class="small-button edit-button"
+            (click)="resolve(record)"
+            [disabled]="
+                      busy ||
+                      loading ||
+                      detailLoading ||
+                      record.status === 'RESOLVED' ||
+                      record.status === 'CLOSED'
+                    ">
+            {{ busy ? 'Working...' : 'Resolve' }}</button
+          ><button
+            type="button"
+            class="small-button delete-button"
+            (click)="deleteRecord(record)"
+            [disabled]="busy || loading || detailLoading">
+            {{ busy ? 'Working...' : 'Delete' }}
+          </button>
+          </div>
+        </td>
+      </tr>
+      }
+      </tbody>
+    </table>
+    }
+  </div>
+  @if (detailLoading) {
+  <p class="loading-message" role="status">Loading incident details...</p>
+  }
+  @if (selected; as incident) {
+  <section class="form-card detail-card">
+    <div class="page-header">
+      <h2>Incident #{{ incident.id }}</h2>
+      <button class="secondary-button" (click)="selected = null" [disabled]="busy">Close</button>
+    </div>
+    <dl class="detail-grid">
+      <div>
+        <dt>Status</dt>
+        <dd>{{ incident.status }}</dd>
+      </div>
+      <div>
+        <dt>Fingerprint</dt>
+        <dd>{{ incident.fingerprint || '—' }}</dd>
+      </div>
+      <div>
+        <dt>Created</dt>
+        <dd>{{ (incident.createdAt | date: 'medium') || '—' }}</dd>
+      </div>
+      <div>
+        <dt>Resolved</dt>
+        <dd>{{ (incident.resolvedAt | date: 'medium') || 'Not recorded' }}</dd>
+      </div>
+      <div>
+        <dt>Employee</dt>
+        <dd>{{ incident.employee?.name || 'Unassigned' }}</dd>
+      </div>
+      <div>
+        <dt>Category</dt>
+        <dd>{{ incident.category?.name || 'Unassigned' }}</dd>
+      </div>
+      <div>
+        <dt>Same message</dt>
+        <dd>{{ incident.sameMessage ? 'Yes' : 'No' }}</dd>
+      </div>
+    </dl>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="assign-employee">Assign employee</label
+        ><select
+        id="assign-employee"
+        [(ngModel)]="assignmentEmployee"
+        [disabled]="busy || employeesLoading || !!employeeError"
+      >
+        <option [ngValue]="null">Select employee</option>
+        @for (employee of employees; track employee.id) {
+        <option [ngValue]="employee.id">{{ employee.name }} — {{ employee.email }}</option>
+        }</select
+      ><button
+        class="secondary-button"
+        (click)="assignEmployee()"
+        [disabled]="busy || assignmentEmployee === null || !!employeeError"
+      >
+        Assign employee
+      </button>
+      </div>
+      <div class="form-group">
+        <label for="assign-category">Assign category</label
+        ><select
+        id="assign-category"
+        [(ngModel)]="assignmentCategory"
+        [disabled]="busy || categoriesLoading || !!categoryError"
+      >
+        <option [ngValue]="null">Select category</option>
+        @for (category of categories; track category.id) {
+        <option [ngValue]="category.id">{{ category.name }}</option>
+        }</select
+      ><button
+        class="secondary-button"
+        (click)="assignCategory()"
+        [disabled]="busy || assignmentCategory === null || !!categoryError"
+      >
+        Assign category
+      </button>
+      </div>
+    </div>
+  </section>
+  }
+</section>

@@ -1,0 +1,35 @@
+<div class="toast-host" aria-live="polite" aria-atomic="true">
+  @for (toast of toastService.toasts(); track toast.id) {
+  <article
+    class="toast"
+    [class.success]="toast.type === 'success'"
+    [class.error]="toast.type === 'error'"
+    [class.warning]="toast.type === 'warning'"
+    [class.info]="toast.type === 'info'"
+    role="status"
+  >
+    <div class="toast-icon" aria-hidden="true">
+      {{ icon(toast.type) }}
+    </div>
+
+    <div class="toast-content">
+      <p class="toast-title">
+        {{ toast.title }}
+      </p>
+
+      <p class="toast-message">
+        {{ toast.message }}
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="toast-close"
+      aria-label="Close notification"
+      (click)="close(toast.id)"
+    >
+      ×
+    </button>
+  </article>
+  }
+</div>

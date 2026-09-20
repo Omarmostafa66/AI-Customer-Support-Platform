@@ -1,0 +1,383 @@
+/* =========================================================
+   Customer Forms
+   ========================================================= */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-bottom: 24px;
+}
+
+.field label {
+  color: #241a2f;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.field input,
+.field textarea,
+.field select,
+.search-input {
+  width: 100%;
+  min-height: 46px;
+  box-sizing: border-box;
+
+  padding: 14px;
+
+  border: 1px solid #e4dfe7;
+  border-radius: 10px;
+
+  background: #ffffff;
+  color: #241a2f;
+
+  font: inherit;
+  font-size: 14px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.field textarea {
+  resize: vertical;
+  line-height: 1.7;
+}
+
+.field input:hover,
+.field textarea:hover,
+.field select:hover,
+.search-input:hover {
+  border-color: rgba(36, 26, 47, 0.22);
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus,
+.search-input:focus {
+  outline: none;
+
+  border-color: rgba(20, 184, 166, 0.65);
+
+  box-shadow:
+    0 0 0 4px rgba(20, 184, 166, 0.08);
+}
+
+.field input::placeholder,
+.field textarea::placeholder,
+.search-input::placeholder {
+  color: #99929f;
+}
+
+.field small {
+  color: #756f7c;
+
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.field .validation {
+  margin: 0;
+
+  color: #b04a55;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   Form Layout
+   ========================================================= */
+
+.form-layout {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 2fr)
+    minmax(230px, 1fr);
+
+  gap: 24px;
+}
+
+.form-aside {
+  align-self: start;
+
+  padding: 28px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20, 184, 166, 0.075),
+      rgba(255, 255, 255, 0.95)
+    );
+
+  border: 1px solid rgba(20, 184, 166, 0.12);
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 7px 22px rgba(36, 26, 47, 0.035);
+}
+
+.form-aside h2 {
+  margin-top: 0;
+
+  color: #241a2f;
+
+  font-size: 18px;
+}
+
+.form-aside p {
+  color: #756f7c;
+
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.form-aside ol {
+  padding-left: 18px;
+
+  color: #756f7c;
+
+  font-size: 13px;
+  line-height: 2;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  gap: 12px;
+
+  margin-top: 24px;
+}
+
+fieldset {
+  min-width: 0;
+
+  padding: 0;
+  margin: 0;
+
+  border: 0;
+}
+
+
+/* =========================================================
+   Metadata
+   ========================================================= */
+
+.metadata {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 22px;
+
+  margin: 0;
+}
+
+.metadata dt {
+  margin: 0 0 8px;
+
+  color: #756f7c;
+
+  font-size: 12px;
+}
+
+.metadata dd {
+  margin: 0;
+
+  color: #241a2f;
+
+  font-size: 14px;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   Filters
+   ========================================================= */
+
+.filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  flex-wrap: wrap;
+
+  gap: 20px;
+
+  margin: 0 0 24px;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 6px;
+}
+
+.filter {
+  min-height: 44px;
+
+  padding: 10px 14px;
+
+  border: 1px solid transparent;
+  border-radius: 9px;
+
+  background: transparent;
+
+  color: #756f7c;
+
+  font: inherit;
+  font-size: 13px;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.filter:hover {
+  background: rgba(20, 184, 166, 0.055);
+
+  color: #241a2f;
+}
+
+.filter[aria-pressed='true'] {
+  background: rgba(240, 90, 60, 0.08);
+
+  border-color: rgba(240, 90, 60, 0.15);
+
+  color: #d94f35;
+
+  font-weight: 650;
+}
+
+.search-field {
+  width: 100%;
+  max-width: 300px;
+}
+
+.search-field label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #756f7c;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   Progress
+   ========================================================= */
+
+.progress {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 15px;
+
+  list-style: none;
+
+  padding: 0;
+  margin: 24px 0 0;
+}
+
+.progress li {
+  padding: 16px 12px;
+
+  border: 1px solid #e5e0e8;
+  border-radius: 12px;
+
+  color: #756f7c;
+
+  font-size: 13px;
+
+  background: #ffffff;
+
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.progress li[aria-current='step'] {
+  background: rgba(20, 184, 166, 0.065);
+
+  border-color: rgba(20, 184, 166, 0.25);
+
+  color: #138d80;
+
+  font-weight: 650;
+}
+
+.progress span {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #241a2f;
+
+  font-size: 11px;
+}
+
+.form-tip {
+  margin-top: 16px;
+
+  color: #756f7c;
+
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+
+@media (max-width: 800px) {
+  .form-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .form-aside {
+    order: 2;
+  }
+}
+
+@media (max-width: 600px) {
+  .metadata {
+    grid-template-columns: 1fr;
+  }
+
+  .search-field {
+    max-width: none;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions .button {
+    width: 100%;
+  }
+
+  .progress {
+    gap: 7px;
+  }
+
+  .progress li {
+    padding: 12px 8px;
+
+    font-size: 12px;
+  }
+}

@@ -1,0 +1,18 @@
+<div class="page-header">
+  <div>
+    <p class="workspace-kicker">SUPPORT WORKSPACE</p>
+    <h1>Support Tickets</h1>
+    <p>Shared support queue. Tickets are not assigned to individual employees.</p>
+  </div>
+  <button
+    class="secondary-button"
+    (click)="reload()"
+    [disabled]="loading || !user.currentEmployeeId()"
+  >
+    Refresh
+  </button>
+</div>
+<app-portal-state [loading]="loading" [error]="error" />
+@if (user.currentEmployeeId() && !loading && !error) {
+  <app-portal-ticket-table [tickets]="tickets" [support]="true" />
+}

@@ -1,0 +1,167 @@
+<section>
+  <div class="page-header">
+    <div>
+      <p class="workspace-kicker">MANAGEMENT WORKSPACE</p>
+      <h1>Customers</h1>
+      <p>Manage support customers.</p>
+    </div>
+    <div class="action-buttons">
+      <button class="secondary-button" (click)="load()" [disabled]="loading || busy">Refresh</button
+      ><button class="primary-button" (click)="openCreateForm()" [disabled]="busy">
+      + New Customer
+    </button>
+    </div>
+  </div>
+  @if (error) {
+  <div class="error-message" role="alert">{{ error }}</div>
+  }
+  @if (notice) {
+  <div class="success-message" role="status">{{ notice }}</div>
+  }
+  @if (showForm) {
+  <form class="form-card" #editor="ngForm" (ngSubmit)="save()">
+    <h2>{{ editingId !== null ? 'Edit' : 'Create' }} Customer</h2>
+    @if (editingId !== null) {
+    <p class="hint">
+      Enter a password to use after this update. Saving replaces the account password.
+    </p>
+    }
+    <fieldset [disabled]="busy">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="customers-name">Name *</label
+          ><input id="customers-name" name="name" type="text" [(ngModel)]="form.name" required />
+        </div>
+        <div class="form-group">
+          <label for="customers-email">Email *</label
+          ><input
+          id="customers-email"
+          name="email"
+          type="email"
+          [(ngModel)]="form.email"
+          required
+          email
+        />
+        </div>
+        <div class="form-group">
+          <label for="customers-password">Password *</label
+          ><input
+          id="customers-password"
+          name="password"
+          type="password"
+          [(ngModel)]="form.password"
+          required
+          autocomplete="new-password"
+        />
+        </div>
+        <div class="form-group">
+          <label for="customers-phoneNumber">Phone number *</label
+          ><input
+          id="customers-phoneNumber"
+          name="phoneNumber"
+          type="tel"
+          [(ngModel)]="form.phoneNumber"
+          required
+        />
+        </div>
+        <div class="form-group">
+          <label for="customers-address">Address *</label
+          ><input
+          id="customers-address"
+          name="address"
+          type="text"
+          [(ngModel)]="form.address"
+          required
+        />
+        </div>
+        <div class="form-group">
+          <label for="customers-gender">Gender *</label
+          ><input
+          id="customers-gender"
+          name="gender"
+          type="text"
+          [(ngModel)]="form.gender"
+          required
+        />
+        </div>
+        <div class="form-group">
+          <label for="customers-age">Age *</label
+          ><input
+          id="customers-age"
+          name="age"
+          type="number"
+          [(ngModel)]="form.age"
+          required
+          min="0"
+          step="1"
+        />
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="secondary-button" (click)="cancelForm()">Cancel</button
+        ><button type="submit" class="primary-button" [disabled]="editor.invalid || busy">
+        {{ busy ? 'Saving...' : 'Save Customer' }}
+      </button>
+      </div>
+    </fieldset>
+  </form>
+  }
+  <div class="table-card">
+    @if (loading) {
+    <p class="loading-message" role="status">Loading customers...</p>
+    } @else if (!loaded) {
+    <p class="empty-message">Customers are unavailable. Use Refresh to try again.</p>
+    } @else if (records.length === 0) {
+    <p class="empty-message">No customers found. Create one to get started.</p>
+    } @else {
+    <table>
+      <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Phone number</th>
+        <th scope="col">Address</th>
+        <th scope="col">Gender</th>
+        <th scope="col">Age</th>
+        <th scope="col">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      @for (record of records; track record.id) {
+      <tr>
+        <td>#{{ record.id }}</td>
+        <td>{{ record.name || '—' }}</td>
+        <td>{{ record.email || '—' }}</td>
+        <td>{{ record.phoneNumber || '—' }}</td>
+        <td>{{ record.address || '—' }}</td>
+        <td>{{ record.gender || '—' }}</td>
+        <td>{{ record.age ?? '—' }}</td>
+        <td>
+          <div class="action-buttons">
+            <button
+              type="button"
+              class="small-button edit-button"
+              (click)="edit(record)"
+              [disabled]="busy || loading"
+            >
+              Edit
+            </button>
+
+            <button
+              type="button"
+              class="small-button delete-button"
+              (click)="deleteRecord(record)"
+              [disabled]="busy || loading"
+            >
+              {{ busy ? 'Working...' : 'Delete' }}
+            </button>
+          </div>
+        </td>
+      </tr>
+      }
+      </tbody>
+    </table>
+    }
+  </div>
+</section>

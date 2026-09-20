@@ -1,0 +1,464 @@
+:host {
+  display: block;
+
+  --messages-plum: #241a2f;
+  --messages-coral: #f05a3c;
+  --messages-teal: #14b8a6;
+
+  --messages-text: #241a2f;
+  --messages-muted: #706978;
+  --messages-border: #e6e1e8;
+  --messages-shadow: 0 8px 24px rgba(36, 26, 47, 0.06);
+}
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+section {
+  width: 100%;
+  min-width: 0;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.page-header {
+  animation: messagesHeaderIn 0.45s ease both;
+}
+
+.page-header .action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.page-header .primary-button,
+.page-header .secondary-button {
+  white-space: nowrap;
+}
+
+/* =========================================================
+   ALERTS
+   ========================================================= */
+
+.error-message,
+.success-message {
+  animation: messagesMessageIn 0.35s ease both;
+}
+
+.error-message {
+  border-left: 4px solid var(--messages-coral);
+}
+
+.success-message {
+  border-left: 4px solid var(--messages-teal);
+}
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.form-card {
+  position: relative;
+  margin-bottom: 24px;
+  border: 1px solid var(--messages-border);
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: var(--messages-shadow);
+  animation: messageFormIn 0.4s ease both;
+  overflow: hidden;
+}
+
+.form-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--messages-coral),
+    var(--messages-teal)
+  );
+}
+
+.form-card h2 {
+  color: var(--messages-plum);
+  font-weight: 800;
+  letter-spacing: -0.35px;
+}
+
+.form-card fieldset {
+  min-width: 0;
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.form-group label {
+  color: var(--messages-plum);
+}
+
+.form-group select,
+.form-group textarea {
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background-color 0.18s ease;
+}
+
+.form-group select:hover,
+.form-group textarea:hover {
+  border-color: #c9c1cd;
+}
+
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--messages-teal);
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+  outline: none;
+  background: #ffffff;
+}
+
+.form-group textarea {
+  min-height: 130px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.form-group textarea::placeholder {
+  color: #a39ca8;
+}
+
+.hint {
+  display: block;
+  min-height: 16px;
+  margin-top: 6px;
+  color: #918995;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.form-actions {
+  padding-top: 5px;
+}
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.table-card {
+  width: 100%;
+  border: 1px solid var(--messages-border);
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: var(--messages-shadow);
+  overflow-x: auto;
+  animation: messagesTableIn 0.5s ease both;
+}
+
+.table-card table {
+  min-width: 1000px;
+}
+
+.table-card thead {
+  background: #faf8fb;
+}
+
+.table-card th {
+  color: #756d7c;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.table-card td {
+  color: #554e5b;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.table-card tbody tr {
+  transition:
+    background-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.table-card tbody tr:hover {
+  background: #fcfbfd;
+}
+
+.table-card tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table-card td:first-child {
+  color: var(--messages-plum);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.table-card td:nth-child(3) {
+  color: var(--messages-plum);
+  font-weight: 700;
+}
+
+.table-card td:nth-child(4),
+.table-card td:nth-child(5) {
+  color: #756d7c;
+}
+
+/* =========================================================
+   MESSAGE CONTENT
+   ========================================================= */
+
+.text-cell {
+  min-width: 280px;
+  max-width: 520px;
+  color: #4f4856 !important;
+  font-size: 13px;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.table-card .action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.small-button {
+  min-height: 31px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 750;
+  white-space: nowrap;
+
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    opacity 0.18s ease;
+}
+
+.small-button:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+.small-button:not(:disabled):active {
+  transform: scale(0.96);
+}
+
+.edit-button {
+  border-color: rgba(20, 184, 166, 0.16);
+  background: #e9faf7;
+  color: #0d897c;
+}
+
+.edit-button:hover:not(:disabled) {
+  border-color: rgba(20, 184, 166, 0.3);
+  background: #d8f5f0;
+  box-shadow: 0 4px 10px rgba(20, 184, 166, 0.1);
+}
+
+.delete-button {
+  border-color: rgba(240, 90, 60, 0.16);
+  background: #fff0ec;
+  color: #c84730;
+}
+
+.delete-button:hover:not(:disabled) {
+  border-color: rgba(240, 90, 60, 0.3);
+  background: #ffe3dc;
+  box-shadow: 0 4px 10px rgba(240, 90, 60, 0.1);
+}
+
+/* =========================================================
+   LOADING / EMPTY
+   ========================================================= */
+
+.loading-message,
+.empty-message {
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  text-align: center;
+}
+
+.loading-message {
+  color: #0d9385;
+  background: #fbfffe;
+}
+
+.empty-message {
+  color: #837b89;
+  background: #fcfbfd;
+}
+
+/* =========================================================
+   FOCUS
+   ========================================================= */
+
+.small-button:focus-visible,
+.primary-button:focus-visible,
+.secondary-button:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(20, 184, 166, 0.17);
+  outline-offset: 2px;
+}
+
+/* =========================================================
+   DISABLED
+   ========================================================= */
+
+.small-button:disabled,
+.primary-button:disabled,
+.secondary-button:disabled {
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+@keyframes messagesHeaderIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes messageFormIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes messagesTableIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes messagesMessageIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 760px) {
+  .page-header .action-buttons {
+    width: 100%;
+  }
+
+  .page-header .action-buttons .primary-button,
+  .page-header .action-buttons .secondary-button {
+    flex: 1 1 0;
+  }
+
+  .table-card {
+    margin-left: -1px;
+    margin-right: -1px;
+    border-radius: 14px;
+  }
+
+  .text-cell {
+    min-width: 240px;
+  }
+
+  .table-card .action-buttons {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .table-card .small-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 520px) {
+  .page-header .action-buttons {
+    flex-direction: column;
+  }
+
+  .page-header .action-buttons .primary-button,
+  .page-header .action-buttons .secondary-button {
+    width: 100%;
+    flex: none;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .form-actions .primary-button,
+  .form-actions .secondary-button {
+    width: 100%;
+  }
+
+  .form-card {
+    border-radius: 14px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .form-card,
+  .table-card,
+  .small-button,
+  .error-message,
+  .success-message,
+  .page-header {
+    animation: none;
+    transition: none;
+  }
+}

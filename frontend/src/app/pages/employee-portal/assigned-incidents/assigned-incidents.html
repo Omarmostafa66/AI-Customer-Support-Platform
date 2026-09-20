@@ -1,0 +1,38 @@
+<div class="page-header">
+  <div>
+    <p class="workspace-kicker">SUPPORT WORKSPACE</p>
+    <h1>Assigned Incidents</h1>
+    <p>Review and update incidents assigned to you.</p>
+  </div>
+  <button
+    class="secondary-button"
+    (click)="reload()"
+    [disabled]="loading || !user.currentEmployeeId()"
+  >
+    Refresh
+  </button>
+</div>
+<app-portal-state [loading]="loading" [error]="error" />
+@if (user.currentEmployeeId() && !loading && !error) {
+  <div class="form-card filters">
+    <div class="form-group">
+      <label for="agent-status">Status</label
+      ><select id="agent-status" [(ngModel)]="status">
+        <option value="">All statuses</option>
+        @for (value of statuses; track value) {
+          <option [ngValue]="value">{{ value }}</option>
+        }
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="agent-category">Category</label
+      ><select id="agent-category" [(ngModel)]="categoryId">
+        <option [ngValue]="null">All categories</option>
+        @for (category of categories; track category.id) {
+          <option [ngValue]="category.id">{{ category.name }}</option>
+        }
+      </select>
+    </div>
+  </div>
+  <app-portal-incident-table [incidents]="visible" />
+}

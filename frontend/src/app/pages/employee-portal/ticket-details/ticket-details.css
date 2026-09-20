@@ -1,0 +1,362 @@
+/* =========================
+   Employee Ticket Details
+   ========================= */
+
+:host {
+  display: block;
+}
+
+
+/* =========================
+   Header Actions
+   ========================= */
+
+.page-header .action-buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.page-header .action-buttons > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 44px;
+  padding: 11px 16px;
+
+  border: 1px solid #e3dfe6;
+  border-radius: 10px;
+
+  background: #ffffff;
+  color: #241a2f;
+
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.page-header .action-buttons > a:hover {
+  border-color: rgba(20, 184, 166, 0.4);
+  color: #14b8a6;
+  background: rgba(20, 184, 166, 0.035);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(36, 26, 47, 0.07);
+}
+
+.page-header .action-buttons > a:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.page-header .action-buttons > a:focus-visible {
+  outline: 3px solid rgba(20, 184, 166, 0.18);
+  outline-offset: 3px;
+}
+
+
+/* =========================
+   Ticket Main Card
+   ========================= */
+
+.form-card {
+  animation: ticketDetailsIn 0.5s ease both;
+}
+
+.form-card > h2 {
+  margin-bottom: 16px;
+
+  color: #241a2f;
+  font-size: 22px;
+  line-height: 1.35;
+  letter-spacing: -0.4px;
+}
+
+
+/* =========================
+   Ticket Description
+   ========================= */
+
+.form-card > .prose {
+  margin: 0 0 26px;
+  padding: 17px 18px;
+
+  border-left: 3px solid #f05a3c;
+  border-radius: 0 10px 10px 0;
+
+  background: rgba(240, 90, 60, 0.045);
+  color: #4d5562;
+
+  line-height: 1.8;
+}
+
+
+/* =========================
+   Ticket Details
+   ========================= */
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 0;
+
+  margin: 0 0 24px;
+
+  border: 1px solid #e7e3e9;
+  border-radius: 13px;
+
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.detail-grid > div {
+  min-width: 0;
+  padding: 18px 20px;
+
+  border-bottom: 1px solid #eeeaf0;
+
+  transition: background-color 0.18s ease;
+}
+
+.detail-grid > div:nth-child(odd) {
+  border-right: 1px solid #eeeaf0;
+}
+
+.detail-grid > div:nth-last-child(-n + 2) {
+  border-bottom: 0;
+}
+
+.detail-grid > div:hover {
+  background: rgba(20, 184, 166, 0.025);
+}
+
+.detail-grid dt {
+  margin: 0;
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+
+  color: #7a818d;
+}
+
+.detail-grid dd {
+  margin: 7px 0 0;
+
+  font-size: 14px;
+  line-height: 1.6;
+  font-weight: 600;
+
+  color: #241a2f;
+}
+
+
+/* =========================
+   Analyze Button
+   ========================= */
+
+.form-card > .primary-button {
+  min-width: 145px;
+}
+
+
+/* =========================
+   AI Analysis Card
+   ========================= */
+
+.form-card + .form-card {
+  margin-top: 22px;
+
+  border-color: rgba(20, 184, 166, 0.2);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(20, 184, 166, 0.035),
+      #ffffff 45%
+    );
+
+  animation-delay: 0.05s;
+}
+
+.form-card + .form-card > h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: #241a2f;
+}
+
+.form-card + .form-card > h2::before {
+  content: 'AI';
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 32px;
+  height: 26px;
+  padding: 0 7px;
+
+  border-radius: 7px;
+
+  background: #241a2f;
+  color: #ffffff;
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+}
+
+.form-card + .form-card > .hint {
+  margin-bottom: 20px;
+}
+
+
+/* =========================
+   AI Analysis Values
+   ========================= */
+
+.form-card + .form-card > p:not(.hint):not(.prose) {
+  margin: 0 0 10px;
+
+  padding: 11px 13px;
+
+  border-radius: 8px;
+  background: #faf9fb;
+
+  color: #505866;
+  font-size: 13px;
+}
+
+.form-card + .form-card > p:not(.hint):not(.prose) strong {
+  color: #241a2f;
+}
+
+
+/* =========================
+   Suggested Response
+   ========================= */
+
+.form-card + .form-card > .prose {
+  margin: 18px 0 0;
+  padding: 18px;
+
+  border: 1px solid rgba(20, 184, 166, 0.16);
+  border-left: 3px solid #14b8a6;
+  border-radius: 0 10px 10px 0;
+
+  background: rgba(20, 184, 166, 0.045);
+  color: #3f4854;
+
+  line-height: 1.85;
+}
+
+
+/* =========================
+   Empty State
+   ========================= */
+
+.empty-message {
+  margin-top: 8px;
+
+  border: 1px solid #e5e1e8;
+  border-radius: 14px;
+
+  background: #ffffff;
+
+  animation: ticketDetailsIn 0.45s ease both;
+}
+
+
+/* =========================
+   Responsive
+   ========================= */
+
+@media (max-width: 800px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-grid > div:nth-child(odd) {
+    border-right: 0;
+  }
+
+  .detail-grid > div:nth-last-child(-n + 2) {
+    border-bottom: 1px solid #eeeaf0;
+  }
+
+  .detail-grid > div:last-child {
+    border-bottom: 0;
+  }
+}
+
+@media (max-width: 650px) {
+  .page-header .action-buttons {
+    width: 100%;
+  }
+
+  .page-header .action-buttons > a,
+  .page-header .action-buttons > button {
+    flex: 1;
+  }
+
+  .form-card {
+    padding: 20px;
+  }
+
+  .form-card > h2 {
+    font-size: 20px;
+  }
+
+  .detail-grid > div {
+    padding: 16px;
+  }
+
+  .form-card + .form-card > h2 {
+    align-items: flex-start;
+  }
+
+  .form-card + .form-card > .prose {
+    padding: 16px;
+  }
+}
+
+
+/* =========================
+   Animation
+   ========================= */
+
+@keyframes ticketDetailsIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================
+   Reduced Motion
+   ========================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

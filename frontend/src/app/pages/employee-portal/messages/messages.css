@@ -1,0 +1,188 @@
+/* =========================
+   Employee Messages
+   ========================= */
+
+:host {
+  display: block;
+}
+
+
+/* =========================
+   Header Actions
+   ========================= */
+
+.page-header .secondary-button {
+  flex-shrink: 0;
+}
+
+
+/* =========================
+   Page Hint
+   ========================= */
+
+.page-header + .hint {
+  max-width: 760px;
+  margin: -8px 0 22px;
+
+  padding: 13px 16px;
+
+  border-left: 3px solid #14b8a6;
+  border-radius: 0 9px 9px 0;
+
+  background: rgba(20, 184, 166, 0.045);
+  color: #687080;
+
+  line-height: 1.7;
+  font-size: 13px;
+
+  animation: messagesHintIn 0.45s ease both;
+}
+
+
+/* =========================
+   Messages Table
+   ========================= */
+
+.table-card {
+  margin-top: 4px;
+
+  animation: messagesTableIn 0.5s ease both;
+}
+
+
+/* =========================
+   Message Column
+   ========================= */
+
+.text-cell {
+  min-width: 280px;
+  max-width: 460px;
+
+  line-height: 1.75;
+  color: #3f4652;
+}
+
+
+/* =========================
+   ID Column
+   ========================= */
+
+table tbody td:first-child {
+  color: #241a2f;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+
+/* =========================
+   Customer Column
+   ========================= */
+
+table tbody td:nth-child(3) {
+  color: #241a2f;
+  font-weight: 600;
+}
+
+
+/* =========================
+   Email Column
+   ========================= */
+
+table tbody td:nth-child(4) {
+  color: #687080;
+}
+
+
+/* =========================
+   Created Column
+   ========================= */
+
+table tbody td:nth-child(5) {
+  color: #687080;
+  white-space: nowrap;
+}
+
+
+/* =========================
+   Empty State
+   ========================= */
+
+.table-card .empty-message {
+  margin: 0;
+  padding: 46px 24px;
+
+  border: 0;
+  border-radius: 0;
+
+  background: transparent;
+  text-align: center;
+
+  color: #687080;
+}
+
+
+/* =========================
+   Responsive
+   ========================= */
+
+@media (max-width: 700px) {
+  .page-header .secondary-button {
+    width: 100%;
+  }
+
+  .page-header + .hint {
+    margin-top: -4px;
+    margin-bottom: 18px;
+  }
+
+  .text-cell {
+    min-width: 240px;
+  }
+
+  .table-card {
+    border-radius: 12px;
+  }
+}
+
+
+/* =========================
+   Animation
+   ========================= */
+
+@keyframes messagesHintIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes messagesTableIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================
+   Reduced Motion
+   ========================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

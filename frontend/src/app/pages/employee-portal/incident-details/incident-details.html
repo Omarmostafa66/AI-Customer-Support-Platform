@@ -1,0 +1,78 @@
+<div class="page-header">
+  <div>
+    <p class="workspace-kicker">SUPPORT WORKSPACE</p>
+    <h1>Incident Details</h1>
+  </div>
+  <div class="action-buttons">
+    <a routerLink="/employee/incidents">Back to Assigned Incidents</a
+    ><button
+      class="secondary-button"
+      (click)="reload()"
+      [disabled]="loading || busy || !user.currentEmployeeId()"
+    >
+      Refresh
+    </button>
+  </div>
+</div>
+<app-portal-state
+
+  [loading]="loading"
+  [error]="error"
+  [notice]="notice"
+/>
+@if (user.currentEmployeeId() && !loading) {
+  @if (incident; as item) {
+    <section class="form-card">
+      <h2>Incident #{{ item.id }}</h2>
+      <dl class="detail-grid">
+        <div>
+          <dt>Status</dt>
+          <dd>
+            <span class="badge" [attr.data-status]="item.status">{{ item.status }}</span>
+          </dd>
+        </div>
+        <div>
+          <dt>Category</dt>
+          <dd>{{ item.category?.name || 'Not categorized' }}</dd>
+        </div>
+        <div>
+          <dt>Same message</dt>
+          <dd>{{ item.sameMessage ? 'Yes' : 'No' }}</dd>
+        </div>
+        <div>
+          <dt>Created</dt>
+          <dd>{{ (item.createdAt | date: 'medium') || '—' }}</dd>
+        </div>
+        <div>
+          <dt>Resolved</dt>
+          <dd>{{ (item.resolvedAt | date: 'medium') || 'Not recorded' }}</dd>
+        </div>
+      </dl>
+      <div class="form-group">
+        <label for="incident-next-status">Status</label
+        ><select id="incident-next-status" [(ngModel)]="status" [disabled]="busy">
+          @for (value of statuses; track value) {
+            <option [ngValue]="value">{{ value }}</option>
+          }
+        </select>
+      </div>
+      <div class="action-buttons">
+        <button
+          class="primary-button"
+          (click)="update()"
+          [disabled]="busy || status === item.status"
+        >
+          {{ busy ? 'Updating...' : 'Update Status' }}</button
+        ><button
+          class="secondary-button"
+          (click)="update(true)"
+          [disabled]="busy || item.status === 'RESOLVED' || item.status === 'CLOSED'"
+        >
+          Resolve Incident
+        </button>
+      </div>
+    </section>
+  } @else if (!error) {
+    <p class="empty-message">This incident is not assigned to the selected employee.</p>
+  }
+}

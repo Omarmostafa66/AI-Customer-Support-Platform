@@ -1,0 +1,283 @@
+<div class="login-page">
+
+  <!-- Background decoration -->
+  <div class="background-shape shape-one" aria-hidden="true"></div>
+  <div class="background-shape shape-two" aria-hidden="true"></div>
+  <div class="background-grid" aria-hidden="true"></div>
+
+  <main class="auth-shell">
+
+    <!-- =========================
+         Brand Panel
+         ========================= -->
+
+    <section class="brand-panel">
+
+      <div class="brand-content">
+
+        <div class="brand-mark" aria-hidden="true">
+          <span>AI</span>
+        </div>
+
+        <div class="brand-label">
+          AI CUSTOMER SUPPORT
+        </div>
+
+        <h1>
+          Smarter support.
+          <span>Better experiences.</span>
+        </h1>
+
+        <p class="brand-description">
+          Manage customer conversations, tickets and support
+          operations through one intelligent platform.
+        </p>
+
+        <div class="brand-features">
+
+          <div class="brand-feature">
+            <span class="feature-icon orange" aria-hidden="true">
+              ✓
+            </span>
+
+            <div>
+              <strong>AI-powered support</strong>
+              <span>Handle customer requests efficiently.</span>
+            </div>
+          </div>
+
+          <div class="brand-feature">
+            <span class="feature-icon teal" aria-hidden="true">
+              ✓
+            </span>
+
+            <div>
+              <strong>Centralized workspace</strong>
+              <span>Keep conversations and tickets organized.</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="brand-footer">
+        <span class="footer-dot"></span>
+        Secure customer support platform
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         Login Card
+         ========================= -->
+
+    <section class="login-section">
+
+      <div class="login-card">
+
+        <div class="mobile-brand" aria-hidden="true">
+          <div class="mobile-brand-mark">
+            <span>AI</span>
+          </div>
+        </div>
+
+
+        <div class="login-header">
+
+          <span class="eyebrow">
+            Welcome back
+          </span>
+
+          <h2>
+            Sign in to your account
+          </h2>
+
+          <p>
+            Enter your credentials to continue.
+          </p>
+
+        </div>
+
+
+        <form
+          class="login-form"
+          (ngSubmit)="onSubmit()"
+          novalidate
+        >
+
+          <!-- Email -->
+
+          <div class="form-group">
+
+            <label for="email">
+              Email address
+            </label>
+
+            <div class="input-wrapper">
+
+              <span
+                class="input-icon"
+                aria-hidden="true"
+              >
+                @
+              </span>
+
+              <input
+                id="email"
+                type="email"
+                name="email"
+                [(ngModel)]="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+                [disabled]="loading"
+                required
+              />
+
+            </div>
+
+          </div>
+
+
+          <!-- Password -->
+
+          <div class="form-group">
+
+            <div class="password-label-row">
+
+              <label for="password">
+                Password
+              </label>
+
+            </div>
+
+            <div class="input-wrapper">
+
+              <span
+                class="input-icon password-icon"
+                aria-hidden="true"
+              >
+                •
+              </span>
+
+              <input
+                id="password"
+                type="password"
+                name="password"
+                [(ngModel)]="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                [disabled]="loading"
+                required
+              />
+
+            </div>
+
+          </div>
+
+
+          <!-- Error -->
+
+          @if (errorMessage) {
+
+          <div
+            class="error-message"
+            role="alert"
+            aria-live="assertive"
+          >
+
+            <span
+              class="error-icon"
+              aria-hidden="true"
+            >
+              !
+            </span>
+
+            <span class="error-text">
+              {{ errorMessage }}
+            </span>
+
+          </div>
+
+          }
+
+
+          <!-- Submit -->
+
+          <button
+            type="submit"
+            class="login-button"
+            [disabled]="loading"
+            [class.loading]="loading"
+          >
+
+            @if (loading) {
+
+            <span
+              class="button-spinner"
+              aria-hidden="true"
+            ></span>
+
+            <span>
+              Signing in...
+            </span>
+
+            } @else {
+
+            <span>
+              Sign In
+            </span>
+
+            <span
+              class="button-arrow"
+              aria-hidden="true"
+            >
+              →
+            </span>
+
+            }
+
+          </button>
+
+        </form>
+
+
+        <!-- Register -->
+
+        <div class="register-link">
+
+          <span>
+            Don't have an account?
+          </span>
+
+          <a routerLink="/register">
+            Create a customer account
+            <span aria-hidden="true">→</span>
+          </a>
+
+        </div>
+
+
+        <div class="security-note">
+
+          <span
+            class="security-icon"
+            aria-hidden="true"
+          >
+            ✓
+          </span>
+
+          <span>
+            Your account information is securely protected.
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>

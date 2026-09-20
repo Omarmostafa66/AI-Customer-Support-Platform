@@ -1,0 +1,460 @@
+/* =========================================================
+   AI CUSTOMER SUPPORT
+   Global Design System
+   ========================================================= */
+
+:root {
+  /* Brand Colors */
+  --color-primary: #f05a3c;
+  --color-primary-hover: #d94b30;
+  --color-primary-soft: #fff0ec;
+
+  --color-secondary: #14b8a6;
+  --color-secondary-hover: #0f9f90;
+  --color-secondary-soft: #e8faf7;
+
+  --color-dark: #241a2f;
+  --color-dark-hover: #34243f;
+  --color-dark-soft: #f3eef6;
+
+  /* General Colors */
+  --color-white: #ffffff;
+  --color-black: #111111;
+
+  --color-text: #241a2f;
+  --color-text-soft: #5f5666;
+  --color-muted: #817687;
+
+  --color-border: #e5dfe8;
+  --color-border-soft: #eee9f0;
+
+  --color-page: #f7f5f8;
+  --color-surface: #ffffff;
+
+  /* Feedback */
+  --color-success: #14b8a6;
+  --color-success-soft: #e9faf7;
+
+  --color-error: #e34f42;
+  --color-error-soft: #fff0ef;
+
+  --color-warning: #e39a32;
+  --color-warning-soft: #fff7e9;
+
+  --color-info: #6c5bb8;
+  --color-info-soft: #f1eefb;
+
+  /* Radius */
+  --radius-xs: 6px;
+  --radius-sm: 9px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+
+  /* Shadows */
+  --shadow-xs: 0 2px 8px rgba(36, 26, 47, 0.05);
+  --shadow-sm: 0 5px 18px rgba(36, 26, 47, 0.07);
+  --shadow-md: 0 10px 28px rgba(36, 26, 47, 0.10);
+  --shadow-lg: 0 18px 45px rgba(36, 26, 47, 0.14);
+
+  /* Motion */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.22s ease;
+  --transition-slow: 0.35s ease;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+
+  font-family:
+    Inter,
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  color: var(--color-text);
+
+  background: var(--color-page);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+/* =========================================================
+   Global Focus
+   ========================================================= */
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(20, 184, 166, 0.45);
+  outline-offset: 3px;
+}
+
+/* =========================================================
+   Global Button Interaction
+   ========================================================= */
+
+button,
+.button,
+.primary-button,
+.secondary-button,
+.danger-button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:not(:disabled),
+.button:not(:disabled),
+.primary-button:not(:disabled),
+.secondary-button:not(:disabled),
+.danger-button:not(:disabled) {
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-normal),
+    background var(--transition-normal),
+    border-color var(--transition-normal),
+    color var(--transition-normal);
+}
+
+button:not(:disabled):hover,
+.button:not(:disabled):hover,
+.primary-button:not(:disabled):hover,
+.secondary-button:not(:disabled):hover,
+.danger-button:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+button:not(:disabled):active,
+.button:not(:disabled):active,
+.primary-button:not(:disabled):active,
+.secondary-button:not(:disabled):active,
+.danger-button:not(:disabled):active {
+  transform: translateY(1px) scale(0.98);
+}
+
+button:disabled,
+.button:disabled,
+.primary-button:disabled,
+.secondary-button:disabled,
+.danger-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* =========================================================
+   Global Links
+   ========================================================= */
+
+a {
+  transition:
+    color var(--transition-fast),
+    background var(--transition-normal),
+    border-color var(--transition-normal);
+}
+
+/* =========================================================
+   Global Form Interaction
+   ========================================================= */
+
+input,
+select,
+textarea {
+  transition:
+    border-color var(--transition-normal),
+    box-shadow var(--transition-normal),
+    background var(--transition-normal);
+}
+
+input:hover,
+select:hover,
+textarea:hover {
+  border-color: #cfc4d5;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.10);
+}
+
+/* =========================================================
+   Page Entrance Animation
+   ========================================================= */
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.main-content > * {
+  animation: pageEnter 0.32s ease both;
+}
+
+/* =========================================================
+   Loading Pulse
+   ========================================================= */
+
+@keyframes loadingPulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.loading-message,
+.loading-panel {
+  animation: loadingPulse 1.5s ease-in-out infinite;
+}
+
+/* =========================================================
+   Toast System
+   ========================================================= */
+
+.toast-host {
+  position: fixed;
+
+  top: 24px;
+  right: 24px;
+
+  z-index: 99999;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+
+  width: min(390px, calc(100vw - 32px));
+
+  pointer-events: none;
+}
+
+.toast {
+  position: relative;
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 12px;
+
+  width: 100%;
+
+  padding: 15px 16px;
+
+  border: 1px solid var(--color-border);
+
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, 0.97);
+
+  box-shadow: var(--shadow-lg);
+
+  backdrop-filter: blur(12px);
+
+  pointer-events: auto;
+
+  overflow: hidden;
+
+  animation:
+    toastEnter 0.35s cubic-bezier(0.21, 1.02, 0.73, 1)
+    both;
+}
+
+.toast::before {
+  content: '';
+
+  width: 4px;
+
+  position: absolute;
+
+  left: 0;
+  top: 0;
+  bottom: 0;
+
+  background: var(--color-secondary);
+}
+
+.toast.success::before {
+  background: var(--color-secondary);
+}
+
+.toast.error::before {
+  background: var(--color-error);
+}
+
+.toast.warning::before {
+  background: var(--color-warning);
+}
+
+.toast.info::before {
+  background: var(--color-primary);
+}
+
+.toast-icon {
+  display: grid;
+
+  place-items: center;
+
+  width: 34px;
+  height: 34px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: var(--color-secondary-soft);
+
+  color: var(--color-secondary);
+
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.toast.error .toast-icon {
+  background: var(--color-error-soft);
+  color: var(--color-error);
+}
+
+.toast.warning .toast-icon {
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+}
+
+.toast.info .toast-icon {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.toast-content {
+  min-width: 0;
+  flex: 1;
+}
+
+.toast-title {
+  margin: 0 0 3px;
+
+  color: var(--color-text);
+
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.toast-message {
+  margin: 0;
+
+  color: var(--color-text-soft);
+
+  font-size: 12px;
+  line-height: 1.55;
+
+  word-break: break-word;
+}
+
+.toast-close {
+  width: 26px;
+  height: 26px;
+
+  display: grid;
+  place-items: center;
+
+  flex-shrink: 0;
+
+  border: 0;
+
+  background: transparent;
+
+  color: var(--color-muted);
+
+  border-radius: 7px;
+
+  cursor: pointer;
+
+  font-size: 16px;
+}
+
+.toast-close:hover {
+  background: var(--color-dark-soft);
+  color: var(--color-text);
+}
+
+@keyframes toastEnter {
+  from {
+    opacity: 0;
+    transform: translateX(35px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes toastExit {
+  from {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(35px) scale(0.96);
+  }
+}
+
+.toast.removing {
+  animation: toastExit 0.22s ease forwards;
+}
+
+/* =========================================================
+   Mobile Toast
+   ========================================================= */
+
+@media (max-width: 600px) {
+  .toast-host {
+    top: 14px;
+    right: 14px;
+
+    width: calc(100vw - 28px);
+  }
+}
+
+/* =========================================================
+   Reduced Motion
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,186 @@
+frontend/
+├── public/
+│   └── favicon.ico
+├── src/
+│   ├── app/
+│   │   ├── guards/
+│   │   │   ├── auth.guard.ts
+│   │   │   └── role.guard.ts
+│   │   ├── interceptors/
+│   │   │   └── auth.interceptor.ts
+│   │   ├── layout/
+│   │   │   ├── customer-header/
+│   │   │   │   ├── customer-header.css
+│   │   │   │   ├── customer-header.html
+│   │   │   │   └── customer-header.ts
+│   │   │   ├── customer-sidebar/
+│   │   │   │   └── customer-sidebar.ts
+│   │   │   ├── employee-sidebar/
+│   │   │   │   └── employee-sidebar.ts
+│   │   │   ├── sidebar/
+│   │   │       ├── sidebar.css
+│   │   │       ├── sidebar.html
+│   │   │       ├── sidebar.spec.ts
+│   │   │       ├── sidebar.ts
+│   │   │       └── workspace-sidebar.css
+│   │   ├── models/
+│   │   │   └── resources.ts
+│   │   ├── pages/
+│   │   │   ├── account/
+│   │   │   │   ├── account.css
+│   │   │   │   ├── account.html
+│   │   │   │   └── account.ts
+│   │   │   ├── categories/
+│   │   │   │   ├── categories.css
+│   │   │   │   ├── categories.html
+│   │   │   │   ├── categories.spec.ts
+│   │   │   │   └── categories.ts
+│   │   │   ├── customer-portal/
+│   │   │   │   ├── create-ticket/
+│   │   │   │   │   ├── create-ticket.html
+│   │   │   │   │   └── create-ticket.ts
+│   │   │   │   ├── dashboard/
+│   │   │   │   │   ├── customer-dashboard.spec.ts
+│   │   │   │   │   ├── dashboard.css
+│   │   │   │   │   ├── dashboard.html
+│   │   │   │   │   ├── dashboard.ts
+│   │   │   │   │   ├── hero.css
+│   │   │   │   │   ├── journey.css
+│   │   │   │   │   ├── responsive.css
+│   │   │   │   │   └── sections.css
+│   │   │   │   ├── messages/
+│   │   │   │   │   ├── messages.html
+│   │   │   │   │   └── messages.ts
+│   │   │   │   ├── my-tickets/
+│   │   │   │   │   ├── my-tickets.html
+│   │   │   │   │   ├── my-tickets.spec.ts
+│   │   │   │   │   └── my-tickets.ts
+│   │   │   │   ├── shared/
+│   │   │   │   │   ├── customer-error.ts
+│   │   │   │   │   ├── customer-forms.css
+│   │   │   │   │   ├── customer-page.ts
+│   │   │   │   │   ├── customer-state.ts
+│   │   │   │   │   ├── customer-status.ts
+│   │   │   │   │   ├── customer-ticket-cards.html
+│   │   │   │   │   ├── customer-ticket-cards.spec.ts
+│   │   │   │   │   ├── customer-ticket-cards.ts
+│   │   │   │   │   ├── customer-tickets.css
+│   │   │   │   │   └── customer-ui.css
+│   │   │   │   ├── ticket-details/
+│   │   │   │       ├── ticket-details.html
+│   │   │   │       └── ticket-details.ts
+│   │   │   ├── customers/
+│   │   │   │   ├── customers.css
+│   │   │   │   ├── customers.html
+│   │   │   │   ├── customers.spec.ts
+│   │   │   │   └── customers.ts
+│   │   │   ├── dashboard/
+│   │   │   │   ├── dashboard.css
+│   │   │   │   ├── dashboard.html
+│   │   │   │   ├── dashboard.spec.ts
+│   │   │   │   └── dashboard.ts
+│   │   │   ├── employee-portal/
+│   │   │   │   ├── assigned-incidents/
+│   │   │   │   │   ├── assigned-incidents.css
+│   │   │   │   │   ├── assigned-incidents.html
+│   │   │   │   │   └── assigned-incidents.ts
+│   │   │   │   ├── dashboard/
+│   │   │   │   │   ├── dashboard.css
+│   │   │   │   │   ├── dashboard.html
+│   │   │   │   │   └── dashboard.ts
+│   │   │   │   ├── incident-details/
+│   │   │   │   │   ├── incident-details.css
+│   │   │   │   │   ├── incident-details.html
+│   │   │   │   │   └── incident-details.ts
+│   │   │   │   ├── messages/
+│   │   │   │   │   ├── messages.css
+│   │   │   │   │   ├── messages.html
+│   │   │   │   │   └── messages.ts
+│   │   │   │   ├── ticket-details/
+│   │   │   │   │   ├── ticket-details.css
+│   │   │   │   │   ├── ticket-details.html
+│   │   │   │   │   └── ticket-details.ts
+│   │   │   │   ├── tickets/
+│   │   │   │       ├── tickets.css
+│   │   │   │       ├── tickets.html
+│   │   │   │       └── tickets.ts
+│   │   │   ├── employees/
+│   │   │   │   ├── employees.css
+│   │   │   │   ├── employees.html
+│   │   │   │   ├── employees.spec.ts
+│   │   │   │   └── employees.ts
+│   │   │   ├── incidents/
+│   │   │   │   ├── incidents.css
+│   │   │   │   ├── incidents.html
+│   │   │   │   ├── incidents.spec.ts
+│   │   │   │   └── incidents.ts
+│   │   │   ├── login/
+│   │   │   │   ├── login.css
+│   │   │   │   ├── login.html
+│   │   │   │   └── login.ts
+│   │   │   ├── messages/
+│   │   │   │   ├── messages.css
+│   │   │   │   ├── messages.html
+│   │   │   │   ├── messages.spec.ts
+│   │   │   │   └── messages.ts
+│   │   │   ├── register/
+│   │   │   │   ├── register.css
+│   │   │   │   ├── register.html
+│   │   │   │   └── register.ts
+│   │   │   ├── tickets/
+│   │   │   │   ├── tickets.css
+│   │   │   │   ├── tickets.html
+│   │   │   │   ├── tickets.spec.ts
+│   │   │   │   └── tickets.ts
+│   │   │   ├── management.spec.ts
+│   │   │   └── portals.spec.ts
+│   │   ├── services/
+│   │   │   ├── account-avatar.service.ts
+│   │   │   ├── api.spec.ts
+│   │   │   ├── api.ts
+│   │   │   ├── auth.service.spec.ts
+│   │   │   └── auth.service.ts
+│   │   ├── shared/
+│   │   │   ├── confirm-dialog/
+│   │   │   │   ├── confirm-dialog.css
+│   │   │   │   ├── confirm-dialog.html
+│   │   │   │   ├── confirm-dialog.service.ts
+│   │   │   │   └── confirm-dialog.ts
+│   │   │   ├── toast/
+│   │   │   │   ├── toast.component.spec.ts
+│   │   │   │   ├── toast.component.ts
+│   │   │   │   ├── toast.css
+│   │   │   │   ├── toast.html
+│   │   │   │   ├── toast.service.spec.ts
+│   │   │   │   └── toast.service.ts
+│   │   │   ├── api-error.ts
+│   │   │   ├── crud-page.ts
+│   │   │   ├── management.css
+│   │   │   ├── portal-incident-table.ts
+│   │   │   ├── portal-page.ts
+│   │   │   ├── portal-state.ts
+│   │   │   ├── portal-ticket-table.ts
+│   │   │   ├── portal.css
+│   │   │   ├── workspace-data.css
+│   │   │   └── workspace.css
+│   │   ├── app.config.ts
+│   │   ├── app.css
+│   │   ├── app.html
+│   │   ├── app.routes.ts
+│   │   ├── app.spec.ts
+│   │   └── app.ts
+│   ├── index.html
+│   ├── main.ts
+│   └── styles.css
+├── ADMIN_EMPLOYEE_THEME.md
+├── CUSTOMER_HOME_REDESIGN.md
+├── FRONTEND_COMPLETION.md
+├── PORTALS_COMPLETION.md
+├── README.md
+├── angular.json
+├── directory-tree.txt
+├── package-lock.json
+├── package.json
+├── tsconfig.app.json
+├── tsconfig.json
+└── tsconfig.spec.json

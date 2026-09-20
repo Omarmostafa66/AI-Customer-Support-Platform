@@ -1,0 +1,276 @@
+/* =========================
+   Confirmation Dialog
+   ========================= */
+
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background: rgba(15, 23, 42, 0.48);
+  backdrop-filter: blur(5px);
+
+  animation: dialogBackdropIn 0.2s ease both;
+}
+
+
+/* =========================
+   Dialog
+   ========================= */
+
+.confirm-dialog {
+  width: min(100%, 430px);
+
+  padding: 28px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+
+  box-shadow:
+    0 24px 70px rgba(15, 23, 42, 0.2),
+    0 8px 25px rgba(15, 23, 42, 0.08);
+
+  animation: dialogIn 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+
+/* =========================
+   Icon
+   ========================= */
+
+.dialog-icon {
+  width: 48px;
+  height: 48px;
+
+  margin-bottom: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  background: #fff1f2;
+  color: #dc2626;
+
+  border: 1px solid #fecdd3;
+
+  font-size: 21px;
+  font-weight: 800;
+}
+
+
+/* =========================
+   Content
+   ========================= */
+
+.dialog-content h2 {
+  margin: 0 0 8px;
+
+  color: #111827;
+
+  font-size: 20px;
+  line-height: 1.3;
+  letter-spacing: -0.3px;
+}
+
+.dialog-content p {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+
+/* =========================
+   Actions
+   ========================= */
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+
+  margin-top: 26px;
+}
+
+.dialog-button {
+  min-width: 105px;
+  min-height: 42px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 10px 16px;
+
+  border-radius: 9px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.15s ease,
+    box-shadow 0.18s ease,
+    opacity 0.18s ease;
+}
+
+.dialog-button.secondary {
+  border: 1px solid #d1d5db;
+
+  background: #ffffff;
+  color: #374151;
+}
+
+.dialog-button.secondary:hover:not(:disabled) {
+  background: #f9fafb;
+  border-color: #b9c0cc;
+
+  transform: translateY(-1px);
+}
+
+.dialog-button.danger {
+  border: 1px solid #dc2626;
+
+  background: #dc2626;
+  color: #ffffff;
+
+  box-shadow:
+    0 5px 12px rgba(220, 38, 38, 0.18);
+}
+
+.dialog-button.danger:hover:not(:disabled) {
+  background: #b91c1c;
+  border-color: #b91c1c;
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 8px 18px rgba(220, 38, 38, 0.24);
+}
+
+.dialog-button:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+}
+
+.dialog-button:focus-visible {
+  outline: 3px solid rgba(59, 130, 246, 0.18);
+  outline-offset: 3px;
+}
+
+.dialog-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.dialog-button.loading {
+  cursor: wait;
+}
+
+
+/* =========================
+   Spinner
+   ========================= */
+
+.button-spinner {
+  width: 15px;
+  height: 15px;
+
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #ffffff;
+
+  border-radius: 50%;
+
+  animation: buttonSpin 0.7s linear infinite;
+}
+
+
+/* =========================
+   Animations
+   ========================= */
+
+@keyframes dialogBackdropIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dialogIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes buttonSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* =========================
+   Responsive
+   ========================= */
+
+@media (max-width: 520px) {
+  .dialog-backdrop {
+    padding: 16px;
+  }
+
+  .confirm-dialog {
+    padding: 23px;
+    border-radius: 16px;
+  }
+
+  .dialog-actions {
+    flex-direction: column-reverse;
+  }
+
+  .dialog-button {
+    width: 100%;
+  }
+}
+
+
+/* =========================
+   Reduced Motion
+   ========================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .dialog-backdrop,
+  .confirm-dialog,
+  .button-spinner {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .dialog-button {
+    transition-duration: 0.01ms !important;
+  }
+}

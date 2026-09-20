@@ -1,0 +1,250 @@
+@media (max-width: 1000px) {
+  .assistant-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .support-info {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .primary-info,
+  .existing-tickets-card {
+    min-height: 160px;
+  }
+
+  .hero-visual {
+    height: 390px;
+  }
+
+  .request-note {
+    right: 25px;
+    padding: 17px;
+  }
+
+  .reply-note {
+    left: 35px;
+    padding: 17px;
+  }
+
+  .reply-note strong {
+    font-size: 11px;
+  }
+
+  .feature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    row-gap: 30px;
+  }
+
+  .steps li:nth-child(3)::after {
+    display: none;
+  }
+
+  .cta-star {
+    font-size: 140px;
+  }
+
+  .bottom-cta {
+    padding: 45px;
+  }
+
+  .footer-note {
+    display: none;
+  }
+}
+
+
+@media (max-width: 700px) {
+  .chat-page {
+    width: calc(100% - 32px);
+
+    padding-top: 35px;
+    padding-bottom: 55px;
+  }
+
+  .chat-hero {
+    margin-bottom: 30px;
+  }
+
+  .chat-hero h1 {
+    font-size: 43px;
+
+    letter-spacing: -2px;
+  }
+
+  .chat-hero p {
+    font-size: 13px;
+  }
+
+  .assistant-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .tickets-link {
+    width: 100%;
+
+    justify-content: space-between;
+  }
+
+  .conversation {
+    min-height: 360px;
+
+    padding: 24px 16px;
+  }
+
+  .message-bubble {
+    max-width: 88%;
+  }
+
+  .quick-help {
+    padding-inline: 16px;
+  }
+
+  .quick-help > p,
+  .quick-actions {
+    margin-left: 0;
+  }
+
+  .composer-area {
+    padding: 14px;
+  }
+
+  .composer-footer span:first-child {
+    display: none;
+  }
+
+  .composer-footer {
+    justify-content: flex-end;
+  }
+
+  .support-info {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 28px;
+  }
+
+  .steps li:nth-child(3)::after {
+    display: block;
+  }
+
+  .steps li:nth-child(even)::after {
+    display: none;
+  }
+
+  .center-heading h2 {
+    font-size: 30px;
+  }
+
+  .how-section {
+    padding: 45px 0;
+  }
+
+  .bottom-cta {
+    padding: 30px;
+
+    margin-block: 50px;
+  }
+
+  .bottom-cta h2 {
+    font-size: 30px;
+  }
+
+  .cta-star {
+    display: none;
+  }
+
+  .home-footer {
+    flex-wrap: wrap;
+
+    align-items: flex-start;
+  }
+
+  .home-footer nav {
+    gap: 20px;
+  }
+
+  .empty-tickets {
+    padding: 30px 20px;
+  }
+}
+
+
+@media (max-width: 460px) {
+  .chat-page {
+    width: calc(100% - 22px);
+  }
+
+  .chat-hero h1 {
+    font-size: 36px;
+  }
+
+  .assistant-card {
+    border-radius: 18px;
+  }
+
+  .assistant-header {
+    padding: 17px;
+  }
+
+  .assistant-avatar {
+    width: 43px;
+    height: 43px;
+  }
+
+  .message-bubble {
+    max-width: 92%;
+  }
+
+  .send-button span:first-child {
+    display: none;
+  }
+
+  .send-button {
+    width: 43px;
+
+    padding: 0;
+
+    justify-content: center;
+  }
+
+  .quick-actions {
+    flex-direction: column;
+  }
+
+  .quick-action {
+    width: 100%;
+
+    text-align: left;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .steps {
+    grid-template-columns: 1fr;
+  }
+
+  .steps li::after {
+    display: none !important;
+  }
+
+  .bottom-cta {
+    border-radius: 18px;
+  }
+}

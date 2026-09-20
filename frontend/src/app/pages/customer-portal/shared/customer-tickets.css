@@ -1,0 +1,181 @@
+/* =========================================================
+   Customer Tickets
+   ========================================================= */
+
+.ticket-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 20px;
+}
+
+.ticket-card {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 26px;
+
+  background: #ffffff;
+
+  border: 1px solid #e9e5eb;
+  border-radius: 16px;
+
+  box-shadow:
+    0 6px 20px rgba(36, 26, 47, 0.035);
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.ticket-card:hover {
+  transform: translateY(-3px);
+
+  border-color: rgba(20, 184, 166, 0.25);
+
+  box-shadow:
+    0 13px 30px rgba(36, 26, 47, 0.075);
+}
+
+
+/* =========================================================
+   Card Header
+   ========================================================= */
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 20px;
+}
+
+.card-top .ticket-number {
+  margin: 0;
+}
+
+.ticket-card h3 {
+  margin: 0 0 24px;
+
+  color: #241a2f;
+
+  font-size: 20px;
+  line-height: 1.45;
+
+  overflow-wrap: anywhere;
+}
+
+.ticket-card h3 a {
+  color: #241a2f;
+
+  text-decoration: none;
+
+  transition: color 0.2s ease;
+}
+
+.ticket-card h3 a:hover {
+  color: #f05a3c;
+}
+
+
+/* =========================================================
+   Ticket Facts
+   ========================================================= */
+
+.ticket-facts {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 18px;
+
+  margin: 0 0 24px;
+}
+
+.ticket-facts dt {
+  margin-bottom: 7px;
+
+  color: #756f7c;
+
+  font-size: 12px;
+}
+
+.ticket-facts dd {
+  margin: 0;
+
+  color: #241a2f;
+
+  font-size: 13px;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   Details Button
+   ========================================================= */
+
+.details-button {
+  margin-top: auto;
+
+  align-self: flex-start;
+}
+
+
+/* =========================================================
+   Compact Grid
+   ========================================================= */
+
+.compact {
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+}
+
+.compact .ticket-card {
+  padding: 22px;
+}
+
+.compact .ticket-facts {
+  grid-template-columns: 1fr;
+}
+
+.compact h3 {
+  font-size: 17px;
+}
+
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+
+@media (max-width: 950px) {
+  .compact {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 650px) {
+  .ticket-grid,
+  .compact {
+    grid-template-columns: 1fr;
+  }
+
+  .ticket-card {
+    padding: 22px;
+  }
+
+  .details-button {
+    width: 100%;
+
+    box-sizing: border-box;
+  }
+}

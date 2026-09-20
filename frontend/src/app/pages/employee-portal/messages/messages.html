@@ -1,0 +1,48 @@
+<div class="page-header">
+  <div>
+    <p class="workspace-kicker">SUPPORT WORKSPACE</p>
+    <h1>Support Messages</h1>
+    <p>Shared inbox of submitted customer messages.</p>
+  </div>
+  <button
+    class="secondary-button"
+    (click)="reload()"
+    [disabled]="loading || !user.currentEmployeeId()"
+  >
+    Refresh
+  </button>
+</div>
+<p class="hint">
+  Messages are not assigned to employees. Replies and conversations are not supported yet.
+</p>
+<app-portal-state [loading]="loading" [error]="error" />
+@if (user.currentEmployeeId() && !loading && !error) {
+  <div class="table-card">
+    @if (messages.length === 0) {
+      <p class="empty-message">No support messages found.</p>
+    } @else {
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Message</th>
+            <th scope="col">Customer</th>
+            <th scope="col">Email</th>
+            <th scope="col">Created</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (message of messages; track message.id) {
+            <tr>
+              <td>#{{ message.id }}</td>
+              <td class="text-cell">{{ message.txt }}</td>
+              <td>{{ message.customer?.name || 'Unlinked' }}</td>
+              <td>{{ message.customer?.email || '—' }}</td>
+              <td>{{ (message.createdAt | date: 'medium') || '—' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+}

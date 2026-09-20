@@ -1,0 +1,560 @@
+<div class="register-page">
+
+  <!-- Background decoration -->
+  <div class="background-shape shape-one" aria-hidden="true"></div>
+  <div class="background-shape shape-two" aria-hidden="true"></div>
+  <div class="background-grid" aria-hidden="true"></div>
+
+
+  <main class="auth-shell">
+
+    <!-- =====================================================
+         Brand Panel
+         ===================================================== -->
+
+    <section class="brand-panel">
+
+      <div class="brand-content">
+
+        <div class="brand-mark" aria-hidden="true">
+          <span>AI</span>
+        </div>
+
+        <div class="brand-label">
+          AI CUSTOMER SUPPORT
+        </div>
+
+        <h1>
+          Join smarter.
+          <span>Support better.</span>
+        </h1>
+
+        <p class="brand-description">
+          Create your customer account and get access to
+          a smarter way to manage your support experience.
+        </p>
+
+
+        <div class="brand-features">
+
+          <div class="brand-feature">
+
+            <span
+              class="feature-icon orange"
+              aria-hidden="true"
+            >
+              ✓
+            </span>
+
+            <div>
+              <strong>Personalized support</strong>
+
+              <span>
+                Keep your customer information organized.
+              </span>
+            </div>
+
+          </div>
+
+
+          <div class="brand-feature">
+
+            <span
+              class="feature-icon teal"
+              aria-hidden="true"
+            >
+              ✓
+            </span>
+
+            <div>
+              <strong>Easy ticket management</strong>
+
+              <span>
+                Track and manage your support requests easily.
+              </span>
+            </div>
+
+          </div>
+
+
+          <div class="brand-feature">
+
+            <span
+              class="feature-icon orange"
+              aria-hidden="true"
+            >
+              ✓
+            </span>
+
+            <div>
+              <strong>AI-powered assistance</strong>
+
+              <span>
+                Get faster help through intelligent support.
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="brand-footer">
+
+        <span class="footer-dot"></span>
+
+        Secure customer support platform
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         Register Section
+         ===================================================== -->
+
+    <section class="register-section">
+
+      <div class="register-card">
+
+        <!-- Mobile brand -->
+
+        <div class="mobile-brand" aria-hidden="true">
+
+          <div class="mobile-brand-mark">
+            <span>AI</span>
+          </div>
+
+        </div>
+
+
+        <!-- Header -->
+
+        <div class="register-header">
+
+          <span class="eyebrow">
+            Create your account
+          </span>
+
+          <h2>
+            Get started with AI Support
+          </h2>
+
+          <p>
+            Enter your information to create your customer account.
+          </p>
+
+        </div>
+
+
+        <!-- Form -->
+
+        <form
+          class="register-form"
+          (ngSubmit)="onSubmit()"
+          novalidate
+        >
+
+          <!-- Full Name -->
+
+          <div class="form-group">
+
+            <label for="name">
+              Full Name
+            </label>
+
+            <div class="input-wrapper">
+
+              <span
+                class="input-icon"
+                aria-hidden="true"
+              >
+                Aa
+              </span>
+
+              <input
+                id="name"
+                type="text"
+                name="name"
+                [(ngModel)]="name"
+                placeholder="Enter your full name"
+                autocomplete="name"
+                [disabled]="loading"
+                required
+              />
+
+            </div>
+
+          </div>
+
+
+          <!-- Email -->
+
+          <div class="form-group">
+
+            <label for="email">
+              Email address
+            </label>
+
+            <div class="input-wrapper">
+
+              <span
+                class="input-icon"
+                aria-hidden="true"
+              >
+                @
+              </span>
+
+              <input
+                id="email"
+                type="email"
+                name="email"
+                [(ngModel)]="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+                [disabled]="loading"
+                required
+              />
+
+            </div>
+
+          </div>
+
+
+          <!-- Phone -->
+
+          <div class="form-group">
+
+            <label for="phoneNumber">
+              Phone Number
+            </label>
+
+            <div class="input-wrapper">
+
+              <span
+                class="input-icon phone-icon"
+                aria-hidden="true"
+              >
+                +
+              </span>
+
+              <input
+                id="phoneNumber"
+                type="tel"
+                name="phoneNumber"
+                [(ngModel)]="phoneNumber"
+                placeholder="Enter your phone number"
+                autocomplete="tel"
+                [disabled]="loading"
+                required
+              />
+
+            </div>
+
+          </div>
+
+
+          <!-- Address -->
+
+          <div class="form-group">
+
+            <label for="address">
+              Address
+            </label>
+
+            <div class="input-wrapper">
+
+              <span
+                class="input-icon"
+                aria-hidden="true"
+              >
+                #
+              </span>
+
+              <input
+                id="address"
+                type="text"
+                name="address"
+                [(ngModel)]="address"
+                placeholder="Enter your address"
+                autocomplete="street-address"
+                [disabled]="loading"
+                required
+              />
+
+            </div>
+
+          </div>
+
+
+          <!-- Gender + Age -->
+
+          <div class="form-row">
+
+            <!-- Gender -->
+
+            <div class="form-group">
+
+              <label for="gender">
+                Gender
+              </label>
+
+              <div class="input-wrapper select-wrapper">
+
+                <span
+                  class="input-icon"
+                  aria-hidden="true"
+                >
+                  •
+                </span>
+
+                <select
+                  id="gender"
+                  name="gender"
+                  [(ngModel)]="gender"
+                  [disabled]="loading"
+                  required
+                >
+
+                  <option
+                    value=""
+                    disabled
+                  >
+                    Select gender
+                  </option>
+
+                  <option value="Male">
+                    Male
+                  </option>
+
+                  <option value="Female">
+                    Female
+                  </option>
+
+                  <option value="Other">
+                    Other
+                  </option>
+
+                </select>
+
+              </div>
+
+            </div>
+
+
+            <!-- Age -->
+
+            <div class="form-group age-group">
+
+              <label for="age">
+                Age
+              </label>
+
+              <div class="input-wrapper">
+
+                <span
+                  class="input-icon"
+                  aria-hidden="true"
+                >
+                  #
+                </span>
+
+                <input
+                  id="age"
+                  type="number"
+                  name="age"
+                  [(ngModel)]="age"
+                  placeholder="Age"
+                  min="0"
+                  step="1"
+                  inputmode="numeric"
+                  [disabled]="loading"
+                  required
+                />
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- Password -->
+
+          <div class="form-group">
+
+            <label for="password">
+              Password
+            </label>
+
+            <div class="input-wrapper">
+
+              <span
+                class="input-icon password-icon"
+                aria-hidden="true"
+              >
+                •
+              </span>
+
+              <input
+                id="password"
+                type="password"
+                name="password"
+                [(ngModel)]="password"
+                placeholder="Create a password"
+                autocomplete="new-password"
+                [disabled]="loading"
+                required
+              />
+
+            </div>
+
+            <small class="field-hint">
+              Use at least 6 characters.
+            </small>
+
+          </div>
+
+
+          <!-- Confirm Password -->
+
+          <div class="form-group">
+
+            <label for="confirmPassword">
+              Confirm Password
+            </label>
+
+            <div class="input-wrapper">
+
+              <span
+                class="input-icon password-icon"
+                aria-hidden="true"
+              >
+                •
+              </span>
+
+              <input
+                id="confirmPassword"
+                type="password"
+                name="confirmPassword"
+                [(ngModel)]="confirmPassword"
+                placeholder="Confirm your password"
+                autocomplete="new-password"
+                [disabled]="loading"
+                required
+              />
+
+            </div>
+
+          </div>
+
+
+          <!-- Error -->
+
+          @if (errorMessage) {
+
+          <div
+            class="error-message"
+            role="alert"
+            aria-live="assertive"
+          >
+
+            <span
+              class="error-icon"
+              aria-hidden="true"
+            >
+              !
+            </span>
+
+            <span class="error-text">
+              {{ errorMessage }}
+            </span>
+
+          </div>
+
+          }
+
+
+          <!-- Submit -->
+
+          <button
+            type="submit"
+            class="register-button"
+            [disabled]="loading"
+            [class.loading]="loading"
+          >
+
+            @if (loading) {
+
+            <span
+              class="button-spinner"
+              aria-hidden="true"
+            ></span>
+
+            <span>
+              Creating account...
+            </span>
+
+            } @else {
+
+            <span>
+              Create Account
+            </span>
+
+            <span
+              class="button-arrow"
+              aria-hidden="true"
+            >
+              →
+            </span>
+
+            }
+
+          </button>
+
+        </form>
+
+
+        <!-- Login Link -->
+
+        <div class="login-link">
+
+          <span>
+            Already have an account?
+          </span>
+
+          <a routerLink="/login">
+            Sign in
+            <span aria-hidden="true">→</span>
+          </a>
+
+        </div>
+
+
+        <!-- Security Note -->
+
+        <div class="security-note">
+
+          <span
+            class="security-icon"
+            aria-hidden="true"
+          >
+            ✓
+          </span>
+
+          <span>
+            Your account information is securely protected.
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>

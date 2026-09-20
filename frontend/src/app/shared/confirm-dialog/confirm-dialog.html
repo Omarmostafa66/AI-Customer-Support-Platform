@@ -1,0 +1,67 @@
+@if (dialogService.state().visible) {
+<div
+  class="dialog-backdrop"
+  role="presentation"
+  (click)="cancel()"
+>
+  <section
+    class="confirm-dialog"
+    role="alertdialog"
+    aria-modal="true"
+    aria-labelledby="confirm-dialog-title"
+    aria-describedby="confirm-dialog-message"
+    (click)="$event.stopPropagation()"
+  >
+
+    <div class="dialog-icon" aria-hidden="true">
+      !
+    </div>
+
+    <div class="dialog-content">
+      <h2 id="confirm-dialog-title">
+        {{ dialogService.state().title }}
+      </h2>
+
+      <p id="confirm-dialog-message">
+        {{ dialogService.state().message }}
+      </p>
+    </div>
+
+    <div class="dialog-actions">
+
+      <button
+        type="button"
+        class="dialog-button secondary"
+        [disabled]="dialogService.state().loading"
+        (click)="cancel()"
+      >
+        {{ dialogService.state().cancelText }}
+      </button>
+
+      <button
+        #confirmButton
+        type="button"
+        class="dialog-button danger"
+        [disabled]="dialogService.state().loading"
+        [class.loading]="dialogService.state().loading"
+        (click)="approve()"
+      >
+        @if (dialogService.state().loading) {
+        <span
+          class="button-spinner"
+          aria-hidden="true"
+        ></span>
+
+        <span>Deleting...</span>
+        } @else {
+        <span>
+            {{ dialogService.state().confirmText }}
+          </span>
+        }
+      </button>
+
+    </div>
+
+  </section>
+</div>
+}

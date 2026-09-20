@@ -1,0 +1,269 @@
+:host {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  display: block;
+}
+
+.toast-host {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  width: min(390px, calc(100vw - 32px));
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  pointer-events: none;
+}
+
+.toast {
+  --toast-accent: #2563eb;
+
+  position: relative;
+  display: grid;
+  grid-template-columns: 42px 1fr auto;
+  align-items: center;
+  gap: 12px;
+
+  min-height: 76px;
+  padding: 14px 14px 14px 12px;
+
+  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid #e5e7eb;
+  border-left: 4px solid var(--toast-accent);
+  border-radius: 16px;
+
+  box-shadow:
+    0 18px 45px rgba(15, 23, 42, 0.14),
+    0 4px 12px rgba(15, 23, 42, 0.06);
+
+  pointer-events: auto;
+
+  animation:
+    toast-enter 0.35s cubic-bezier(0.22, 1, 0.36, 1)
+    both;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.toast:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 22px 50px rgba(15, 23, 42, 0.18),
+    0 6px 16px rgba(15, 23, 42, 0.08);
+}
+
+/* =========================
+   Toast Types
+   ========================= */
+
+.toast.success {
+  --toast-accent: #16a34a;
+}
+
+.toast.error {
+  --toast-accent: #dc2626;
+}
+
+.toast.warning {
+  --toast-accent: #d97706;
+}
+
+.toast.info {
+  --toast-accent: #2563eb;
+}
+
+/* =========================
+   Icon
+   ========================= */
+
+.toast-icon {
+  width: 42px;
+  height: 42px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: color-mix(
+    in srgb,
+    var(--toast-accent) 12%,
+    white
+  );
+
+  color: var(--toast-accent);
+
+  font-size: 18px;
+  font-weight: 800;
+
+  animation: toast-icon-pop 0.4s 0.08s ease both;
+}
+
+/* =========================
+   Content
+   ========================= */
+
+.toast-content {
+  min-width: 0;
+}
+
+.toast-title {
+  margin: 0 0 3px;
+
+  color: #111827;
+
+  font-size: 14px;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.toast-message {
+  margin: 0;
+
+  color: #64748b;
+
+  font-size: 13px;
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+}
+
+/* =========================
+   Close
+   ========================= */
+
+.toast-close {
+  width: 30px;
+  height: 30px;
+
+  display: grid;
+  place-items: center;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: 8px;
+
+  background: transparent;
+  color: #94a3b8;
+
+  font-size: 22px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.toast-close:hover {
+  background: #f1f5f9;
+  color: #334155;
+  transform: rotate(90deg);
+}
+
+.toast-close:active {
+  transform: scale(0.9) rotate(90deg);
+}
+
+.toast-close:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.18);
+  outline-offset: 2px;
+}
+
+/* =========================
+   Animations
+   ========================= */
+
+@keyframes toast-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(32px, -8px, 0) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes toast-icon-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.55);
+  }
+
+  70% {
+    transform: scale(1.08);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* =========================
+   Responsive
+   ========================= */
+
+@media (max-width: 640px) {
+  .toast-host {
+    top: 16px;
+    right: 16px;
+    left: 16px;
+
+    width: auto;
+  }
+
+  .toast {
+    grid-template-columns: 38px 1fr auto;
+
+    min-height: 70px;
+    padding: 12px;
+    border-radius: 14px;
+  }
+
+  .toast-icon {
+    width: 38px;
+    height: 38px;
+    font-size: 16px;
+  }
+
+  .toast-title {
+    font-size: 13px;
+  }
+
+  .toast-message {
+    font-size: 12px;
+  }
+}
+
+/* =========================
+   Reduced Motion
+   ========================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .toast,
+  .toast-icon,
+  .toast-close {
+    animation: none;
+    transition: none;
+  }
+
+  .toast:hover {
+    transform: none;
+  }
+
+  .toast-close:hover {
+    transform: none;
+  }
+}

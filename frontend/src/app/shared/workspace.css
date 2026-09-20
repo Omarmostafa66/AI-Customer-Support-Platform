@@ -1,0 +1,561 @@
+/* Imported by Admin and Employee components. */
+
+/* =========================
+   Workspace Theme
+   ========================= */
+
+:host {
+  display: block;
+
+  --work-plum: #241a2f;
+  --work-coral: #f05a3c;
+  --work-teal: #14b8a6;
+
+  --work-text: #241a2f;
+  --work-muted: #687080;
+  --work-border: #e5e1e8;
+  --work-soft: #f8f6f9;
+  --work-surface: #ffffff;
+
+  color: var(--work-text);
+}
+
+
+/* =========================
+   Page Header
+   ========================= */
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 30px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid var(--work-border);
+
+  animation: workspaceFadeUp 0.45s ease both;
+}
+
+.page-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  line-height: 1.2;
+  color: var(--work-plum);
+  margin: 0;
+}
+
+.page-header p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--work-muted);
+  margin: 10px 0 0;
+}
+
+.page-header .workspace-kicker {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.7px;
+  color: var(--work-coral);
+  margin: 0 0 10px;
+}
+
+
+/* =========================
+   Typography
+   ========================= */
+
+h2 {
+  font-size: 20px;
+  letter-spacing: -0.4px;
+  color: var(--work-plum);
+}
+
+
+/* =========================
+   Main Buttons
+   ========================= */
+
+.primary-button,
+.secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 11px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.18s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.primary-button {
+  background: var(--work-coral);
+  color: #ffffff;
+  border: 1px solid var(--work-coral);
+  box-shadow: 0 4px 10px rgba(240, 90, 60, 0.16);
+}
+
+.primary-button:hover {
+  background: #df4e32;
+  border-color: #df4e32;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(240, 90, 60, 0.22);
+}
+
+.primary-button:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 3px 8px rgba(240, 90, 60, 0.16);
+}
+
+.secondary-button {
+  background: #ffffff;
+  border: 1px solid #dcd7e0;
+  color: var(--work-plum);
+}
+
+.secondary-button:hover {
+  background: #faf8fb;
+  border-color: var(--work-teal);
+  color: var(--work-teal);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(36, 26, 47, 0.08);
+}
+
+.secondary-button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+
+/* =========================
+   Action Buttons
+   ========================= */
+
+.action-buttons {
+  gap: 8px;
+  align-items: center;
+}
+
+.small-button {
+  min-height: 36px;
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    opacity 0.18s ease;
+}
+
+.small-button:hover {
+  transform: translateY(-2px);
+}
+
+.small-button:active {
+  transform: translateY(0) scale(0.97);
+}
+
+
+/* Edit = Teal */
+
+.edit-button {
+  background: rgba(20, 184, 166, 0.1);
+  color: #0f766e;
+  border-color: rgba(20, 184, 166, 0.16);
+}
+
+.edit-button:hover {
+  background: rgba(20, 184, 166, 0.16);
+  border-color: rgba(20, 184, 166, 0.28);
+  box-shadow: 0 5px 12px rgba(20, 184, 166, 0.12);
+}
+
+
+/* Delete = Coral */
+
+.delete-button {
+  background: rgba(240, 90, 60, 0.09);
+  color: #b93823;
+  border-color: rgba(240, 90, 60, 0.15);
+}
+
+.delete-button:hover {
+  background: rgba(240, 90, 60, 0.15);
+  border-color: rgba(240, 90, 60, 0.28);
+  box-shadow: 0 5px 12px rgba(240, 90, 60, 0.12);
+}
+
+
+/* Analyze = Plum */
+
+.analyze-button {
+  background: rgba(36, 26, 47, 0.08);
+  color: var(--work-plum);
+  border-color: rgba(36, 26, 47, 0.12);
+}
+
+.analyze-button:hover {
+  background: rgba(36, 26, 47, 0.13);
+  border-color: rgba(36, 26, 47, 0.2);
+  box-shadow: 0 5px 12px rgba(36, 26, 47, 0.1);
+}
+
+
+/* =========================
+   Disabled State
+   ========================= */
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+
+/* =========================
+   Focus Accessibility
+   ========================= */
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid rgba(20, 184, 166, 0.22);
+  outline-offset: 3px;
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(20, 184, 166, 0.16);
+  outline-offset: 2px;
+}
+
+
+/* =========================
+   Cards
+   ========================= */
+
+.form-card,
+.analysis-card,
+.dashboard-section {
+  padding: 26px;
+  border-radius: 16px;
+  border: 1px solid var(--work-border);
+  box-shadow: 0 5px 20px rgba(36, 26, 47, 0.05);
+  background: var(--work-surface);
+
+  animation: workspaceFadeUp 0.5s ease both;
+
+  transition:
+    box-shadow 0.22s ease,
+    transform 0.22s ease,
+    border-color 0.22s ease;
+}
+
+.form-card:hover,
+.analysis-card:hover,
+.dashboard-section:hover {
+  box-shadow: 0 10px 28px rgba(36, 26, 47, 0.08);
+  border-color: rgba(20, 184, 166, 0.22);
+}
+
+.form-card h2 {
+  margin-bottom: 22px;
+}
+
+
+/* =========================
+   Forms
+   ========================= */
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #48505e;
+  margin-bottom: 9px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  border: 1px solid #ddd8e1;
+  border-radius: 9px;
+  background: #fcfbfd;
+  padding: 12px 13px;
+  font-size: 14px;
+  color: var(--work-text);
+  min-height: 44px;
+  width: 100%;
+  box-sizing: border-box;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.form-group input:hover,
+.form-group select:hover,
+.form-group textarea:hover {
+  border-color: #c9c3ce;
+  background: #ffffff;
+}
+
+.form-group textarea {
+  line-height: 1.7;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--work-teal);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.11);
+}
+
+.form-grid {
+  gap: 22px;
+}
+
+.form-actions {
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.hint {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--work-muted);
+}
+
+
+/* =========================
+   Feedback Messages
+   ========================= */
+
+.error-message,
+.success-message {
+  border-radius: 10px;
+  padding: 16px 18px;
+  line-height: 1.7;
+  font-size: 13px;
+
+  animation: workspaceMessageIn 0.35s ease both;
+}
+
+.error-message {
+  background: rgba(240, 90, 60, 0.08);
+  color: #9f3825;
+  border: 1px solid rgba(240, 90, 60, 0.2);
+}
+
+.success-message {
+  background: rgba(20, 184, 166, 0.08);
+  color: #0f766e;
+  border: 1px solid rgba(20, 184, 166, 0.18);
+}
+
+
+/* =========================
+   Loading / Empty States
+   ========================= */
+
+.loading-message,
+.empty-message {
+  padding: 46px 24px;
+  color: var(--work-muted);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.loading-message {
+  background: rgba(20, 184, 166, 0.05);
+  border-radius: 12px;
+  animation: workspacePulse 1.5s ease-in-out infinite;
+}
+
+.empty-message {
+  margin: 0;
+  animation: workspaceFadeUp 0.4s ease both;
+}
+
+
+/* =========================
+   Content
+   ========================= */
+
+.prose,
+.suggested-response {
+  line-height: 1.85;
+  overflow-wrap: anywhere;
+}
+
+.detail-grid {
+  gap: 20px;
+}
+
+dt {
+  font-size: 12px;
+  color: var(--work-muted);
+}
+
+dd {
+  font-size: 14px;
+  line-height: 1.7;
+  margin-top: 8px;
+  color: var(--work-text);
+}
+
+
+/* =========================
+   Filters
+   ========================= */
+
+.filters {
+  gap: 18px;
+  background: #faf9fb;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.filters .form-group {
+  min-width: 160px;
+  margin-bottom: 0;
+}
+
+
+/* =========================
+   Animations
+   ========================= */
+
+@keyframes workspaceFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes workspaceMessageIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes workspacePulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+
+/* =========================
+   Responsive
+   ========================= */
+
+@media (max-width: 850px) {
+  .page-header {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .page-header h1 {
+    font-size: 28px;
+  }
+
+  .page-header {
+    gap: 18px;
+  }
+
+  .page-header .action-buttons {
+    width: 100%;
+  }
+
+  .page-header .primary-button {
+    flex-grow: 1;
+  }
+
+  .form-card,
+  .analysis-card,
+  .dashboard-section {
+    padding: 20px;
+  }
+
+  .form-actions {
+    flex-wrap: wrap;
+  }
+
+  .form-actions button {
+    flex-grow: 1;
+  }
+
+  .filters .form-group {
+    width: 100%;
+  }
+
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .action-buttons {
+    flex-wrap: wrap;
+  }
+}
+
+
+/* =========================
+   Reduced Motion
+   ========================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

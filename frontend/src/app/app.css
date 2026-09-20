@@ -1,0 +1,108 @@
+/* =========================================
+   Application Shell
+   ========================================= */
+
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+  background: var(--color-background);
+}
+
+.main-content {
+  flex: 1;
+  min-width: 0;
+  padding: 32px;
+  overflow-y: auto;
+}
+
+/* =========================================
+   Responsive Layout
+   ========================================= */
+
+@media (max-width: 800px) {
+  .main-content {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .app-shell {
+    flex-direction: column;
+  }
+
+  .main-content {
+    padding: 16px;
+  }
+}
+
+/* =========================================
+   Development Bar
+   ========================================= */
+
+.development-bar {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  margin-bottom: 24px;
+  padding: 12px 16px;
+
+  border: 1px solid var(--color-primary-border);
+  border-radius: var(--radius-sm);
+
+  background: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+
+  font-size: 13px;
+}
+
+.development-bar a {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.development-bar a:hover {
+  color: var(--color-primary-hover);
+}
+
+/* =========================================
+   Customer Portal Shell
+   ========================================= */
+
+.customer-portal-shell {
+  --customer-bg: #FAF9FB;
+  --customer-surface: #FFFFFF;
+
+  --customer-primary: var(--color-primary);
+  --customer-primary-hover: var(--color-primary-hover);
+  --customer-primary-soft: var(--color-primary-soft);
+
+  --customer-secondary: var(--color-secondary);
+  --customer-secondary-soft: var(--color-secondary-soft);
+
+  --customer-dark: var(--color-dark);
+
+  --customer-text: var(--color-text);
+  --customer-muted: var(--color-text-secondary);
+
+  --customer-border: var(--color-border);
+
+  --customer-radius: var(--radius-lg);
+  --customer-shadow: var(--shadow-md);
+
+  background: var(--customer-bg);
+  color: var(--customer-text);
+}
+
+.customer-portal-shell .main-content {
+  padding: 0;
+}
+
+.customer-portal-shell .development-bar {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 9px max(24px, calc((100% - 1180px) / 2));
+  font-size: 11px;
+}

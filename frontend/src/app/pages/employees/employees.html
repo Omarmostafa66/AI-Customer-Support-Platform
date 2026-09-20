@@ -1,0 +1,286 @@
+<section>
+  <div class="page-header">
+    <div>
+      <p class="workspace-kicker">MANAGEMENT WORKSPACE</p>
+
+      <h1>Employees</h1>
+
+      <p>Manage support employees.</p>
+    </div>
+
+    <div class="action-buttons">
+      <button
+        type="button"
+        class="secondary-button"
+        (click)="load()"
+        [disabled]="loading || busy"
+      >
+        {{ loading ? 'Refreshing...' : 'Refresh' }}
+      </button>
+
+      <button
+        type="button"
+        class="primary-button"
+        (click)="openCreateForm()"
+        [disabled]="busy || loading"
+      >
+        + New Employee
+      </button>
+    </div>
+  </div>
+
+  @if (error) {
+  <div class="error-message" role="alert">
+    {{ error }}
+  </div>
+  }
+
+  @if (notice) {
+  <div class="success-message" role="status">
+    {{ notice }}
+  </div>
+  }
+
+  @if (showForm) {
+  <form
+    class="form-card"
+    #editor="ngForm"
+    (ngSubmit)="save()"
+  >
+    <h2>
+      {{ editingId !== null ? 'Edit' : 'Create' }} Employee
+    </h2>
+
+    @if (editingId !== null) {
+    <p class="hint password-notice">
+      Enter a password to use after this update.
+      Saving replaces the account password.
+    </p>
+    }
+
+    <fieldset [disabled]="busy">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="employees-name">
+            Name *
+          </label>
+
+          <input
+            id="employees-name"
+            name="name"
+            type="text"
+            [(ngModel)]="form.name"
+            required
+            maxlength="120"
+            autocomplete="name"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="employees-email">
+            Email *
+          </label>
+
+          <input
+            id="employees-email"
+            name="email"
+            type="email"
+            [(ngModel)]="form.email"
+            required
+            email
+            autocomplete="email"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="employees-password">
+            Password *
+          </label>
+
+          <input
+            id="employees-password"
+            name="password"
+            type="password"
+            [(ngModel)]="form.password"
+            required
+            minlength="6"
+            autocomplete="new-password"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="employees-role">
+            Role *
+          </label>
+
+          <input
+            id="employees-role"
+            name="role"
+            type="text"
+            [(ngModel)]="form.role"
+            required
+            maxlength="80"
+            autocomplete="organization-title"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="employees-age">
+            Age *
+          </label>
+
+          <input
+            id="employees-age"
+            name="age"
+            type="number"
+            [(ngModel)]="form.age"
+            required
+            min="0"
+            step="1"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="employees-gender">
+            Gender *
+          </label>
+
+          <input
+            id="employees-gender"
+            name="gender"
+            type="text"
+            [(ngModel)]="form.gender"
+            required
+            maxlength="40"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="employees-salary">
+            Salary *
+          </label>
+
+          <input
+            id="employees-salary"
+            name="salary"
+            type="number"
+            [(ngModel)]="form.salary"
+            required
+            min="0"
+            step="any"
+          />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="button"
+          class="secondary-button"
+          (click)="cancelForm()"
+          [disabled]="busy"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          class="primary-button"
+          [disabled]="editor.invalid || busy"
+        >
+          {{ busy ? 'Saving...' : 'Save Employee' }}
+        </button>
+      </div>
+    </fieldset>
+  </form>
+  }
+
+  <div class="table-card">
+    @if (loading) {
+    <p
+      class="loading-message"
+      role="status"
+    >
+      Loading employees...
+    </p>
+    } @else if (!loaded) {
+    <p class="empty-message">
+      Employees are unavailable. Use Refresh to try again.
+    </p>
+    } @else if (records.length === 0) {
+    <p class="empty-message">
+      No employees found. Create one to get started.
+    </p>
+    } @else {
+    <table>
+      <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Role</th>
+        <th scope="col">Age</th>
+        <th scope="col">Gender</th>
+        <th scope="col">Salary</th>
+        <th scope="col">Actions</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      @for (record of records; track record.id) {
+      <tr>
+        <td>
+          #{{ record.id }}
+        </td>
+
+        <td>
+          {{ record.name || '—' }}
+        </td>
+
+        <td>
+          {{ record.email || '—' }}
+        </td>
+
+        <td>
+          {{ record.role || '—' }}
+        </td>
+
+        <td>
+          {{ record.age ?? '—' }}
+        </td>
+
+        <td>
+          {{ record.gender || '—' }}
+        </td>
+
+        <td>
+          {{ record.salary ?? '—' }}
+        </td>
+
+        <td>
+          <div class="action-buttons">
+            <button
+              type="button"
+              class="small-button edit-button"
+              (click)="edit(record)"
+              [disabled]="busy || loading"
+            >
+              Edit
+            </button>
+
+            <button
+              type="button"
+              class="small-button delete-button"
+              (click)="deleteRecord(record)"
+              [disabled]="busy || loading"
+            >
+              {{ busy ? 'Working...' : 'Delete' }}
+            </button>
+          </div>
+        </td>
+      </tr>
+      }
+      </tbody>
+    </table>
+    }
+  </div>
+</section>

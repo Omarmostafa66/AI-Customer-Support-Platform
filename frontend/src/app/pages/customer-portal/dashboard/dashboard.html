@@ -1,0 +1,216 @@
+<main class="chat-page">
+  <section class="chat-hero">
+    <div class="hero-badge">
+      <span class="spark">✦</span>
+      AI-POWERED CUSTOMER SUPPORT
+    </div>
+
+    <h1>
+      How can we help
+      <span>today?</span>
+    </h1>
+
+    <p>
+      Tell our support assistant what's happening. It will guide you through the problem
+      step by step and, when AI integration is connected, unresolved problems can be
+      escalated automatically to the support team.
+    </p>
+  </section>
+
+  <section class="assistant-layout">
+    <div class="assistant-card">
+      <header class="assistant-header">
+        <div class="assistant-identity">
+          <div class="assistant-avatar" aria-hidden="true">
+            ✦
+          </div>
+
+          <div>
+            <h2>AI Support Assistant</h2>
+
+            <div class="assistant-status">
+              <span class="status-dot"></span>
+              Ready to help
+            </div>
+          </div>
+        </div>
+
+        <a
+          class="tickets-link"
+          routerLink="/customer/tickets"
+        >
+          My Tickets
+          <span aria-hidden="true">↗</span>
+        </a>
+      </header>
+
+      <div
+        class="conversation"
+        aria-live="polite"
+        aria-label="Support conversation"
+      >
+        @for (message of messages; track message.id) {
+          <div
+            class="message-row"
+            [class.customer-row]="message.sender === 'customer'"
+            [class.system-row]="message.sender === 'system'"
+          >
+            @if (message.sender === 'assistant') {
+              <div class="message-avatar" aria-hidden="true">
+                ✦
+              </div>
+            }
+
+            <div
+              class="message-bubble"
+              [class.assistant-message]="message.sender === 'assistant'"
+              [class.customer-message]="message.sender === 'customer'"
+              [class.system-message]="message.sender === 'system'"
+            >
+              @if (message.sender === 'assistant') {
+                <span class="message-name">AI Support</span>
+              }
+
+              @if (message.sender === 'customer') {
+                <span class="message-name customer-name">You</span>
+              }
+
+              <p>{{ message.text }}</p>
+
+              <time>
+                {{
+                  message.time
+                    | date: 'shortTime'
+                }}
+              </time>
+            </div>
+          </div>
+        }
+      </div>
+
+      @if (messages.length === 1) {
+        <div class="quick-help">
+          <p>Common topics</p>
+
+          <div class="quick-actions">
+            @for (prompt of quickPrompts; track prompt) {
+              <button
+                type="button"
+                class="quick-action"
+                (click)="selectQuickPrompt(prompt)"
+              >
+                {{ prompt }}
+              </button>
+            }
+          </div>
+        </div>
+      }
+
+      <div class="composer-area">
+        <div class="composer">
+          <textarea
+            [(ngModel)]="messageText"
+            name="supportMessage"
+            rows="1"
+            maxlength="2000"
+            placeholder="Describe your problem..."
+            aria-label="Describe your support problem"
+(keydown.enter)="handleEnter($event)"          ></textarea>
+
+          <button
+            type="button"
+            class="send-button"
+            (click)="sendMessage()"
+            [disabled]="!messageText.trim()"
+            aria-label="Send message"
+          >
+            <span>Send</span>
+            <span class="send-arrow" aria-hidden="true">➜</span>
+          </button>
+        </div>
+
+        <div class="composer-footer">
+          <span>
+            Press Enter to send · Shift + Enter for a new line
+          </span>
+
+          <span>
+            {{ messageText.length }}/2000
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <aside class="support-info">
+      <div class="info-card primary-info">
+        <span class="info-icon" aria-hidden="true">✦</span>
+
+        <h3>Start with a conversation.</h3>
+
+        <p>
+          You don't need to know which department or category your problem belongs to.
+          Just describe what's happening.
+        </p>
+      </div>
+
+      <div class="info-card">
+        <span class="step-number">01</span>
+
+        <div>
+          <h3>Describe the problem</h3>
+          <p>
+            Tell the assistant what's happening in your own words.
+          </p>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <span class="step-number">02</span>
+
+        <div>
+          <h3>Get guided support</h3>
+          <p>
+            The AI will eventually troubleshoot the issue with you step by step.
+          </p>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <span class="step-number">03</span>
+
+        <div>
+          <h3>Automatic escalation</h3>
+          <p>
+            If the issue can't be solved, the assistant will be able to create a support
+            ticket using the information from the conversation.
+          </p>
+        </div>
+      </div>
+
+      <a
+        class="existing-tickets-card"
+        routerLink="/customer/tickets"
+      >
+        <div>
+          <span class="small-label">ALREADY ASKED FOR HELP?</span>
+          <strong>Track your existing tickets</strong>
+        </div>
+
+        <span aria-hidden="true">↗</span>
+      </a>
+    </aside>
+  </section>
+
+  <section class="integration-note">
+    <span class="integration-icon" aria-hidden="true">◎</span>
+
+    <div>
+      <strong>AI interface ready for integration</strong>
+
+      <p>
+        The conversation experience is prepared now. AI responses, troubleshooting,
+        and automatic ticket creation will be connected when the AI service is ready.
+      </p>
+    </div>
+  </section>
+</main>

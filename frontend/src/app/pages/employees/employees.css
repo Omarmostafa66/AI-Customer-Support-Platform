@@ -1,0 +1,418 @@
+:host {
+  display: block;
+}
+
+/* =========================================================
+   Employees Page
+   ========================================================= */
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-header h1 {
+  color: #241a2f;
+}
+
+.workspace-kicker {
+  color: #f05a3c;
+}
+
+/* =========================================================
+   Action Buttons
+   ========================================================= */
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.primary-button,
+.secondary-button,
+.small-button {
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    opacity 160ms ease;
+}
+
+.primary-button:not(:disabled):hover,
+.secondary-button:not(:disabled):hover,
+.small-button:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+.primary-button:not(:disabled):active,
+.secondary-button:not(:disabled):active,
+.small-button:not(:disabled):active {
+  transform: translateY(0);
+}
+
+.primary-button {
+  background: #f05a3c;
+  border-color: #f05a3c;
+}
+
+.primary-button:not(:disabled):hover {
+  background: #241a2f;
+  border-color: #241a2f;
+}
+
+.secondary-button {
+  color: #241a2f;
+  border-color: #dcd5e2;
+  background: #ffffff;
+}
+
+.secondary-button:not(:disabled):hover {
+  color: #14b8a6;
+  border-color: #14b8a6;
+}
+
+/* =========================================================
+   Alerts
+   ========================================================= */
+
+.error-message {
+  margin-bottom: 18px;
+  border-left: 4px solid #f05a3c;
+  background: rgba(240, 90, 60, 0.08);
+  color: #241a2f;
+}
+
+.success-message {
+  margin-bottom: 18px;
+  border-left: 4px solid #14b8a6;
+  background: rgba(20, 184, 166, 0.09);
+  color: #241a2f;
+}
+
+/* =========================================================
+   Form Card
+   ========================================================= */
+
+.form-card {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 24px;
+  border: 1px solid #e5e0e8;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 12px 30px rgba(36, 26, 47, 0.07);
+  animation: employee-form-in 220ms ease both;
+}
+
+.form-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    #f05a3c 0%,
+    #f05a3c 50%,
+    #14b8a6 50%,
+    #14b8a6 100%
+  );
+}
+
+.form-card h2 {
+  color: #241a2f;
+  margin-bottom: 18px;
+}
+
+.form-grid {
+  gap: 18px;
+}
+
+.form-group label {
+  color: #241a2f;
+  font-weight: 700;
+}
+
+input {
+  width: 100%;
+  border: 1px solid #dcd5e2;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #241a2f;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background-color 160ms ease;
+}
+
+input::placeholder {
+  color: #8c8494;
+}
+
+input:focus {
+  outline: none;
+  border-color: #14b8a6;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.13);
+  background: #ffffff;
+}
+
+/* =========================================================
+   Password Notice
+   ========================================================= */
+
+.password-notice {
+  margin-top: -8px;
+  margin-bottom: 18px;
+  padding: 10px 12px;
+  border-left: 3px solid #14b8a6;
+  border-radius: 0 8px 8px 0;
+  background: rgba(20, 184, 166, 0.07);
+  color: #625a69;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   Form Actions
+   ========================================================= */
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* =========================================================
+   Employees Table
+   ========================================================= */
+
+.table-card {
+  overflow-x: auto;
+  border: 1px solid #e5e0e8;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 12px 30px rgba(36, 26, 47, 0.06);
+}
+
+.table-card table {
+  width: 100%;
+  min-width: 1100px;
+  border-collapse: collapse;
+}
+
+.table-card th {
+  background: #f7f5f8;
+  color: #241a2f;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.table-card th,
+.table-card td {
+  padding: 15px 16px;
+  border-bottom: 1px solid #eeeaf0;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.table-card tbody tr {
+  transition:
+    background-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.table-card tbody tr:hover {
+  background: rgba(20, 184, 166, 0.035);
+}
+
+.table-card tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* =========================================================
+   Table Content
+   ========================================================= */
+
+.table-card td:first-child {
+  color: #241a2f;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.table-card td:nth-child(2) {
+  color: #241a2f;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.table-card td:nth-child(3) {
+  color: #625a69;
+  white-space: nowrap;
+}
+
+.table-card td:nth-child(4) {
+  color: #241a2f;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.table-card td:nth-child(5),
+.table-card td:nth-child(6) {
+  color: #625a69;
+  white-space: nowrap;
+}
+
+.table-card td:nth-child(7) {
+  color: #241a2f;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* =========================================================
+   Row Actions
+   ========================================================= */
+
+.table-card .action-buttons {
+  flex-wrap: nowrap;
+}
+
+.small-button {
+  border-radius: 8px;
+}
+
+.edit-button {
+  color: #14b8a6;
+  border-color: rgba(20, 184, 166, 0.3);
+  background: rgba(20, 184, 166, 0.08);
+}
+
+.edit-button:not(:disabled):hover {
+  color: #ffffff;
+  border-color: #14b8a6;
+  background: #14b8a6;
+  box-shadow: 0 6px 14px rgba(20, 184, 166, 0.2);
+}
+
+.delete-button {
+  color: #f05a3c;
+  border-color: rgba(240, 90, 60, 0.3);
+  background: rgba(240, 90, 60, 0.08);
+}
+
+.delete-button:not(:disabled):hover {
+  color: #ffffff;
+  border-color: #f05a3c;
+  background: #f05a3c;
+  box-shadow: 0 6px 14px rgba(240, 90, 60, 0.2);
+}
+
+/* =========================================================
+   Loading / Empty States
+   ========================================================= */
+
+.loading-message {
+  color: #14b8a6;
+  font-weight: 700;
+}
+
+.empty-message {
+  color: #766d7d;
+}
+
+/* =========================================================
+   Focus / Disabled
+   ========================================================= */
+
+.small-button:focus-visible,
+.primary-button:focus-visible,
+.secondary-button:focus-visible,
+input:focus-visible {
+  outline: 3px solid rgba(20, 184, 166, 0.2);
+  outline-offset: 2px;
+}
+
+.small-button:disabled,
+.primary-button:disabled,
+.secondary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+/* =========================================================
+   Animation
+   ========================================================= */
+
+@keyframes employee-form-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .table-card {
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .action-buttons {
+    width: 100%;
+  }
+
+  .page-header .action-buttons .primary-button,
+  .page-header .action-buttons .secondary-button {
+    flex: 1 1 160px;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .form-actions .primary-button,
+  .form-actions .secondary-button {
+    width: 100%;
+  }
+
+  .table-card {
+    margin-left: -1px;
+    margin-right: -1px;
+  }
+
+  .table-card .action-buttons {
+    width: auto;
+    flex-wrap: nowrap;
+  }
+}
+
+/* =========================================================
+   Reduced Motion
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .form-card,
+  .primary-button,
+  .secondary-button,
+  .small-button,
+  input,
+  .table-card tbody tr {
+    animation: none;
+    transition: none;
+  }
+}

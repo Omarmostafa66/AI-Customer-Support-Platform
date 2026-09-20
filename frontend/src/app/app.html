@@ -1,0 +1,24 @@
+<app-toast />
+<app-confirm-dialog />
+
+@if (auth.isLoggedIn()) {
+<div class="app-shell" [class.customer-portal-shell]="auth.isCustomer()">
+  @if (auth.isCustomer()) {
+  <app-customer-header />
+  }
+
+  @if (auth.isEmployee()) {
+  <app-employee-sidebar />
+  }
+
+  @if (auth.isAdmin()) {
+  <app-sidebar />
+  }
+
+  <main class="main-content">
+    <router-outlet />
+  </main>
+</div>
+} @else {
+<router-outlet />
+}
