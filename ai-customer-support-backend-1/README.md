@@ -1,800 +1,1119 @@
-<div align="center">
+# 🚀 AI Customer Support Platform — Backend
 
-# 🎧 AI Customer Support Platform
+> Enterprise-style AI-powered Customer Support Backend built with Spring Boot, PostgreSQL, Spring Security, JWT, and Gemini AI.
 
-**A full-stack, role-based customer support management platform built with Angular, Spring Boot, and PostgreSQL.**
+The backend is the core business and intelligence layer of the **AI Customer Support Platform**.
 
-![Java](https://img.shields.io/badge/Java-23+-ED8B00?logo=openjdk&logoColor=white)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-REST_API-6DB33F?logo=springboot&logoColor=white)
-![Angular](https://img.shields.io/badge/Angular-Frontend-DD0031?logo=angular&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17+-4169E1?logo=postgresql&logoColor=white)
-![JWT](https://img.shields.io/badge/Auth-JWT-000000?logo=jsonwebtokens&logoColor=white)
-
-</div>
-
----
-
-## 📑 Table of Contents
-
-- [Overview](#-overview)
-- [Main Features](#-main-features)
-- [Technology Stack](#-technology-stack)
-- [Design System](#-design-system)
-- [Application Structure](#-application-structure)
-- [Architecture & Flows](#-architecture--flows)
-- [API Reference](#-api-reference)
-- [Database](#-database)
-- [Configuration](#-configuration)
-- [Getting Started](#-getting-started)
-- [Error Handling](#-error-handling)
-- [User Experience](#-user-experience)
-- [Project Status](#-project-status)
-- [Future Enhancements](#-future-enhancements)
-- [Security Notes](#-important-security-notes)
-- [License](#-license)
+It provides secure REST APIs, authentication and authorization, customer support workflows, ticket management, AI-powered conversations, intelligent escalation, knowledge-base integration, SLA handling, notifications, audit logging, monitoring, and customer satisfaction tracking.
 
 ---
 
 ## 🧭 Overview
 
-The **AI Customer Support Platform** is a full-stack web application that provides a centralized environment for customer support operations. It offers role-based access for **Administrators**, **Employees**, and **Customers**, with a professional dashboard interface and a secure Spring Boot REST API connected to PostgreSQL.
+The **AI Customer Support Backend** is designed as a scalable RESTful backend that centralizes the complete customer support lifecycle.
 
-Authenticated users access functionality according to their role, while communication between the Angular frontend and the Spring Boot backend stays secure.
+Instead of treating AI as a standalone chatbot, the backend integrates AI directly into the support workflow. The system connects:
 
-**The platform covers:**
+```text
+Customer
+   ↓
+AI Conversation
+   ↓
+AI Analysis
+   ↓
+Escalation Policy
+   ↓
+Ticket Creation
+   ↓
+Employee Support
+   ↓
+Resolution
+   ↓
+Customer Confirmation
+   ↓
+Satisfaction
+```
 
-- Customer Support Management
-- Ticket, Customer, Incident, Employee, Message, and Category Management
-- Account, Profile, Profile Photo, and Password Management
-- Role-Based Access Control (RBAC)
-- JWT Authentication
-- Secure REST APIs
+This architecture allows the platform to move from simple AI conversations to a complete support-management workflow.
 
 ---
 
-## ✨ Main Features
+## ✨ Core Backend Capabilities
 
-### 🔐 Authentication
+### 🔐 Authentication & Security
 
-Secure authentication using JSON Web Tokens (JWT).
-
-- User Login & Registration
-- JWT Token Generation & Validation
-- Secure Password Hashing (BCrypt)
+- User Registration
+- User Login
+- JWT Authentication
+- JWT Token Validation
+- BCrypt Password Hashing
 - Stateless Authentication
-- Automatic Authorization Header Injection
-- Protected Angular Routes
-- Role-Based Route Protection
-- Logout
+- Role-Based Access Control
+- Method-Level Security
+- Ownership Validation
+- Protected REST APIs
+- CORS Configuration
 
-### 👥 Role-Based Access Control
+### 🎫 Ticket Management
 
-| Role | Access |
-|------|--------|
-| **Administrator** | Full management workspace: Dashboard, Tickets, Customers, Incidents, Messages, Categories, Employees, and Account Management |
-| **Employee** | Employee workspace with support-related operations according to assigned permissions |
-| **Customer** | Customer portal to interact with the support system and manage their own account and tickets |
+- Ticket Creation
+- Ticket Retrieval
+- Ticket Updating
+- Ticket Status Management
+- Ticket Priority
+- Ticket Categories
+- Ticket Assignment
+- Ticket Messages
+- Ticket Ownership Validation
+- Ticket Resolution
+- Ticket Reopening
+- Ticket SLA Handling
 
-### 👤 Account Management
+### 🤖 AI Customer Support
 
-Every authenticated user has a dedicated **Account** page that provides:
+- AI-powered customer conversations
+- Gemini AI integration
+- AI response generation
+- AI classification
+- Sentiment analysis
+- Confidence evaluation
+- Risk evaluation
+- Suggested priority
+- Suggested response
+- Recommended action
+- AI escalation
+- AI fallback handling
 
-- Personal Information & Profile Editing
-- Email, Phone Number, Address, Gender, and Age
-- Account Type
-- Employee Position and Salary Information *(where applicable)*
-- Password Management
-- Profile Photo Management
+---
 
-### 🖼️ Profile Photo System
+## 🚨 Intelligent Escalation
 
-Users can:
+The backend contains a dedicated escalation policy layer that evaluates AI interactions before deciding whether human intervention is required.
 
-- Upload a profile photo
-- Preview a selected photo
-- Confirm or cancel the upload
-- Remove the current photo
-- View the current photo in a centered modal
-- Close the viewer using the **X** button or by clicking outside the modal
+Escalation can be triggered by conditions such as:
 
-**Supported formats:** `JPEG` · `PNG` · `WEBP`
-
-The photo is stored directly in **PostgreSQL** as binary data together with its content type. It is requested through Angular's authenticated `HttpClient` (instead of a direct backend URL), which guarantees that the JWT `Authorization` header is included.
-
-#### Photo Viewer
+- Critical or high-risk requests
+- Customer explicitly requesting a human agent
+- Security-sensitive requests
+- Financial-risk situations
+- Low AI confidence
+- Repeated failures
+- AI inability to resolve the request
 
 ```text
-Click Profile Photo
-        ↓
-Open Photo Button
-        ↓
-Click "Open Photo"
-        ↓
-Centered Photo Modal
-        ↓
-View Large Profile Photo
-        ↓
-Close with X / Outside Click
+AI Response
+     ↓
+Escalation Policy
+     ↓
+ ┌────────────────┐
+ │ Can AI resolve │
+ │ the request?   │
+ └───────┬────────┘
+         │
+     ┌───┴───┐
+     ↓       ↓
+    YES      NO
+     ↓       ↓
+ AI Reply   Create / Reuse Ticket
+                 ↓
+           Human Support
 ```
 
-The viewer includes: dark overlay, background blur, centered modal, responsive image sizing, close button, outside-click closing, responsive mobile design, and smooth animations.
+---
 
-### 🔑 Password Management
+## 🧠 AI Conversation Architecture
 
-Authenticated users can change their password from the Account page. The system validates:
+AI conversations are persisted on the backend instead of relying only on the frontend. Each conversation can maintain:
 
-- Current password
-- New password and password confirmation
-- Minimum password length
-- New password must differ from the current password
+- Customer ownership
+- Conversation ID
+- Conversation messages
+- Customer messages
+- AI responses
+- Conversation timestamps
 
-Password fields support visibility toggling. Passwords are **never stored as plain text**. The backend uses **BCrypt** hashing.
+The backend uses the conversation ID to maintain continuity between messages.
 
-### 🛡️ Security
+```text
+Customer Message
+       ↓
+AiConversationService
+       ↓
+Load Conversation
+       ↓
+Load Conversation Context
+       ↓
+AI Service
+       ↓
+Gemini
+       ↓
+AI Response
+       ↓
+Escalation Evaluation
+       ↓
+Persist Conversation
+```
 
-- Spring Security
-- JWT Authentication
-- BCrypt Password Hashing
-- Stateless Sessions
-- Role-Based Authorization
-- Method-Level Security
-- Protected REST Endpoints
-- CORS Configuration
-- Ownership Validation
+This allows the backend to maintain a consistent conversation lifecycle even when the frontend route changes or the customer continues an existing conversation.
+
+---
+
+## 🎫 AI → Ticket Integration
+
+One of the key backend workflows is the connection between AI conversations and support tickets. When an AI conversation requires human intervention:
+
+```text
+AI Conversation
+      ↓
+Escalation Required
+      ↓
+Check Existing Active Ticket
+      ↓
+ ┌────────────────┐
+ │ Active Ticket? │
+ └───────┬────────┘
+         │
+    ┌────┴────┐
+    ↓         ↓
+   YES        NO
+    ↓         ↓
+Reuse Ticket  Create Ticket
+```
+
+The backend associates the ticket with the AI conversation. This prevents repeated escalation messages inside the same conversation from creating duplicate active tickets.
+
+The relationship is maintained through the AI conversation reference:
+
+```text
+AiConversation
+      │
+      ▼
+    Ticket
+```
+
+---
+
+## 🔄 Ticket Lifecycle
+
+Tickets follow a controlled lifecycle:
+
+```text
+OPEN
+  ↓
+IN_PROGRESS
+  ↓
+RESOLVED
+  ↓
+CLOSED
+```
+
+The backend also supports reopening a previously closed workflow when required.
+
+### Customer Resolution Confirmation
+
+When an employee resolves a ticket, the customer can confirm the resolution.
+
+```text
+Employee Resolution
+        ↓
+     RESOLVED
+        ↓
+Customer Confirmation
+        ↓
+      CLOSED
+```
+
+This separates:
+
+- Internal resolution
+- Customer confirmation
+- Final ticket closure
+
+and creates a more realistic support workflow.
+
+---
+
+## 📊 AI Ticket Analysis
+
+The backend provides AI-powered ticket analysis. The analysis can include:
+
+- Summary
+- Category
+- Suggested Priority
+- Suggested Response
+- Recommended Action
+- Sentiment
+- Confidence
+- Risk
+- Resolution assessment
+
+Example API capabilities:
+
+```http
+GET /tickets/{id}/analyze
+GET /tickets/{id}/ai-analysis
+GET /tickets/{id}/resolution-assessment
+```
+
+The backend therefore allows employees to receive AI-generated context before handling a support ticket.
+
+---
+
+## 💬 Ticket Conversations
+
+Tickets maintain their own support conversation. The backend stores customer and employee messages independently from the AI conversation layer.
+
+For AI-escalated tickets, relevant customer messages from the AI conversation can be synchronized into the ticket conversation.
+
+```text
+AI Conversation
+      ↓
+Customer Messages
+      ↓
+Ticket Conversation
+      ↓
+Employee Support
+```
+
+AI responses remain part of the AI conversation context rather than being incorrectly represented as employee messages.
+
+---
+
+## 📚 Knowledge Base
+
+The backend contains a dedicated Knowledge Base module. It provides functionality for managing knowledge articles and retrieving relevant support information.
+
+```text
+Knowledge Article
+       ↓
+Knowledge Base Service
+       ↓
+Knowledge Retrieval
+       ↓
+AI Support Workflow
+```
+
+Knowledge Base functionality includes:
+
+- Knowledge article management
+- Article status
+- Active/inactive articles
+- Article retrieval
+- Search-based retrieval
+- Integration with AI support workflows
+
+The backend currently contains a `KnowledgeRetrievalService` that retrieves knowledge articles through the existing Knowledge Base service.
+
+---
+
+## ⏱️ SLA Management
+
+The backend includes SLA-aware ticket handling. Tickets can have SLA-related information such as:
+
+- SLA due date
+- Priority-based timing
+- SLA status
+- SLA backfilling when necessary
+
+This allows support operations to identify tickets that require attention before or after their SLA deadline.
+
+```text
+Ticket
+  ↓
+Priority
+  ↓
+SLA Calculation
+  ↓
+Due Date
+  ↓
+Monitoring
+  ↓
+Attention / Escalation
+```
+
+---
+
+## 🚨 Attention Queue
+
+The backend contains an attention-queue layer for support operations. The purpose is to surface cases that require human attention based on support conditions such as:
+
+- High priority
+- Critical risk
+- SLA pressure
+- AI escalation
+- Repeated failures
+- Unresolved support requests
+
+This creates a bridge between automated AI handling and human support operations.
+
+---
+
+## 📈 AI Monitoring & Metrics
+
+The backend includes dedicated AI monitoring and metrics services. The monitoring layer allows the system to track AI-related operational information such as:
+
+- AI interactions
+- Confidence
+- Risk
+- Sentiment
+- Escalation
+- Fallback usage
+- AI API failures
+- Ability to answer
+- Ability to resolve
+
+This provides visibility into how the AI support layer is performing.
+
+---
+
+## 🧾 Audit Logging
+
+The backend includes an audit logging mechanism. Important system actions can be recorded with information such as:
+
+```text
+Action
+Entity
+Entity ID
+Description
+Timestamp
+```
+
+Example:
+
+```text
+CREATE_TICKET
+TICKET
+123
+Ticket 123 created
+```
+
+Audit logging provides a traceable history of important backend operations.
+
+---
+
+## ⭐ Customer Satisfaction
+
+After ticket resolution, the backend supports customer satisfaction collection. The system contains dedicated services and repository support for customer satisfaction.
+
+```text
+Ticket Resolution
+      ↓
+Customer Feedback
+      ↓
+Satisfaction Metrics
+      ↓
+Support Performance Analysis
+```
+
+---
+
+## 🔐 Security Architecture
+
+Security is implemented at multiple levels.
+
+```text
+Client
+  ↓
+JWT
+  ↓
+JwtAuthenticationFilter
+  ↓
+Spring Security
+  ↓
+Role / Method Authorization
+  ↓
+Ownership Validation
+  ↓
+Controller
+  ↓
+Service
+```
+
+### Authentication
+
+The backend uses JWT-based authentication.
+
+### Password Security
+
+Passwords are protected using BCrypt hashing.
+
+### Authorization
+
+The application supports role-based access control. Main roles include:
+
+```text
+CUSTOMER
+EMPLOYEE
+ADMIN
+```
+
+### Ownership Validation
+
+Authentication alone is not sufficient. The backend also validates whether the authenticated user is actually allowed to access or modify a specific resource. This is particularly important for:
+
+- Tickets
+- Conversations
+- Customer data
+- Account information
+
+---
+
+## 🏗️ Backend Architecture
+
+The backend follows a layered architecture.
+
+```text
+                REST API
+                   │
+                   ▼
+              Controllers
+                   │
+                   ▼
+                Services
+                   │
+          ┌────────┴────────┐
+          ▼                 ▼
+     Repositories       AI Services
+          │                 │
+          ▼                 ▼
+       Entities          Gemini AI
+          │
+          ▼
+      PostgreSQL
+```
+
+### Controller Layer
+
+Responsible for:
+
+- HTTP endpoints
+- Request handling
+- Response handling
+- Authentication context
+- API-level validation
+
+Examples include controllers for: Authentication, Tickets, Customers, Employees, Messages, Incidents, Categories, AI conversations, AI monitoring, Knowledge Base, and Account management.
+
+### Service Layer
+
+Contains the business logic. Important services include:
+
+- `TicketService`
+- `CustomerService`
+- `EmployeeService`
+- `MessageService`
+- `IncidentService`
+- `CategoryService`
+- `AiConversationService`
+- `AiEscalationPolicyService`
+- `AiMetricsService`
+- `AttentionQueueService`
+- `AuditLogService`
+- `KnowledgeBaseService`
+- `KnowledgeRetrievalService`
+- `CustomerSatisfactionService`
+- `CustomerSatisfactionMetricsService`
+
+### Repository Layer
+
+Repositories provide persistence through Spring Data JPA. Examples include:
+
+- `TicketRepository`
+- `CustomerRepository`
+- `EmployeeRepository`
+- `MessageRepository`
+- `IncidentRepository`
+- `CategoryRepository`
+- `KnowledgeArticleRepository`
+- `NotificationRepository`
+- `AiConversationRepository`
+- `AiConversationMessageRepository`
+- `AuditLogRepository`
+- `CustomerSatisfactionRepository`
+
+### Entity Layer
+
+JPA entities represent the application's persistent domain model:
+
+```text
+Customer
+Employee
+Ticket
+Message
+Incident
+Category
+AiConversation
+AiConversationMessage
+KnowledgeArticle
+Notification
+AuditLog
+CustomerSatisfaction
+```
+
+---
+
+## 🗂️ Backend Project Structure
+
+```text
+ai-customer-support-backend-1/
+│
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/
+│   │   │       └── aicustomersupport/
+│   │   │           └── aicustomersupportbackend/
+│   │   │               ├── account/
+│   │   │               ├── ai/
+│   │   │               ├── controller/
+│   │   │               ├── dto/
+│   │   │               ├── entity/
+│   │   │               ├── repository/
+│   │   │               ├── security/
+│   │   │               └── service/
+│   │   │
+│   │   └── resources/
+│   │       └── application.properties
+│   │
+│   └── test/
+│
+├── pom.xml
+├── mvnw
+├── mvnw.cmd
+├── HELP.md
+└── README.md
+```
 
 ---
 
 ## 🧰 Technology Stack
 
-### Backend
-
 | Technology | Purpose |
 |------------|---------|
-| Java | Backend programming language |
-| Spring Boot | Backend framework |
-| Spring Security | Authentication & authorization |
-| Spring Data JPA | Database access |
-| Hibernate | ORM |
-| PostgreSQL | Database |
-| JJWT | JWT implementation |
-| BCrypt | Password hashing |
-| Jakarta Validation | Request validation |
-| Maven | Dependency management |
+| ☕ Java 17 | Backend programming language |
+| 🌱 Spring Boot | Backend framework |
+| 🔐 Spring Security | Authentication & authorization |
+| 🎟️ JWT | Stateless authentication |
+| 🔑 BCrypt | Password hashing |
+| 🗄️ Spring Data JPA | Database persistence |
+| 🧩 Hibernate | ORM |
+| 🐘 PostgreSQL | Relational database |
+| 📦 Maven | Build & dependency management |
+| 🤖 Gemini AI | AI-powered support |
+| ✅ Jakarta Validation | Request validation |
 
-### Frontend
-
-| Technology | Purpose |
-|------------|---------|
-| Angular | Frontend framework |
-| TypeScript | Frontend programming language |
-| HTML5 | Application structure |
-| CSS3 | UI styling |
-| Angular Router | Navigation |
-| Angular HttpClient | API communication |
-| FormsModule | Form handling |
-| Signals | Reactive application state |
-
----
-
-## 🎨 Design System
-
-The frontend follows a consistent **three-color** design system.
-
-| Color | Hex | Used For |
-|-------|-----|----------|
-| 🟣 **Deep Plum** | `#241A2F` | Main headings, sidebar, primary text, dark UI elements |
-| 🟠 **Coral** | `#F05A3C` | Primary actions, active navigation, buttons, profile controls, important interactive elements |
-| 🟢 **Teal** | `#14B8A6` | Secondary accents, section labels, focus states, success indicators, supporting UI elements |
-
----
-
-## 🗂️ Application Structure
-
-The project is divided into two main applications:
-
-```text
-AI-Customer-Support/
-│
-├── backend/
-│
-└── frontend/
-```
-
-### Backend
-
-The Spring Boot backend follows a **layered architecture**.
-
-```text
-backend/
-│
-├── src/
-│   └── main/
-│       ├── java/
-│       │   └── com/
-│       │       └── aicustomersupport/
-│       │           └── aicustomersupportbackend/
-│       │
-│       └── resources/
-│
-├── pom.xml
-└── application.yml
-```
-
-```text
-Controller
-    ↓
-Service
-    ↓
-Repository
-    ↓
-Entity
-    ↓
-PostgreSQL
-```
-
-### Frontend
-
-The Angular application is organized into pages, services, guards, interceptors, layouts, models, and shared components.
-
-```text
-frontend/
-│
-├── src/
-│   └── app/
-│       │
-│       ├── pages/
-│       │   ├── account/
-│       │   ├── dashboard/
-│       │   ├── tickets/
-│       │   ├── customers/
-│       │   ├── incidents/
-│       │   ├── messages/
-│       │   ├── categories/
-│       │   └── employees/
-│       │
-│       ├── services/
-│       ├── guards/
-│       ├── interceptors/
-│       │
-│       ├── layout/
-│       │   ├── sidebar/
-│       │   └── customer-header/
-│       │
-│       ├── shared/
-│       ├── models/
-│       │
-│       ├── app.routes.ts
-│       └── app.config.ts
-│
-└── package.json
-```
-
-### Important Frontend Building Blocks
-
-#### `AuthService`
-
-Responsible for login state, JWT token management, current user session, role detection, logout, avatar state, and authentication state.
-
-```ts
-isAdmin()
-isEmployee()
-isCustomer()
-```
-
-#### `ApiService`
-
-The central service for communication between Angular and Spring Boot. It handles `GET`, `POST`, `PUT`, and `DELETE` requests, plus authentication, account, avatar, and application resource endpoints.
-
-#### `AccountAvatarService`
-
-Synchronizes profile avatar changes across the application. When a user uploads or removes a photo, the avatar is refreshed in the **Sidebar**, **Header**, and **Account page** without a full reload.
-
-#### HTTP Interceptor
-
-Automatically attaches the JWT token to authenticated requests. Login and registration requests are excluded because they are public endpoints.
-
-```text
-Angular Request
-      ↓
-Auth Interceptor
-      ↓
-JWT Available?
-      ↓
-Authorization Header
-      ↓
-Spring Boot API
-```
-
-```http
-Authorization: Bearer <JWT_TOKEN>
-```
-
-#### Route Guards
-
-Protected routes use authentication and role guards to prevent unauthorized access.
-
-```ts
-canActivate: [
-  authGuard,
-  roleGuard([
-    'ADMIN',
-    'EMPLOYEE',
-    'CUSTOMER'
-  ])
-]
-```
-
----
-
-## 🏗️ Architecture & Flows
-
-### System Architecture
-
-```text
-                    ┌───────────────┐
-                    │    Browser    │
-                    └───────┬───────┘
-                            │
-                            ▼
-                    ┌───────────────┐
-                    │    Angular    │
-                    │   Frontend    │
-                    └───────┬───────┘
-                            │
-                    HTTP / REST API
-                            │
-                            ▼
-                    ┌───────────────┐
-                    │  Spring Boot  │
-                    │    Backend    │
-                    └───────┬───────┘
-                            │
-                     JPA / Hibernate
-                            │
-                            ▼
-                    ┌───────────────┐
-                    │  PostgreSQL   │
-                    │   Database    │
-                    └───────────────┘
-```
-
-### Authentication Flow
-
-```text
-User
-  │
-  ▼
-Angular Login Page
-  │
-  ▼
-POST /auth/login
-  │
-  ▼
-Spring Boot Authentication
-  │
-  ▼
-JWT Token
-  │
-  ▼
-Angular AuthService
-  │
-  ▼
-localStorage
-  │
-  ▼
-HTTP Interceptor
-  │
-  ▼
-Authorization: Bearer <JWT>
-  │
-  ▼
-Protected Backend Endpoint
-```
-
-### Profile Photo Flow
-
-```text
-User selects image
-        │
-        ▼
-Angular validates file
-        │
-        ▼
-Local preview
-        │
-        ▼
-User clicks "Upload Photo"
-        │
-        ▼
-POST /account/me/avatar
-        │
-        ▼
-Spring Boot
-        │
-        ▼
-PostgreSQL
-        │
-        ▼
-Avatar saved
-        │
-        ▼
-Angular reloads avatar
-        │
-        ▼
-Sidebar / Header / Account
-```
-
-### Security Architecture
-
-```text
-Authentication
-      │
-      ▼
-JWT
-      │
-      ▼
-Spring Security Filter
-      │
-      ▼
-Authenticated User
-      │
-      ├──────── ADMIN
-      │
-      ├──────── EMPLOYEE
-      │
-      └──────── CUSTOMER
-               │
-               ▼
-        Role-Based Access
-```
-
-### High-Level Summary
-
-```text
-                    AI CUSTOMER SUPPORT
-                            │
-             ┌──────────────┴──────────────┐
-             │                             │
-             ▼                             ▼
-        ANGULAR FRONTEND             SPRING BOOT API
-             │                             │
-      ┌──────┼──────┐              ┌───────┼────────┐
-      │      │      │              │       │        │
-      ▼      ▼      ▼              ▼       ▼        ▼
-    Pages  Services Guards      Security Controllers Services
-      │      │      │              │       │        │
-      └──────┼──────┘              └───────┼────────┘
-             │                             │
-             └──────────────┬──────────────┘
-                            │
-                            ▼
-                       PostgreSQL
-```
-
----
-
-## 📡 API Reference
-
-### Authentication API
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/auth/login` | Authenticate a user and receive a JWT |
-| `POST` | `/auth/register` | Register a new user |
-
-### Account API
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/account/me` | Get the current authenticated user's account |
-| `PUT` | `/account/me` | Update editable personal information |
-| `PUT` | `/account/me/password` | Change password |
-| `POST` | `/account/me/avatar` | Upload avatar (`multipart/form-data`, param: `file`) |
-| `GET` | `/account/me/avatar` | Get the authenticated user's profile image |
-| `DELETE` | `/account/me/avatar` | Remove the user's profile photo |
-
-<details>
-<summary><b>Example: Update Account</b> — <code>PUT /account/me</code></summary>
-
-```json
-{
-  "name": "System Administrator",
-  "email": "admin@example.com",
-  "phoneNumber": "01000000000",
-  "address": "Cairo, Egypt",
-  "gender": "MALE",
-  "age": 30
-}
-```
-
-</details>
-
-<details>
-<summary><b>Example: Change Password</b> — <code>PUT /account/me/password</code></summary>
-
-```json
-{
-  "currentPassword": "CurrentPassword",
-  "newPassword": "NewPassword123"
-}
-```
-
-</details>
-
-### Public Endpoints
-
-```text
-/auth/**
-/health
-```
-
-All other endpoints require authentication.
+The project POM currently targets **Java 17** and uses **Spring Boot 4.1.1**.
 
 ---
 
 ## 🗄️ Database
 
-The project uses **PostgreSQL** with **Hibernate/JPA** for object-relational mapping.
+The backend uses PostgreSQL as its primary relational database through Spring Data JPA and Hibernate.
 
-### Avatar Storage
+Default local configuration:
 
-Profile images are stored in the database using the fields `avatar` and `avatar_content_type`, which allows the backend to return the original image with its correct MIME type.
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/ai_customer_support_db
+spring.datasource.username=postgres
+spring.datasource.password=...
+```
 
-```java
-@Lob
-@Basic(fetch = FetchType.LAZY)
-@Column(name = "avatar")
-private byte[] avatar;
+Hibernate is configured to update the database schema automatically during development:
 
-@Column(name = "avatar_content_type")
-private String avatarContentType;
+```properties
+spring.jpa.hibernate.ddl-auto=update
 ```
 
 ---
 
-## ⚙️ Configuration
+## 🤖 Gemini AI Configuration
 
-Backend configuration lives in `src/main/resources/application.yml`:
+The backend integrates with Gemini through configurable application properties:
 
-```yaml
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/your_database
-    username: postgres
-    password: your_password
-
-server:
-  port: 8080
+```properties
+gemini.api-key=${GEMINI_API_KEY:}
+gemini.base-url=https://generativelanguage.googleapis.com/v1beta
+gemini.model=${GEMINI_MODEL:gemini-3.8-flash}
+gemini.fallback-models=${GEMINI_FALLBACK_MODELS:gemini-3.7-flash,gemini-3.5-flash}
 ```
 
-| Service | URL |
-|---------|-----|
-| Frontend (Angular) | http://localhost:4200 |
-| Backend (Spring Boot) | http://localhost:8080 |
+The AI integration supports configurable primary and fallback models.
+
+> ⚠️ **Important**
+>
+> Never commit a real Gemini API key, database password, JWT secret, or production credential to GitHub. Use environment variables instead.
+
+Supported environment variables:
+
+```text
+GEMINI_API_KEY
+DB_URL
+DB_USERNAME
+DB_PASSWORD
+JWT_SECRET
+ADMIN_EMAIL
+ADMIN_PASSWORD
+```
+
+---
+
+## 🌐 API Architecture
+
+The backend exposes RESTful endpoints consumed by the Angular frontend.
+
+**Authentication**
+
+```http
+POST /auth/login
+POST /auth/register
+```
+
+**Tickets**
+
+```http
+GET    /tickets
+GET    /tickets/{id}
+POST   /tickets
+PUT    /tickets/{id}
+```
+
+**AI Ticket Analysis**
+
+```http
+GET /tickets/{id}/analyze
+GET /tickets/{id}/ai-analysis
+GET /tickets/{id}/resolution-assessment
+```
+
+**Resolution**
+
+```http
+POST /tickets/{id}/confirm-resolution
+```
+
+**Satisfaction**
+
+```http
+POST /tickets/{id}/satisfaction
+GET  /tickets/{id}/satisfaction
+```
+
+**AI Chat**
+
+```http
+POST /ai/chat
+```
+
+The backend therefore acts as the central API layer between the frontend, database, AI services, and support workflows.
+
+---
+
+## 🔄 Complete AI Support Flow
+
+A typical customer request follows this flow:
+
+```text
+Customer
+   │
+   ▼
+POST /ai/chat
+   │
+   ▼
+AiConversationService
+   │
+   ├── Load / Create Conversation
+   │
+   ├── Load Conversation Context
+   │
+   ▼
+AI Service
+   │
+   ▼
+Gemini
+   │
+   ▼
+AI Response
+   │
+   ▼
+Escalation Policy
+   │
+   ├───────────────┐
+   │               │
+   ▼               ▼
+No Escalation   Escalation
+   │               │
+   ▼               ▼
+AI Response     Check Active Ticket
+                   │
+             ┌─────┴─────┐
+             ▼           ▼
+          Exists        New
+             │           │
+             ▼           ▼
+          Reuse       Create
+             │           │
+             └─────┬─────┘
+                   ▼
+                Ticket
+                   │
+                   ▼
+            Human Support
+```
+
+This is one of the core business workflows implemented by the backend.
+
+---
+
+## 🧪 Testing
+
+The backend contains unit-test support for backend services.
+
+```text
+src/test/
+└── java/
+    └── com/
+        └── aicustomersupport/
+            └── aicustomersupportbackend/
+```
+
+Run tests with Maven:
+
+```bash
+mvn test
+```
+
+Or on Windows using the Maven wrapper:
+
+```powershell
+.\mvnw.cmd test
+```
 
 ---
 
 ## 🚀 Getting Started
 
-### Requirements
+### 1️⃣ Prerequisites
 
-- Java 23+
-- Node.js & npm
-- Angular CLI
-- PostgreSQL 17+
-- IntelliJ IDEA
-- Git
+Before running the backend, make sure you have:
 
-### 1. Backend
+- ☕ Java 17
+- 📦 Maven
+- 🐘 PostgreSQL
+- 🔑 Gemini API Key
+- 💻 Git
+
+Check Java and Maven:
 
 ```bash
-cd backend
-mvn clean install
+java -version
+mvn -version
+```
+
+### 🐘 2️⃣ Setup PostgreSQL
+
+Create a PostgreSQL database:
+
+```sql
+CREATE DATABASE ai_customer_support_db;
+```
+
+Make sure PostgreSQL is running locally. Default configuration:
+
+```text
+Host: localhost
+Port: 5432
+Database: ai_customer_support_db
+Username: postgres
+Password: YOUR_PASSWORD
+```
+
+### 🔑 3️⃣ Configure Environment Variables
+
+Set the required environment variables before starting the backend.
+
+**Windows PowerShell**
+
+```powershell
+$env:DB_URL="jdbc:postgresql://localhost:5432/ai_customer_support_db"
+$env:DB_USERNAME="postgres"
+$env:DB_PASSWORD="YOUR_POSTGRES_PASSWORD"
+
+$env:GEMINI_API_KEY="YOUR_GEMINI_API_KEY"
+
+$env:JWT_SECRET="YOUR_SECURE_JWT_SECRET"
+
+$env:ADMIN_EMAIL="admin@aicustomersupport.com"
+$env:ADMIN_PASSWORD="YOUR_ADMIN_PASSWORD"
+```
+
+**Linux / macOS**
+
+```bash
+export DB_URL="jdbc:postgresql://localhost:5432/ai_customer_support_db"
+export DB_USERNAME="postgres"
+export DB_PASSWORD="YOUR_POSTGRES_PASSWORD"
+
+export GEMINI_API_KEY="YOUR_GEMINI_API_KEY"
+
+export JWT_SECRET="YOUR_SECURE_JWT_SECRET"
+
+export ADMIN_EMAIL="admin@aicustomersupport.com"
+export ADMIN_PASSWORD="YOUR_ADMIN_PASSWORD"
+```
+
+The backend's `application.properties` is already structured to read these values from environment variables.
+
+### 🌱 4️⃣ Install / Prepare Spring Boot
+
+You do not need to install Spring Boot separately like a normal standalone program. Spring Boot is included in the Maven project through the `pom.xml`, and Maven downloads the required dependencies automatically.
+
+From the backend directory:
+
+```bash
+cd ai-customer-support-backend-1
+```
+
+Then:
+
+```powershell
+.\mvnw.cmd clean install
+```
+
+This will:
+
+- Download Maven dependencies
+- Compile the project
+- Run tests
+- Build the application
+
+### ▶️ 5️⃣ Run the Spring Boot Backend
+
+**Option 1 — Maven Wrapper** (recommended on Windows):
+
+```powershell
+.\mvnw.cmd spring-boot:run
+```
+
+**Option 2 — Maven** (if installed globally):
+
+```bash
 mvn spring-boot:run
 ```
 
-The backend starts on **http://localhost:8080**.
+**Option 3 — IntelliJ IDEA**
 
-### 2. Frontend
+Open the backend project in IntelliJ IDEA, locate `AiCustomerSupportBackendApplication.java`, and run `AiCustomerSupportBackendApplication`.
 
-```bash
-cd frontend
-npm install
-ng serve
+The main Spring Boot application starts the backend using:
+
+```java
+SpringApplication.run(
+    AiCustomerSupportBackendApplication.class,
+    args
+);
 ```
 
-The frontend is available at **http://localhost:4200**.
+### 🌐 Backend URL
 
-### Running the Full Project
+The backend runs on <http://localhost:8080>. The configured server port is:
 
-1. Start **PostgreSQL**.
-2. Start the backend:
-   ```bash
-   cd backend
-   mvn spring-boot:run
-   ```
-3. Start the frontend:
-   ```bash
-   cd frontend
-   ng serve
-   ```
-4. Open **http://localhost:4200**.
+```properties
+server.port=8080
+```
 
-### Default Administrator
+### 🔍 Verify the Backend
 
-The development environment includes a default administrator account:
-
-| Field | Value |
-|-------|-------|
-| Email | `admin@aicustomersupport.com` |
-| Password | `Admin@123456` |
-
-> ⚠️ **Warning:** This account is intended for development/testing only. Change or remove the default credentials before deploying to production.
+After starting the application, check the console for a successful Spring Boot startup. You can then access the API through <http://localhost:8080>. The Angular frontend can communicate with the backend through the configured REST APIs.
 
 ---
 
-## 🚦 Error Handling
+## 🛠️ Useful Maven Commands
 
-The backend returns standard HTTP status codes:
-
-| Code | Meaning |
-|------|---------|
-| `200` | OK |
-| `201` | Created |
-| `204` | No Content |
-| `400` | Bad Request |
-| `401` | Unauthorized |
-| `403` | Forbidden |
-| `404` | Not Found |
-| `409` | Conflict |
-| `500` | Internal Server Error |
-
-The Angular frontend displays user-friendly **toast notifications** for both errors and successful operations.
+| Purpose | Command |
+|---------|---------|
+| Clean | `.\mvnw.cmd clean` |
+| Compile | `.\mvnw.cmd compile` |
+| Run tests | `.\mvnw.cmd test` |
+| Build | `.\mvnw.cmd clean package` |
+| Run Spring Boot | `.\mvnw.cmd spring-boot:run` |
 
 ---
 
-## 💎 User Experience
+## 🧯 Troubleshooting
 
-The frontend is designed around a modern management-dashboard style:
+### PostgreSQL Connection Error
 
-- Clean layout & consistent spacing
-- Rounded cards & subtle shadows
-- Professional typography
-- Smooth transitions
-- Consistent color system
-- Accessible focus states
-- Toast notifications
-- Loading states
-- Modal interactions
+Check that:
 
-### Responsive Design
+- PostgreSQL is running
+- The database exists
+- The username is correct
+- The password is correct
+- The port is `5432`
 
-Supports **Desktop**, **Tablet**, **Mobile**, and **Small Mobile**, including collapsible layouts, stacked profile sections, responsive forms, mobile-friendly buttons, a responsive photo viewer, flexible information grids, and mobile password forms.
+Also verify `DB_URL`, `DB_USERNAME`, and `DB_PASSWORD`.
 
-### Account Page Layout
+### Gemini API Error
+
+Check `GEMINI_API_KEY` and make sure the API key is available in the environment where Spring Boot is running.
+
+### Port 8080 Already in Use
+
+Find the process using port 8080, or change the port to another available one:
+
+```properties
+server.port=8081
+```
+
+### Maven Dependency Problems
+
+Try:
+
+```powershell
+.\mvnw.cmd clean
+.\mvnw.cmd clean install
+```
+
+---
+
+## 🧱 Backend Design Philosophy
+
+### Separation of Concerns
+
+- Controllers handle HTTP.
+- Services handle business logic.
+- Repositories handle persistence.
+- Entities represent domain data.
+- Security components handle authentication and authorization.
+- AI services handle AI-specific operations.
+
+### Business Logic First
+
+The backend does not simply expose database CRUD operations. It contains business workflows such as:
+
+- AI Escalation
+- Ticket Lifecycle
+- SLA Handling
+- Resolution Confirmation
+- Customer Satisfaction
+- Ownership Validation
+- AI Monitoring
+- Audit Logging
+- Knowledge Retrieval
+
+### Security by Design
+
+Authentication, authorization, ownership validation, and password protection are handled as core backend responsibilities.
+
+### AI + Human Support
+
+The platform does not attempt to replace human support completely. Instead:
 
 ```text
-┌──────────────────────────────────────┐
-│             My Account               │
-├──────────────────────────────────────┤
-│                                      │
-│  Profile Photo     Personal Details  │
-│                                      │
-│  Change Photo      Remove Photo      │
-│                                      │
-├──────────────────────────────────────┤
-│       Personal Information           │
-│                                      │
-│  Full Name       Email               │
-│  Phone           Address             │
-│  Gender          Age                 │
-│  Account Type    Position            │
-│  Salary                              │
-│                                      │
-├──────────────────────────────────────┤
-│        Password & Security           │
-│                                      │
-│  Current Password                    │
-│  New Password                        │
-│  Confirm Password                    │
-│                                      │
-│          Change Password             │
-│                                      │
-└──────────────────────────────────────┘
+AI
+ ↓
+Assist
+ ↓
+Analyze
+ ↓
+Resolve when possible
+ ↓
+Escalate when necessary
+ ↓
+Human Support
+```
+
+This creates a hybrid customer-support architecture where AI handles suitable requests while complex or sensitive cases can reach human employees.
+
+---
+
+## 📌 Backend Highlights
+
+- 🔐 **Secure** — JWT + Spring Security + BCrypt + RBAC + ownership validation.
+- 🤖 **Intelligent** — Gemini AI integration with confidence, sentiment, risk, and escalation logic.
+- 🎫 **Business-Oriented** — Complete ticket lifecycle from creation to resolution and satisfaction.
+- 📊 **Observable** — AI monitoring, metrics, attention queue, and audit logging.
+- 📚 **Knowledge-Aware** — Knowledge Base and retrieval services integrated into the support architecture.
+- 🧩 **Maintainable** — Layered Spring Boot architecture with controllers, services, repositories, entities, DTOs, and security components.
+- 🚀 **Extensible** — The architecture allows future expansion of AI models, escalation policies, support teams, SLA rules, and knowledge sources.
+
+---
+
+## 🏁 Final Architecture
+
+```text
+                         ┌──────────────────────┐
+                         │      Angular UI      │
+                         └──────────┬───────────┘
+                                    │
+                                  REST
+                                    │
+                                    ▼
+                         ┌──────────────────────┐
+                         │    Spring Security   │
+                         │         + JWT        │
+                         └──────────┬───────────┘
+                                    │
+                                    ▼
+                         ┌──────────────────────┐
+                         │      Controllers     │
+                         └──────────┬───────────┘
+                                    │
+                                    ▼
+                         ┌──────────────────────┐
+                         │       Services       │
+                         └───────┬───────┬──────┘
+                                 │       │
+                    ┌────────────┘       └─────────────┐
+                    ▼                                  ▼
+             Business Logic                       AI Services
+                    │                                  │
+                    │                                  ▼
+                    │                              Gemini AI
+                    ▼
+              Repositories
+                    │
+                    ▼
+               PostgreSQL
+```
+
+Additional backend layers:
+
+```text
+AI Escalation
+      │
+      ├── Ticket Creation
+      ├── Attention Queue
+      ├── SLA Handling
+      └── Human Support
+
+AI Monitoring
+      │
+      ├── Metrics
+      ├── Confidence
+      ├── Risk
+      ├── Sentiment
+      └── Escalation
+
+Governance
+      │
+      └── Audit Logging
 ```
 
 ---
 
-## ✅ Project Status
+## ❤️ Built for Intelligent Customer Support
 
-The current implementation includes the core application architecture and authentication system.
+The AI Customer Support Backend combines traditional enterprise backend architecture with AI-powered customer support workflows. It is designed to provide a secure and structured foundation for:
 
-- [x] Authentication
-- [x] JWT Security
-- [x] Role-Based Authorization
-- [x] Admin Workspace
-- [x] Employee Workspace
-- [x] Customer Portal
-- [x] Dashboard
-- [x] Tickets
-- [x] Customers
-- [x] Incidents
-- [x] Messages
-- [x] Categories
-- [x] Employees
-- [x] Account Management
-- [x] Profile Editing
-- [x] Password Management
-- [x] Profile Photo Upload / Preview / Delete / Modal
-- [x] Sidebar & Header Avatar
-- [x] Responsive UI
-- [x] Toast Notifications
-- [x] Protected Routes
-- [x] API Integration
+- 🤖 AI-powered conversations
+- 🎫 Intelligent ticket management
+- 🚨 Automated escalation
+- 🔐 Secure authentication
+- 📚 Knowledge-based support
+- ⏱️ SLA-aware operations
+- 📊 AI monitoring
+- 🧾 Auditability
+- ⭐ Customer satisfaction
 
----
-
-## 🔮 Future Enhancements
-
-- [ ] AI-powered ticket classification
-- [ ] Automatic ticket prioritization
-- [ ] AI response suggestions
-- [ ] Sentiment analysis
-- [ ] Customer chatbot
-- [ ] Knowledge base
-- [ ] Email notifications
-- [ ] Real-time notifications
-- [ ] WebSocket support
-- [ ] Advanced analytics
-- [ ] Customer satisfaction tracking
-- [ ] Support performance reports
-- [ ] Advanced search
-- [ ] Audit logging
-- [ ] File attachments
-- [ ] Multi-language support
-- [ ] Dark mode
-- [ ] Production deployment
-
----
-
-## 🔒 Important Security Notes
-
-This project is currently designed for **local development and testing**. Before deploying to production:
-
-1. Change the default administrator password.
-2. Store secrets in environment variables.
-3. Do not commit JWT secrets to Git.
-4. Do not commit database passwords.
-5. Configure production CORS origins.
-6. Use HTTPS.
-7. Configure a secure JWT expiration.
-8. Review file upload restrictions.
-9. Add rate limiting.
-10. Add production logging and monitoring.
-
-### Recommended `.gitignore`
-
-```gitignore
-node_modules/
-dist/
-target/
-.idea/
-*.iml
-.env
-application-local.yml
-application-prod.yml
-```
-
----
-
-## 👨‍💻 Author
-
-Developed as a full-stack customer support management platform using modern web technologies.
-
----
-
-## 📄 License
-
-This project is currently intended for **educational and development purposes**.
-
-A production license can be added according to the project's deployment and distribution requirements.
+The result is a backend architecture that connects AI intelligence, business rules, human support, and persistent data into one unified customer-support platform.
