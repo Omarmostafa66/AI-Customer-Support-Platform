@@ -1,0 +1,68 @@
+<app-toast />
+<app-confirm-dialog />
+
+@if (auth.isLoggedIn()) {
+
+<div
+  class="app-shell"
+  [class.customer-portal-shell]="auth.isCustomer()"
+>
+
+  <!-- =====================================================
+       Employee Sidebar
+       ===================================================== -->
+
+  @if (auth.isEmployee()) {
+
+  <app-employee-sidebar />
+
+  }
+
+
+  <!-- =====================================================
+       Admin Sidebar
+       ===================================================== -->
+
+  @if (auth.isAdmin()) {
+
+  <app-sidebar />
+
+  }
+
+
+  <!-- =====================================================
+       Main Application Content
+       ===================================================== -->
+
+  <main class="main-content">
+
+    <!-- ===================================================
+         Customer Header
+         IMPORTANT:
+         The header belongs INSIDE main-content.
+         Keeping it as a direct flex child of app-shell
+         causes the customer portal to lose half of its width.
+         =================================================== -->
+
+    @if (auth.isCustomer()) {
+
+    <app-customer-header />
+
+    }
+
+
+    <!-- ===================================================
+         Routed Page
+         =================================================== -->
+
+    <router-outlet />
+
+  </main>
+
+</div>
+
+} @else {
+
+<router-outlet />
+
+}

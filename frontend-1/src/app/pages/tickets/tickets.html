@@ -1,0 +1,535 @@
+<div class="tickets-page">
+  <div class="page-header">
+    <div>
+      <p class="workspace-kicker">MANAGEMENT WORKSPACE</p>
+
+      <h1>Tickets</h1>
+
+      <p>Manage customer support tickets.</p>
+    </div>
+
+    <button
+      class="primary-button"
+      (click)="openCreateForm()"
+      [disabled]="loading || deletingTicketId !== null"
+    >
+      + New Ticket
+    </button>
+  </div>
+
+  @if (error) {
+  <div class="error-message">
+    {{ error }}
+  </div>
+  }
+
+  @if (showForm) {
+  <div class="form-card">
+    <h2>
+      {{ editing ? 'Edit Ticket' : 'Create Ticket' }}
+    </h2>
+
+    @if (!editing) {
+    <div class="form-group">
+      <label for="admin-ticket-customer">
+        Customer
+      </label>
+
+      <select
+        id="admin-ticket-customer"
+        [(ngModel)]="selectedCustomerId"
+        [disabled]="customersLoading"
+      >
+        <option [ngValue]="null">
+          {{
+          customersLoading
+          ? 'Loading customers...'
+          : 'Select customer'
+          }}
+        </option>
+
+        @for (customer of customers; track customer.id) {
+        <option [ngValue]="customer.id">
+          {{ customer.name }} — {{ customer.email }}
+        </option>
+        }
+      </select>
+    </div>
+    }
+
+    @if (editing && selectedCustomerId !== null) {
+    <div class="form-group">
+      <label for="admin-ticket-current-customer">
+        Customer
+      </label>
+
+      <input
+        id="admin-ticket-current-customer"
+        type="text"
+        [value]="
+          customers.length
+            ? (
+                customers.find(
+                  customer => customer.id === selectedCustomerId
+                )?.name || 'Current customer'
+              )
+            : 'Current customer'
+        "
+        readonly
+      />
+    </div>
+    }
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="admin-ticket-title">
+          Title
+        </label>
+
+        <input
+          type="text"
+          id="admin-ticket-title"
+          [(ngModel)]="ticketForm.title"
+          placeholder="Enter ticket title"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="admin-ticket-status">
+          Status
+        </label>
+
+        <select
+          id="admin-ticket-status"
+          [(ngModel)]="ticketForm.status"
+        >
+          @for (status of statuses; track status) {
+          <option [value]="status">
+            {{ status }}
+          </option>
+          }
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="admin-ticket-priority">
+          Priority
+        </label>
+
+        <select
+          id="admin-ticket-priority"
+          [(ngModel)]="ticketForm.priority"
+        >
+          @for (priority of priorities; track priority) {
+          <option [value]="priority">
+            {{ priority }}
+          </option>
+          }
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="admin-ticket-description">
+        Description
+      </label>
+
+      <textarea
+        id="admin-ticket-description"
+        [(ngModel)]="ticketForm.description"
+        rows="4"
+        placeholder="Describe the customer issue"
+      ></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button
+        class="secondary-button"
+        (click)="cancelForm()"
+        [disabled]="loading"
+      >
+        Cancel
+      </button>
+
+      <button
+        class="primary-button"
+        (click)="saveTicket()"
+        [disabled]="loading || (!editing && customersLoading)"
+      >
+        {{ editing ? 'Update Ticket' : 'Create Ticket' }}
+      </button>
+    </div>
+  </div>
+  }
+
+  <div class="table-card">
+    @if (loading) {
+    <div class="loading-message">
+      Loading tickets...
+    </div>
+    } @else if (tickets.length === 0) {
+    <div class="empty-message">
+      No tickets found.
+    </div>
+    } @else {
+    <table>
+      <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Customer</th>
+        <th scope="col">Title</th>
+        <th scope="col">Description</th>
+        <th scope="col">Status</th>
+        <th scope="col">Priority</th>
+        <th scope="col">Assigned To</th>
+        <th scope="col">Actions</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      @for (ticket of tickets; track ticket.id) {
+      <tr>
+        <td>
+          #{{ ticket.id }}
+        </td>
+
+        <td>
+          @if (ticket.customer) {
+          <div>
+            <strong>
+              {{ ticket.customer.name }}
+            </strong>
+
+            <small>
+              {{ ticket.customer.email }}
+            </small>
+          </div>
+          } @else {
+          <span>
+              No customer
+            </span>
+          }
+        </td>
+
+        <td>
+          {{ ticket.title }}
+        </td>
+
+        <td class="description-cell">
+          {{ ticket.description }}
+        </td>
+
+        <td>
+            <span
+              class="badge"
+              [attr.data-status]="ticket.status"
+            >
+              {{ ticket.status }}
+            </span>
+        </td>
+
+        <td>
+          <span
+            class="badge priority-badge"
+            [attr.data-priority]="ticket.priority"
+          >
+            {{ ticket.priority }}
+          </span>
+        </td>
+
+        <td>
+          <div class="assignment-cell">
+
+            <select
+              class="assignment-select"
+              [value]="ticket.employee?.id ?? ''"
+              (change)="
+                assignTicket(
+                  ticket.id,
+                  $any($event.target).value
+                    ? +$any($event.target).value
+                    : null
+                )
+              "
+              [disabled]="
+                employeesLoading ||
+                assigningTicketId === ticket.id ||
+                loading ||
+                deletingTicketId !== null
+              "
+            >
+              <option value="">
+                {{
+                employeesLoading
+                ? 'Loading employees...'
+                : 'Select employee'
+                }}
+              </option>
+
+              @for (employee of employees; track employee.id) {
+              <option
+                [value]="employee.id"
+                [selected]="ticket.employee?.id === employee.id"
+              >
+                {{ employee.name }}
+              </option>
+              }
+            </select>
+
+            @if (assigningTicketId === ticket.id) {
+            <small class="assignment-status">
+              Assigning...
+            </small>
+            } @else if (ticket.employee) {
+            <small class="assignment-status assigned">
+              Assigned to {{ ticket.employee.name }}
+            </small>
+            }
+          </div>
+        </td>
+
+        <td>
+          <div class="action-buttons">
+            <button
+              class="small-button analyze-button"
+              (click)="analyzeTicket(ticket.id)"
+              [disabled]="
+                  analyzingTicketId !== null ||
+                  loading ||
+                  deletingTicketId !== null
+                "
+            >
+              {{
+              analyzingTicketId === ticket.id
+              ? 'Analyzing...'
+              : 'Analyze'
+              }}
+            </button>
+
+            <button
+              class="small-button edit-button"
+              (click)="editTicket(ticket)"
+              [disabled]="
+                  analyzingTicketId !== null ||
+                  loading ||
+                  deletingTicketId !== null
+                "
+            >
+              Edit
+            </button>
+          </div>
+        </td>
+      </tr>
+      }
+      </tbody>
+    </table>
+    }
+  </div>
+
+  @if (analysis) {
+  <div class="analysis-card">
+    <div class="analysis-header">
+      <div>
+        <p class="analysis-kicker">AI-POWERED SUPPORT INSIGHTS</p>
+
+        <h2>AI Analysis</h2>
+
+        @if (analyzedTicketId !== null) {
+        <p class="analysis-ticket-reference">
+          Analysis for Ticket #{{ analyzedTicketId }}
+        </p>
+        }
+      </div>
+
+      <button
+        class="close-button"
+        aria-label="Close AI analysis"
+        (click)="closeAnalysis()"
+      >
+        ×
+      </button>
+    </div>
+
+    <div class="analysis-content">
+
+      <!-- =====================================================
+           PRIMARY CLASSIFICATION
+           ===================================================== -->
+
+      <div class="analysis-summary-grid">
+
+        <div class="analysis-summary-item">
+          <span class="analysis-label">
+            Category
+          </span>
+
+          <strong>
+            {{ analysis.category }}
+          </strong>
+        </div>
+
+        <div class="analysis-summary-item">
+          <span class="analysis-label">
+            Suggested Priority
+          </span>
+
+          <span
+            class="analysis-badge priority-analysis-badge"
+            [attr.data-priority]="analysis.suggestedPriority"
+          >
+            {{ analysis.suggestedPriority }}
+          </span>
+        </div>
+
+        <div class="analysis-summary-item">
+          <span class="analysis-label">
+            Sentiment
+          </span>
+
+          <span
+            class="analysis-badge sentiment-badge"
+            [attr.data-sentiment]="analysis.sentiment"
+          >
+            {{ analysis.sentiment }}
+          </span>
+        </div>
+
+        <div class="analysis-summary-item">
+          <span class="analysis-label">
+            Risk
+          </span>
+
+          <span
+            class="analysis-badge risk-badge"
+            [attr.data-risk]="analysis.risk"
+          >
+            {{ analysis.risk }}
+          </span>
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           CONFIDENCE
+           ===================================================== -->
+
+      <div class="confidence-section">
+        <div class="confidence-header">
+          <div>
+            <span class="analysis-label">
+              AI Confidence
+            </span>
+
+            <strong>
+              {{ getConfidencePercent() }}%
+            </strong>
+          </div>
+
+          <span class="confidence-description">
+            Classification confidence
+          </span>
+        </div>
+
+        <div class="confidence-track">
+          <div
+            class="confidence-fill"
+            [style.width.%]="getConfidencePercent()"
+          ></div>
+        </div>
+      </div>
+
+
+      <!-- =====================================================
+           AI DECISION
+           ===================================================== -->
+
+      <div class="decision-section">
+        <div class="section-title">
+          AI Decision
+        </div>
+
+        <div class="decision-grid">
+
+          <div
+            class="decision-card"
+            [class.decision-positive]="analysis.canAnswer"
+            [class.decision-negative]="!analysis.canAnswer"
+          >
+            <div class="decision-icon">
+              {{ analysis.canAnswer ? '✓' : '×' }}
+            </div>
+
+            <div>
+              <span class="decision-label">
+                Can Answer
+              </span>
+
+              <strong>
+                {{ analysis.canAnswer ? 'Yes' : 'No' }}
+              </strong>
+            </div>
+          </div>
+
+          <div
+            class="decision-card"
+            [class.decision-positive]="analysis.canResolve"
+            [class.decision-negative]="!analysis.canResolve"
+          >
+            <div class="decision-icon">
+              {{ analysis.canResolve ? '✓' : '×' }}
+            </div>
+
+            <div>
+              <span class="decision-label">
+                Can Resolve
+              </span>
+
+              <strong>
+                {{ analysis.canResolve ? 'Yes' : 'No' }}
+              </strong>
+            </div>
+          </div>
+
+          <div
+            class="decision-card"
+            [class.decision-warning]="analysis.escalate"
+            [class.decision-positive]="!analysis.escalate"
+          >
+            <div class="decision-icon">
+              {{ analysis.escalate ? '!' : '✓' }}
+            </div>
+
+            <div>
+              <span class="decision-label">
+                Escalation
+              </span>
+
+              <strong>
+                {{ analysis.escalate ? 'Required' : 'Not Required' }}
+              </strong>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <!-- =====================================================
+           SUGGESTED RESPONSE
+           ===================================================== -->
+
+      <div class="response-section">
+        <div class="section-title">
+          Suggested Customer Response
+        </div>
+
+        <div class="suggested-response">
+          {{ analysis.suggestedResponse }}
+        </div>
+      </div>
+
+    </div>
+  </div>
+  }
+</div>

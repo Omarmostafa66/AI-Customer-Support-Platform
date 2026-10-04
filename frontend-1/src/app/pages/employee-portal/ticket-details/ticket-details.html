@@ -1,0 +1,855 @@
+<div class="page-header">
+
+  <div>
+
+    <p class="workspace-kicker">
+      SUPPORT WORKSPACE
+    </p>
+
+    <h1>
+      Support Ticket Details
+    </h1>
+
+  </div>
+
+
+  <div class="action-buttons">
+
+    <a routerLink="/employee/tickets">
+      Back to Support Tickets
+    </a>
+
+    <button
+      class="secondary-button"
+      (click)="reload()"
+      [disabled]="loading || busy || statusSaving || !user.currentEmployeeId()"
+    >
+      {{ loading ? 'Refreshing...' : 'Refresh' }}
+    </button>
+
+  </div>
+
+</div>
+
+
+<app-portal-state
+  [loading]="loading"
+  [error]="error"
+/>
+
+
+@if (user.currentEmployeeId() && !loading) {
+
+@if (ticket; as item) {
+
+<!-- =====================================================
+     Ticket Information
+     ===================================================== -->
+
+<article class="form-card">
+
+  <h2>
+    #{{ item.id }} — {{ item.title }}
+  </h2>
+
+
+  <p class="prose">
+    {{ item.description }}
+  </p>
+
+
+  <dl class="detail-grid">
+
+    <div>
+
+      <dt>Status</dt>
+
+      <dd>
+
+        <span
+          class="badge"
+          [attr.data-status]="item.status"
+        >
+          {{ item.status }}
+        </span>
+
+      </dd>
+
+    </div>
+
+
+    <div>
+
+      <dt>Priority</dt>
+
+      <dd>
+        {{ item.priority }}
+      </dd>
+
+    </div>
+
+
+    <div>
+
+      <dt>Customer</dt>
+
+      <dd>
+        {{ item.customer?.name || 'Unlinked' }}
+      </dd>
+
+    </div>
+
+
+    <div>
+
+      <dt>Customer email</dt>
+
+      <dd>
+        {{ item.customer?.email || '—' }}
+      </dd>
+
+    </div>
+
+
+    <div>
+
+      <dt>Category</dt>
+
+      <dd>
+        {{ item.category?.name || 'Not categorized' }}
+      </dd>
+
+    </div>
+
+
+    <div>
+
+      <dt>Created</dt>
+
+      <dd>
+        {{ (item.createdAt | date: 'medium') || '—' }}
+      </dd>
+
+    </div>
+
+
+    <div>
+
+      <dt>Updated</dt>
+
+      <dd>
+        {{ (item.updatedAt | date: 'medium') || '—' }}
+      </dd>
+
+    </div>
+
+
+    <div>
+      <dt>SLA Status</dt>
+      <dd>
+        <span
+          class="badge sla-badge"
+          [attr.data-sla-status]="item.slaStatus"
+        >
+          {{
+            item.slaStatus === 'WITHIN_SLA'
+              ? 'Within SLA'
+              : item.slaStatus === 'BREACHED'
+                ? 'Breached'
+                : item.slaStatus === 'RESOLVED_WITHIN_SLA'
+                  ? 'Resolved Within SLA'
+                  : item.slaStatus === 'RESOLVED_AFTER_SLA'
+                    ? 'Resolved After SLA'
+                    : 'Not Available'
+          }}
+        </span>
+      </dd>
+    </div>
+
+
+    <div>
+      <dt>SLA Due At</dt>
+      <dd>
+        {{
+        item.slaDueAt
+        ? (item.slaDueAt | date: 'medium')
+        : 'Not available'
+        }}
+      </dd>
+    </div>
+
+
+    <div>
+      <dt>First Response</dt>
+      <dd>
+        {{ getFirstResponseTime() }}
+      </dd>
+    </div>
+
+
+    <div>
+      <dt>Resolved At</dt>
+      <dd>
+        {{
+        item.resolvedAt
+        ? (item.resolvedAt | date: 'medium')
+        : 'Not resolved'
+        }}
+      </dd>
+    </div>
+
+
+    <div>
+      <dt>Resolution Time</dt>
+      <dd>
+        {{ getResolutionTime() }}
+      </dd>
+    </div>
+
+  </dl>
+
+
+  <div class="sla-card">
+
+    <div class="sla-header">
+      <span class="sla-title">SLA</span>
+
+      <span
+        class="sla-status"
+        [ngClass]="getSlaStatusClass(ticket?.slaStatus)"
+      >
+        {{ getSlaStatusLabel(ticket?.slaStatus) }}
+      </span>
+    </div>
+
+    <div class="sla-info">
+
+      <div class="sla-item">
+        <span class="sla-label">Due At</span>
+        <span class="sla-value">
+          {{
+            ticket?.slaDueAt
+              ? (ticket.slaDueAt | date:'dd/MM/yyyy, hh:mm a')
+              : 'Not available'
+          }}
+        </span>
+      </div>
+
+      <div class="sla-item">
+        <span class="sla-label">First Response</span>
+        <span class="sla-value">
+          {{
+            ticket?.firstResponseAt
+              ? (ticket.firstResponseAt | date:'dd/MM/yyyy, hh:mm a')
+              : 'Not yet'
+          }}
+        </span>
+      </div>
+
+      <div class="sla-item">
+        <span class="sla-label">Resolved At</span>
+        <span class="sla-value">
+          {{
+            ticket?.resolvedAt
+              ? (ticket.resolvedAt | date:'dd/MM/yyyy, hh:mm a')
+              : 'Not resolved'
+          }}
+        </span>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="ai-action-buttons">
+
+    @if (!analysis) {
+
+    <button
+      type="button"
+      class="primary-button"
+      (click)="analyze()"
+      [disabled]="busy || statusSaving"
+    >
+      {{
+      busy
+      ? 'Analyzing...'
+      : 'Analyze with AI'
+      }}
+    </button>
+
+    } @else {
+
+    <button
+      type="button"
+      class="secondary-button"
+      (click)="refreshAnalysis()"
+      [disabled]="busy || statusSaving"
+    >
+      {{
+      busy
+      ? 'Refreshing...'
+      : 'Refresh Analysis'
+      }}
+    </button>
+
+    }
+
+  </div>
+
+</article>
+
+
+<!-- =====================================================
+     Ticket Workflow
+     ===================================================== -->
+
+<section class="form-card workflow-card">
+
+  <div class="workflow-header">
+
+    <div>
+
+      <p class="workflow-kicker">
+        TICKET WORKFLOW
+      </p>
+
+      <h2>
+        Update Ticket Status
+      </h2>
+
+      <p class="hint">
+        Move the ticket through the support workflow as the issue progresses.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="workflow-control">
+
+    <div class="workflow-field">
+
+      <label for="ticketStatus">
+        Current status
+      </label>
+
+      <select
+        id="ticketStatus"
+        [(ngModel)]="selectedStatus"
+        [disabled]="statusSaving || busy"
+      >
+
+        @for (
+        status of availableStatuses;
+        track status
+        ) {
+
+        <option [value]="status">
+          {{ status }}
+        </option>
+
+        }
+
+      </select>
+
+    </div>
+
+
+    <button
+      type="button"
+      class="primary-button"
+      (click)="updateStatus()"
+      [disabled]="
+        statusSaving ||
+        busy ||
+        selectedStatus === item.status
+      "
+    >
+
+      {{
+      statusSaving
+      ? 'Updating...'
+      : 'Update Status'
+      }}
+
+    </button>
+
+  </div>
+
+
+  @if (selectedStatus === 'RESOLVED') {
+
+  <div class="resolution-field">
+
+    <label for="resolutionNote">
+      Resolution Note
+    </label>
+
+    <textarea
+      id="resolutionNote"
+      [(ngModel)]="resolutionNote"
+      [disabled]="statusSaving || busy"
+      maxlength="5000"
+      placeholder="Describe how the customer's issue was resolved..."
+    ></textarea>
+
+    <p class="resolution-hint">
+      A resolution note is required before the ticket can be marked as RESOLVED.
+    </p>
+
+  </div>
+
+  }
+
+
+  @if (item.resolutionNote) {
+
+  <div class="resolution-field">
+
+    <label>
+      Saved Resolution
+    </label>
+
+    <textarea
+      [ngModel]="item.resolutionNote"
+      readonly
+    ></textarea>
+
+    <p class="resolution-hint">
+      This resolution is stored with the ticket and is required before closing it.
+    </p>
+
+  </div>
+
+  }
+
+
+  @if (selectedStatus === item.status) {
+
+  <span class="workflow-status">
+    Current ticket status:
+    <strong>{{ item.status }}</strong>
+  </span>
+
+  }
+
+</section>
+
+
+<!-- =====================================================
+     AI Analysis
+     ===================================================== -->
+
+@if (analysis; as result) {
+
+<section class="form-card ai-analysis-card">
+
+  <div class="ai-analysis-header">
+
+    <div>
+
+      <p class="ai-kicker">
+        AI AGENT ASSIST
+      </p>
+
+      <h2>
+        AI Analysis
+      </h2>
+
+      <p class="hint">
+        AI-generated assessment to help the support team review and respond to this ticket.
+      </p>
+
+    </div>
+
+    <span
+      class="ai-decision-badge"
+      [class.escalated]="result.escalate"
+      [class.safe]="!result.escalate"
+    >
+      {{ result.escalate ? 'Human Review' : 'AI Support' }}
+    </span>
+
+  </div>
+
+
+  <div class="analysis-summary-grid">
+
+    <div class="analysis-stat">
+      <span class="analysis-label">Category</span>
+      <strong>{{ result.category || 'General Support' }}</strong>
+    </div>
+
+    <div class="analysis-stat">
+      <span class="analysis-label">Priority</span>
+      <strong [attr.data-priority]="result.suggestedPriority">
+        {{ result.suggestedPriority || 'MEDIUM' }}
+      </strong>
+    </div>
+
+    <div class="analysis-stat">
+      <span class="analysis-label">Risk</span>
+      <strong [attr.data-risk]="result.risk">
+        {{ result.risk || 'LOW' }}
+      </strong>
+    </div>
+
+    <div class="analysis-stat">
+      <span class="analysis-label">Sentiment</span>
+      <strong>{{ result.sentiment || 'NEUTRAL' }}</strong>
+    </div>
+
+  </div>
+
+
+  <div class="confidence-panel">
+
+    <div class="confidence-header">
+      <span>AI Confidence</span>
+      <strong>{{ (result.confidence * 100) | number: '1.0-0' }}%</strong>
+    </div>
+
+    <div class="confidence-track" aria-hidden="true">
+
+      <div
+        class="confidence-fill"
+        [style.width.%]="result.confidence * 100"
+      ></div>
+
+    </div>
+
+  </div>
+
+
+  <div class="decision-grid">
+
+    <div
+      class="decision-item"
+      [class.active]="result.canAnswer"
+    >
+
+      <span class="decision-icon">
+        {{ result.canAnswer ? '✓' : '—' }}
+      </span>
+
+      <div>
+
+        <strong>
+          Can Answer
+        </strong>
+
+        <span>
+          {{
+          result.canAnswer
+            ? 'AI has enough information to respond.'
+            : 'Human review may be needed.'
+          }}
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div
+      class="decision-item"
+      [class.active]="result.canResolve"
+    >
+
+      <span class="decision-icon">
+        {{ result.canResolve ? '✓' : '—' }}
+      </span>
+
+      <div>
+
+        <strong>
+          Can Resolve
+        </strong>
+
+        <span>
+          {{
+          result.canResolve
+            ? 'Issue may be resolved without intervention.'
+            : 'Issue may require support intervention.'
+          }}
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="suggested-response">
+
+    <div class="suggested-response-header">
+
+      <div>
+
+        <span class="analysis-label">
+          Suggested Response
+        </span>
+
+        <h3>
+          AI Draft for the Customer
+        </h3>
+
+      </div>
+
+      <button
+        type="button"
+        class="secondary-button use-response-button"
+        (click)="useSuggestedResponse()"
+        [disabled]="sendingMessage || statusSaving || !result.suggestedResponse"
+      >
+        Use Response
+      </button>
+
+    </div>
+
+
+    <p class="suggested-response-text">
+      {{ result.suggestedResponse || 'No suggested response was generated.' }}
+    </p>
+
+  </div>
+
+</section>
+
+}
+
+
+<!-- =====================================================
+     Ticket Conversation
+     ===================================================== -->
+
+<section class="form-card conversation-card">
+
+  <div class="conversation-header">
+
+    <div>
+
+      <p class="conversation-kicker">
+        CUSTOMER SUPPORT
+      </p>
+
+      <h2>
+        Ticket Conversation
+      </h2>
+
+      <p class="hint">
+        Communicate directly with the customer about this ticket.
+      </p>
+
+    </div>
+
+
+    <button
+      class="secondary-button"
+      type="button"
+      (click)="loadConversation(item.id)"
+      [disabled]="messagesLoading || statusSaving"
+    >
+
+      {{
+      messagesLoading
+      ? 'Loading...'
+      : 'Refresh Conversation'
+      }}
+
+    </button>
+
+  </div>
+
+
+  <!-- ===================================================
+       Conversation Error
+       =================================================== -->
+
+  @if (messagesError) {
+
+  <div class="conversation-error">
+
+    {{ messagesError }}
+
+  </div>
+
+  }
+
+
+  <!-- ===================================================
+       Loading
+       =================================================== -->
+
+  @if (!conversationLoaded && !messagesError) {
+
+  <div class="conversation-loading">
+
+    <div class="conversation-spinner"></div>
+
+    <p>
+      Loading conversation...
+    </p>
+
+  </div>
+
+  }
+
+
+  <!-- ===================================================
+       Messages / Empty State
+       =================================================== -->
+
+  @if (conversationLoaded && !messagesError) {
+
+  @if (messages.length === 0) {
+
+  <div class="conversation-empty">
+
+    <div class="conversation-empty-icon">
+      💬
+    </div>
+
+    <h3>
+      No messages yet
+    </h3>
+
+    <p>
+      Start the conversation by sending a reply to the customer.
+    </p>
+
+  </div>
+
+  } @else {
+
+  <div class="conversation-list">
+
+    @for (
+    message of messages;
+    track message.id
+    ) {
+
+    <div
+      class="message-row"
+      [class.employee]="message.senderType === 'EMPLOYEE'"
+      [class.customer]="message.senderType === 'CUSTOMER'"
+    >
+
+      <div
+        class="message-bubble"
+        [class.employee]="message.senderType === 'EMPLOYEE'"
+        [class.customer]="message.senderType === 'CUSTOMER'"
+      >
+
+        <div class="message-meta">
+
+          <span>
+            {{
+              message.senderType === 'EMPLOYEE'
+                ? 'Support Team'
+                : 'Customer'
+            }}
+          </span>
+
+
+          <span class="message-time">
+
+            {{
+              (message.createdAt | date: 'medium')
+                || 'Just now'
+            }}
+
+          </span>
+
+        </div>
+
+
+        <p class="message-text">
+          {{ message.txt }}
+        </p>
+
+      </div>
+
+    </div>
+
+    }
+
+  </div>
+
+  }
+
+  }
+
+
+  <!-- ===================================================
+       Reply
+       =================================================== -->
+
+  <div class="reply-box">
+
+    <div>
+
+      <h3>
+        Reply to customer
+      </h3>
+
+      <p class="hint">
+        Your message will be added to Ticket #{{ item.id }}.
+      </p>
+
+    </div>
+
+
+    <textarea
+      [(ngModel)]="replyText"
+      [disabled]="sendingMessage || statusSaving"
+      maxlength="5000"
+      placeholder="Write your reply to the customer..."
+    ></textarea>
+
+
+    <div class="reply-footer">
+
+      <span class="character-count">
+        {{ replyText.length }}/5000
+      </span>
+
+
+      <button
+        class="primary-button"
+        type="button"
+        (click)="sendReply()"
+        [disabled]="
+          sendingMessage ||
+          statusSaving ||
+          !replyText.trim()
+        "
+      >
+
+        {{
+        sendingMessage
+        ? 'Sending...'
+        : 'Send Reply'
+        }}
+
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+} @else if (!error) {
+
+<p class="empty-message">
+  No ticket is available.
+</p>
+
+}
+
+}

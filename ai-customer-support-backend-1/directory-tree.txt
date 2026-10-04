@@ -1,0 +1,254 @@
+ai-customer-support-backend/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   ├── com/
+│   │   │       ├── aicustomersupport/
+│   │   │           ├── aicustomersupportbackend/
+│   │   │               ├── account/
+│   │   │               │   ├── AccountController.java
+│   │   │               │   ├── AccountResponse.java
+│   │   │               │   ├── AccountService.java
+│   │   │               │   ├── AvatarResponse.java
+│   │   │               │   ├── ChangePasswordRequest.java
+│   │   │               │   └── UpdateAccountRequest.java
+│   │   │               ├── ai/
+│   │   │               │   ├── AiAnalysisResponse.java
+│   │   │               │   ├── AiChatMessage.java
+│   │   │               │   ├── AiChatRequest.java
+│   │   │               │   ├── AiChatResponse.java
+│   │   │               │   ├── AiResolutionResponse.java
+│   │   │               │   ├── AiSupportService.java
+│   │   │               │   ├── GeminiAiSupportService.java
+│   │   │               │   └── MockAiSupportService.java
+│   │   │               ├── auth/
+│   │   │               │   ├── AuthController.java
+│   │   │               │   ├── AuthResponse.java
+│   │   │               │   ├── AuthService.java
+│   │   │               │   ├── LoginRequest.java
+│   │   │               │   └── RegisterRequest.java
+│   │   │               ├── config/
+│   │   │               │   └── DataInitializer.java
+│   │   │               ├── controller/
+│   │   │               │   ├── AiController.java
+│   │   │               │   ├── CategoryController.java
+│   │   │               │   ├── CustomerController.java
+│   │   │               │   ├── CustomerSatisfactionAdminController.java
+│   │   │               │   ├── CustomerSatisfactionController.java
+│   │   │               │   ├── EmployeeController.java
+│   │   │               │   ├── HealthController.java
+│   │   │               │   ├── IncidentController.java
+│   │   │               │   ├── MessageController.java
+│   │   │               │   ├── NotificationController.java
+│   │   │               │   └── TicketController.java
+│   │   │               ├── dto/
+│   │   │               │   ├── AttentionQueueResponse.java
+│   │   │               │   ├── CustomerSatisfactionMetricsResponse.java
+│   │   │               │   ├── CustomerSatisfactionRequest.java
+│   │   │               │   ├── NotificationResponse.java
+│   │   │               │   ├── SlaMetricsResponse.java
+│   │   │               │   └── TicketStatusUpdateRequest.java
+│   │   │               ├── entity/
+│   │   │               │   ├── AiConversation.java
+│   │   │               │   ├── AiConversationMessage.java
+│   │   │               │   ├── AiTicketAnalysis.java
+│   │   │               │   ├── Category.java
+│   │   │               │   ├── Customer.java
+│   │   │               │   ├── CustomerSatisfaction.java
+│   │   │               │   ├── Employee.java
+│   │   │               │   ├── Incident.java
+│   │   │               │   ├── Message.java
+│   │   │               │   ├── Notification.java
+│   │   │               │   └── Ticket.java
+│   │   │               ├── enums/
+│   │   │               │   ├── IncidentStatus.java
+│   │   │               │   ├── SlaStatus.java
+│   │   │               │   ├── TicketPriority.java
+│   │   │               │   └── TicketStatus.java
+│   │   │               ├── exception/
+│   │   │               │   └── GlobalExceptionHandler.java
+│   │   │               ├── repository/
+│   │   │               │   ├── AiConversationMessageRepository.java
+│   │   │               │   ├── AiConversationRepository.java
+│   │   │               │   ├── AiTicketAnalysisRepository.java
+│   │   │               │   ├── CategoryRepository.java
+│   │   │               │   ├── CustomerRepository.java
+│   │   │               │   ├── CustomerSatisfactionRepository.java
+│   │   │               │   ├── EmployeeRepository.java
+│   │   │               │   ├── IncidentRepository.java
+│   │   │               │   ├── MessageRepository.java
+│   │   │               │   ├── NotificationRepository.java
+│   │   │               │   └── TicketRepository.java
+│   │   │               ├── security/
+│   │   │               │   ├── JwtAuthenticationFilter.java
+│   │   │               │   ├── JwtService.java
+│   │   │               │   └── SecurityConfig.java
+│   │   │               ├── service/
+│   │   │               │   ├── AiConversationService.java
+│   │   │               │   ├── AiEscalationPolicyService.java
+│   │   │               │   ├── AttentionQueueService.java
+│   │   │               │   ├── CategoryService.java
+│   │   │               │   ├── CustomerSatisfactionMetricsService.java
+│   │   │               │   ├── CustomerSatisfactionService.java
+│   │   │               │   ├── CustomerService.java
+│   │   │               │   ├── EmployeeService.java
+│   │   │               │   ├── IncidentService.java
+│   │   │               │   ├── MessageService.java
+│   │   │               │   ├── NotificationService.java
+│   │   │               │   ├── SlaMetricsService.java
+│   │   │               │   ├── SlaService.java
+│   │   │               │   └── TicketService.java
+│   │   │               └── AiCustomerSupportBackendApplication.java
+│   │   ├── resources/
+│   │       └── application.properties
+│   ├── test/
+│       ├── java/
+│           ├── com/
+│               ├── aicustomersupport/
+│                   ├── aicustomersupportbackend/
+│                       └── AiCustomerSupportBackendApplicationTests.java
+├── target/
+│   ├── classes/
+│   │   ├── com/
+│   │   │   ├── aicustomersupport/
+│   │   │       ├── aicustomersupportbackend/
+│   │   │           ├── account/
+│   │   │           │   ├── AccountController$MessageResponse.class
+│   │   │           │   ├── AccountController.class
+│   │   │           │   ├── AccountResponse.class
+│   │   │           │   ├── AccountService$AvatarData.class
+│   │   │           │   ├── AccountService.class
+│   │   │           │   ├── AvatarResponse.class
+│   │   │           │   ├── ChangePasswordRequest.class
+│   │   │           │   └── UpdateAccountRequest.class
+│   │   │           ├── ai/
+│   │   │           │   ├── AiAnalysisResponse.class
+│   │   │           │   ├── AiChatMessage.class
+│   │   │           │   ├── AiChatRequest.class
+│   │   │           │   ├── AiChatResponse.class
+│   │   │           │   ├── AiResolutionResponse.class
+│   │   │           │   ├── AiSupportService.class
+│   │   │           │   ├── GeminiAiSupportService.class
+│   │   │           │   └── MockAiSupportService.class
+│   │   │           ├── auth/
+│   │   │           │   ├── AuthController.class
+│   │   │           │   ├── AuthResponse.class
+│   │   │           │   ├── AuthService.class
+│   │   │           │   ├── LoginRequest.class
+│   │   │           │   └── RegisterRequest.class
+│   │   │           ├── config/
+│   │   │           │   └── DataInitializer.class
+│   │   │           ├── controller/
+│   │   │           │   ├── AiController.class
+│   │   │           │   ├── CategoryController.class
+│   │   │           │   ├── CustomerController$1.class
+│   │   │           │   ├── CustomerController.class
+│   │   │           │   ├── CustomerSatisfactionAdminController.class
+│   │   │           │   ├── CustomerSatisfactionController.class
+│   │   │           │   ├── EmployeeController.class
+│   │   │           │   ├── HealthController.class
+│   │   │           │   ├── IncidentController.class
+│   │   │           │   ├── MessageController.class
+│   │   │           │   ├── NotificationController.class
+│   │   │           │   └── TicketController.class
+│   │   │           ├── dto/
+│   │   │           │   ├── AttentionQueueResponse.class
+│   │   │           │   ├── CustomerSatisfactionMetricsResponse.class
+│   │   │           │   ├── CustomerSatisfactionRequest.class
+│   │   │           │   ├── SlaMetricsResponse.class
+│   │   │           │   └── TicketStatusUpdateRequest.class
+│   │   │           ├── entity/
+│   │   │           │   ├── AiConversation.class
+│   │   │           │   ├── AiConversationMessage$SenderType.class
+│   │   │           │   ├── AiConversationMessage.class
+│   │   │           │   ├── AiTicketAnalysis.class
+│   │   │           │   ├── Category.class
+│   │   │           │   ├── Customer.class
+│   │   │           │   ├── CustomerSatisfaction.class
+│   │   │           │   ├── Employee.class
+│   │   │           │   ├── Incident.class
+│   │   │           │   ├── Message$SenderType.class
+│   │   │           │   ├── Message.class
+│   │   │           │   ├── Notification.class
+│   │   │           │   └── Ticket.class
+│   │   │           ├── enums/
+│   │   │           │   ├── IncidentStatus.class
+│   │   │           │   ├── SlaStatus.class
+│   │   │           │   ├── TicketPriority.class
+│   │   │           │   └── TicketStatus.class
+│   │   │           ├── exception/
+│   │   │           │   └── GlobalExceptionHandler.class
+│   │   │           ├── repository/
+│   │   │           │   ├── AiConversationMessageRepository.class
+│   │   │           │   ├── AiConversationRepository.class
+│   │   │           │   ├── AiTicketAnalysisRepository.class
+│   │   │           │   ├── CategoryRepository.class
+│   │   │           │   ├── CustomerRepository.class
+│   │   │           │   ├── CustomerSatisfactionRepository.class
+│   │   │           │   ├── EmployeeRepository.class
+│   │   │           │   ├── IncidentRepository.class
+│   │   │           │   ├── MessageRepository.class
+│   │   │           │   ├── NotificationRepository.class
+│   │   │           │   └── TicketRepository.class
+│   │   │           ├── security/
+│   │   │           │   ├── JwtAuthenticationFilter.class
+│   │   │           │   ├── JwtService.class
+│   │   │           │   └── SecurityConfig.class
+│   │   │           ├── service/
+│   │   │           │   ├── AiConversationService.class
+│   │   │           │   ├── AiEscalationPolicyService$Decision.class
+│   │   │           │   ├── AiEscalationPolicyService.class
+│   │   │           │   ├── AttentionQueueService.class
+│   │   │           │   ├── CategoryService.class
+│   │   │           │   ├── CustomerSatisfactionMetricsService.class
+│   │   │           │   ├── CustomerSatisfactionService.class
+│   │   │           │   ├── CustomerService$DeleteCustomerResult.class
+│   │   │           │   ├── CustomerService.class
+│   │   │           │   ├── EmployeeService.class
+│   │   │           │   ├── IncidentService.class
+│   │   │           │   ├── MessageService.class
+│   │   │           │   ├── SlaMetricsService$1.class
+│   │   │           │   ├── SlaMetricsService.class
+│   │   │           │   ├── SlaService$1.class
+│   │   │           │   ├── SlaService.class
+│   │   │           │   ├── TicketService$1.class
+│   │   │           │   └── TicketService.class
+│   │   │           └── AiCustomerSupportBackendApplication.class
+│   │   └── application.properties
+│   ├── generated-sources/
+│   │   ├── annotations/
+│   ├── generated-test-sources/
+│   │   ├── test-annotations/
+│   ├── maven-archiver/
+│   │   └── pom.properties
+│   ├── maven-status/
+│   │   ├── maven-compiler-plugin/
+│   │       ├── compile/
+│   │       │   ├── default-compile/
+│   │       │       ├── createdFiles.lst
+│   │       │       └── inputFiles.lst
+│   │       ├── testCompile/
+│   │           ├── default-testCompile/
+│   │               ├── createdFiles.lst
+│   │               └── inputFiles.lst
+│   ├── surefire-reports/
+│   │   ├── 2026-09-21T13-34-08_639.dumpstream
+│   │   ├── TEST-com.aicustomersupport.aicustomersupportbackend.AiCustomerSupportBackendApplicationTests.xml
+│   │   └── com.aicustomersupport.aicustomersupportbackend.AiCustomerSupportBackendApplicationTests.txt
+│   ├── test-classes/
+│   │   ├── com/
+│   │       ├── aicustomersupport/
+│   │           ├── aicustomersupportbackend/
+│   │               └── AiCustomerSupportBackendApplicationTests.class
+│   ├── ai-customer-support-backend-0.0.1-SNAPSHOT.jar
+│   └── ai-customer-support-backend-0.0.1-SNAPSHOT.jar.original
+├── HELP.md
+├── README.md
+├── directory-tree.txt
+├── main.py
+├── mvnw
+├── mvnw.cmd
+├── pom.xml
+├── pyproject.toml
+├── test-security.ps1
+└── uv.lock

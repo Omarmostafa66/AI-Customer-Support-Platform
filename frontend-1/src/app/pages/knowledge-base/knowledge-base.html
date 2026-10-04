@@ -1,0 +1,101 @@
+<div class="management-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">ADMINISTRATION</p>
+      <h1>Knowledge Base</h1>
+      <p class="hint">Manage AI support articles and help resources.</p>
+    </div>
+    <div class="header-actions">
+      <input type="text" placeholder="Search knowledge..." class="search-input" [(ngModel)]="searchQuery" (keyup.enter)="loadArticles()">
+      <button class="secondary-button" (click)="loadArticles()">Search</button>
+      <button class="primary-button" (click)="openEditor()">Create Article</button>
+    </div>
+  </header>
+
+  @if (showEditor) {
+    <section class="editor-section">
+      <div class="section-heading">
+        <h2>{{ editingArticleId ? 'Edit Article' : 'New Article' }}</h2>
+      </div>
+      
+      <form class="article-form" (ngSubmit)="saveArticle()">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" id="title" name="title" [(ngModel)]="articleForm.title" required>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="category">Category</label>
+            <input type="text" id="category" name="category" [(ngModel)]="articleForm.category">
+          </div>
+          <div class="form-group">
+            <label for="status">Status</label>
+            <select id="status" name="status" [(ngModel)]="articleForm.status">
+              <option value="DRAFT">DRAFT</option>
+              <option value="PUBLISHED">PUBLISHED</option>
+              <option value="ARCHIVED">ARCHIVED</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="content">Content</label>
+          <textarea id="content" name="content" rows="10" [(ngModel)]="articleForm.content" required></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="secondary-button" (click)="closeEditor()">Cancel</button>
+          <button type="submit" class="primary-button" [disabled]="loading">Save Article</button>
+        </div>
+      </form>
+    </section>
+  } @else {
+    <section class="articles-section">
+      @if (loading) {
+        <div class="loading-state">
+          <span class="loading-spinner"></span>
+          <p>Loading articles...</p>
+        </div>
+      } @else if (articles.length > 0) {
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Category</th>
+                <th scope="col">Status</th>
+                <th scope="col">Updated</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (article of articles; track article.id) {
+                <tr [class.inactive]="!article.active">
+                  <td>#{{ article.id }}</td>
+                  <td><strong>{{ article.title }}</strong></td>
+                  <td>{{ article.category || '-' }}</td>
+                  <td>
+                    <span class="badge" [attr.data-status]="article.status">{{ article.status }}</span>
+                  </td>
+                  <td>
+                    <span class="date-value">{{ article.updatedAt | date:'medium' }}</span>
+                  </td>
+                  <td class="actions-cell">
+                    <button class="icon-button" title="Edit" (click)="openEditor(article)">?</button>
+                    <button class="icon-button danger" title="Delete" (click)="deleteArticle(article.id)">?</button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      } @else {
+        <div class="empty-state">
+          <p>No knowledge base articles found.</p>
+        </div>
+      }
+    </section>
+  }
+</div>

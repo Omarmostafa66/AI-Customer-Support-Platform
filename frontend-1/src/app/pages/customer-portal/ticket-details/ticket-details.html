@@ -1,0 +1,765 @@
+<section class="customer-page">
+
+  <a
+    class="back-link"
+    routerLink="/customer/tickets"
+  >
+    ← Back to My Tickets
+  </a>
+
+  <div class="page-heading">
+
+    <div>
+      <p class="eyebrow">
+        YOUR TICKET, AT A GLANCE
+      </p>
+
+      <h1>
+        Ticket Details
+      </h1>
+    </div>
+
+    <button
+      class="button secondary"
+      (click)="reload()"
+      [disabled]="loading || !user.currentCustomerId()"
+    >
+      {{ loading ? 'Refreshing...' : 'Refresh' }}
+    </button>
+
+  </div>
+
+  <app-customer-state
+    [loading]="loading"
+    [error]="error"
+    [retryable]="true"
+    (retry)="reload()"
+  />
+
+  @if (
+  user.currentCustomerId() &&
+  !loading &&
+  !error
+  ) {
+
+  @if (ticket; as item) {
+
+  <!-- ================================================= -->
+  <!-- Ticket Status -->
+  <!-- ================================================= -->
+
+  <article class="surface">
+
+    <div class="ticket-heading">
+
+      <div>
+
+        <p class="ticket-number">
+          Ticket #{{ item.id }}
+        </p>
+
+        <h2>
+          {{ item.title }}
+        </h2>
+
+      </div>
+
+      <app-customer-status
+        [status]="item.status"
+      />
+
+    </div>
+
+    <p class="hint">
+      {{
+      item.status === 'RESOLVED'
+      ? 'Your ticket is marked resolved.'
+      : item.status === 'CLOSED'
+      ? 'This ticket is closed.'
+      : item.status === 'IN_PROGRESS'
+      ? 'Your ticket is in progress.'
+      : 'Your ticket is open for the support team to review.'
+      }}
+    </p>
+
+    <ol
+      class="progress"
+      aria-label="Current ticket progress"
+    >
+
+      @for (
+      step of steps;
+      track $index;
+      let i = $index
+      ) {
+
+      <li
+        [attr.aria-current]="
+                stage === i
+                  ? 'step'
+                  : null
+              "
+      >
+
+              <span aria-hidden="true">
+                {{ i + 1 }}
+              </span>
+
+        {{ step }}
+
+      </li>
+
+      }
+
+    </ol>
+
+    <p class="form-tip">
+      This shows the current status, not a history of updates.
+    </p>
+
+  </article>
+
+
+  <!-- ================================================= -->
+  <!-- Ticket Information -->
+  <!-- ================================================= -->
+
+  <div class="form-layout">
+
+    <article class="surface">
+
+      <h2>
+        What you submitted
+      </h2>
+
+      <p class="prose">
+        {{ item.description }}
+      </p>
+
+    </article>
+
+
+    <section class="surface">
+
+      <h2>
+        Ticket information
+      </h2>
+
+      <dl class="metadata">
+
+        <div>
+          <dt>
+            Category
+          </dt>
+
+          <dd>
+            {{ item.category?.name || 'Not categorized' }}
+          </dd>
+        </div>
+
+        <div>
+          <dt>
+            Priority
+          </dt>
+
+          <dd>
+            {{
+            item.priority.charAt(0) +
+            item.priority.slice(1).toLowerCase()
+            }}
+          </dd>
+        </div>
+
+        <div>
+          <dt>
+            Created
+          </dt>
+
+          <dd>
+            {{
+            (item.createdAt | date:'medium') ||
+            'Not recorded'
+            }}
+          </dd>
+        </div>
+
+        <div>
+          <dt>
+            Last updated
+          </dt>
+
+          <dd>
+            {{
+            ((item.updatedAt || item.createdAt) | date:'medium') ||
+            'Not recorded'
+            }}
+          </dd>
+        </div>
+
+      </dl>
+
+    </section>
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- AI Resolution Assessment -->
+  <!-- ================================================= -->
+
+  <section class="surface">
+
+    <div class="conversation-header">
+
+      <div>
+
+        <p class="eyebrow">
+          AI RESOLUTION CHECK
+        </p>
+
+        <h2>
+          Is your issue resolved?
+        </h2>
+
+        <p class="hint">
+          The AI assistant can review the ticket and support conversation
+          and assess whether the original issue appears to be resolved.
+        </p>
+
+      </div>
+
+      <button
+        type="button"
+        class="button secondary"
+        (click)="assessResolution()"
+        [disabled]="resolutionLoading"
+      >
+        {{
+        resolutionLoading
+        ? 'Checking...'
+        : 'Check Resolution'
+        }}
+      </button>
+
+    </div>
+
+
+    @if (resolutionError) {
+
+    <div class="conversation-error">
+      {{ resolutionError }}
+    </div>
+
+    }
+
+
+    @if (resolutionLoading) {
+
+    <div class="conversation-loading">
+      AI is reviewing the ticket conversation...
+    </div>
+
+    }
+
+
+    @if (resolutionAssessment; as assessment) {
+
+    <div class="resolution-result">
+
+      <div class="resolution-status">
+
+        <strong>
+          {{
+          assessment.resolved
+          ? 'Issue appears to be resolved'
+          : 'Issue does not appear to be resolved'
+          }}
+        </strong>
+
+      </div>
+
+
+      <div class="metadata">
+
+        <div>
+
+          <dt>
+            AI Confidence
+          </dt>
+
+          <dd>
+            {{
+            (assessment.confidence * 100).toFixed(0)
+            }}%
+          </dd>
+
+        </div>
+
+      </div>
+
+
+      <div class="resolution-reason">
+
+        <strong>
+          AI Assessment
+        </strong>
+
+        <p class="prose">
+          {{ assessment.reason }}
+        </p>
+
+      </div>
+
+      @if (
+      item.status === 'IN_PROGRESS'
+      ) {
+
+      <div class="resolution-confirmation">
+
+        <p class="hint">
+          If your issue has been resolved, confirm it below.
+          This will mark the ticket as resolved.
+        </p>
+
+        <button
+          type="button"
+          class="button primary"
+          (click)="confirmResolution()"
+          [disabled]="resolutionConfirming"
+        >
+          {{
+          resolutionConfirming
+          ? 'Confirming...'
+          : 'Yes, My Issue Is Resolved'
+          }}
+        </button>
+
+        @if (resolutionConfirmError) {
+
+        <div class="conversation-error">
+          {{ resolutionConfirmError }}
+        </div>
+
+        }
+
+      </div>
+
+      }
+
+    </div>
+
+    }
+
+  </section>
+
+
+  <!-- ================================================= -->
+  <!-- Customer Satisfaction (CSAT) -->
+  <!-- ================================================= -->
+
+  @if (item.status === 'RESOLVED' && !satisfactionSubmitted) {
+
+  <section class="surface satisfaction-section">
+
+    <div class="conversation-header">
+
+      <div>
+
+        <p class="eyebrow">
+          CUSTOMER SATISFACTION
+        </p>
+
+        <h2>
+          How satisfied are you with the resolution?
+        </h2>
+
+        <p class="hint">
+          Please rate your experience with the resolution of this ticket.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- Rating -->
+
+    <div class="satisfaction-rating">
+
+      <label class="satisfaction-rating-label">
+        Your rating
+      </label>
+
+      <div
+        class="rating-options"
+        role="radiogroup"
+        aria-label="Customer satisfaction rating"
+      >
+
+        @for (
+        rating of [1, 2, 3, 4, 5];
+        track rating
+        ) {
+
+        <button
+          type="button"
+          class="rating-button"
+          [class.active]="satisfactionRating === rating"
+          [attr.aria-pressed]="satisfactionRating === rating"
+          [attr.aria-label]="'Rate ' + rating + ' out of 5'"
+          (click)="setSatisfactionRating(rating)"
+        >
+          {{ rating }}
+        </button>
+
+        }
+
+      </div>
+
+      <p class="rating-description">
+
+        @if (satisfactionRating === 0) {
+        Select a rating from 1 to 5.
+        }
+
+        @if (satisfactionRating === 1) {
+        Very dissatisfied
+        }
+
+        @if (satisfactionRating === 2) {
+        Dissatisfied
+        }
+
+        @if (satisfactionRating === 3) {
+        Neutral
+        }
+
+        @if (satisfactionRating === 4) {
+        Satisfied
+        }
+
+        @if (satisfactionRating === 5) {
+        Very satisfied
+        }
+
+      </p>
+
+    </div>
+
+
+    <!-- Feedback -->
+
+    <div class="satisfaction-feedback">
+
+      <label
+        for="satisfactionFeedback"
+        class="form-label"
+      >
+        Additional feedback
+        <span class="hint">(optional)</span>
+      </label>
+
+      <textarea
+        id="satisfactionFeedback"
+        [(ngModel)]="satisfactionFeedback"
+        placeholder="Tell us more about your experience..."
+        maxlength="5000"
+        [disabled]="satisfactionSubmitting"
+      ></textarea>
+
+    </div>
+
+
+    @if (satisfactionError) {
+
+    <div class="conversation-error">
+      {{ satisfactionError }}
+    </div>
+
+    }
+
+
+    <!-- Submit -->
+
+    <div class="satisfaction-actions">
+
+      <button
+        type="button"
+        class="button primary"
+        (click)="submitSatisfaction()"
+        [disabled]="
+          satisfactionRating < 1 ||
+          satisfactionSubmitting
+        "
+      >
+        {{
+        satisfactionSubmitting
+        ? 'Submitting...'
+        : 'Submit Feedback'
+        }}
+      </button>
+
+    </div>
+
+  </section>
+
+  }
+
+
+  @if (satisfactionSubmitted) {
+
+  <section class="surface satisfaction-success">
+
+    <p class="eyebrow">
+      CUSTOMER SATISFACTION
+    </p>
+
+    <h2>
+      Thank you for your feedback!
+    </h2>
+
+    <p class="hint">
+      Your satisfaction rating has been submitted successfully.
+    </p>
+
+  </section>
+
+  }
+
+
+  <!-- ================================================= -->
+  <!-- Ticket Conversation -->
+  <!-- ================================================= -->
+
+  <section class="surface conversation">
+
+    <div class="conversation-header">
+
+      <div>
+
+        <p class="eyebrow">
+          SUPPORT CONVERSATION
+        </p>
+
+        <h2>
+          Conversation
+        </h2>
+
+        <p class="hint">
+          Continue the conversation with the support team
+          directly inside this ticket.
+        </p>
+
+      </div>
+
+      <button
+        type="button"
+        class="button secondary"
+        (click)="loadConversation(item.id)"
+        [disabled]="messagesLoading || sendingMessage"
+      >
+        {{
+        messagesLoading
+        ? 'Refreshing...'
+        : 'Refresh Conversation'
+        }}
+      </button>
+
+    </div>
+
+
+    @if (messagesLoading && messages.length === 0) {
+
+    <div class="conversation-loading">
+      Loading conversation...
+    </div>
+
+    }
+
+
+    @if (messagesError) {
+
+    <div class="conversation-error">
+      {{ messagesError }}
+    </div>
+
+    }
+
+
+    @if (
+    !messagesLoading &&
+    !messagesError &&
+    messages.length === 0
+    ) {
+
+    <div class="conversation-empty">
+
+      <p>
+        No messages in this ticket yet.
+      </p>
+
+      <p class="hint">
+        Send a message below to start the conversation.
+      </p>
+
+    </div>
+
+    }
+
+
+    @if (messages.length > 0) {
+
+    <div
+      class="conversation-list"
+      aria-label="Ticket conversation"
+    >
+
+      @for (
+      message of messages;
+      track message.id
+      ) {
+
+      <div
+        class="message-row"
+        [class.customer]="
+                  message.senderType === 'CUSTOMER'
+                "
+        [class.employee]="
+                  message.senderType === 'EMPLOYEE'
+                "
+      >
+
+        <article
+          class="message-bubble"
+          [class.customer]="
+                    message.senderType === 'CUSTOMER'
+                  "
+          [class.employee]="
+                    message.senderType === 'EMPLOYEE'
+                  "
+        >
+
+          <div class="message-meta">
+
+                    <span>
+                      {{
+                        message.senderType === 'CUSTOMER'
+                          ? 'You'
+                          : 'Support Team'
+                      }}
+                    </span>
+
+            <span class="message-time">
+                      {{
+                        (message.createdAt | date:'short') ||
+                        'Just now'
+                      }}
+                    </span>
+
+          </div>
+
+          <p class="message-text">
+            {{ message.txt }}
+          </p>
+
+        </article>
+
+      </div>
+
+      }
+
+    </div>
+
+    }
+
+
+    <!-- ================================================= -->
+    <!-- Reply -->
+    <!-- ================================================= -->
+
+    @if (item.status !== 'CLOSED') {
+
+    <div class="reply-box">
+
+      <label
+        for="ticketReply"
+        class="form-label"
+      >
+        Reply to support
+      </label>
+
+      <textarea
+        id="ticketReply"
+        class="form-control"
+        [(ngModel)]="replyText"
+        placeholder="Write your message here..."
+        maxlength="5000"
+        [disabled]="sendingMessage"
+      ></textarea>
+
+      <div class="reply-actions">
+
+        <button
+          type="button"
+          class="button primary"
+          (click)="sendReply()"
+          [disabled]="
+              sendingMessage ||
+              !replyText.trim()
+            "
+        >
+          {{
+          sendingMessage
+          ? 'Sending...'
+          : 'Send Message'
+          }}
+        </button>
+
+      </div>
+
+    </div>
+
+    } @else {
+
+    <div class="conversation-closed">
+
+      <strong>Ticket closed</strong>
+
+      <p>
+        This ticket is closed, so new messages cannot be sent.
+      </p>
+
+    </div>
+
+    }
+
+  </section>
+
+  }
+
+  @else {
+
+  <div class="state-card">
+
+    <h2>
+      Ticket unavailable
+    </h2>
+
+    <p>
+      This ticket is not available for the selected customer.
+    </p>
+
+    <a
+      class="button primary"
+      routerLink="/customer/tickets"
+    >
+      Back to My Tickets
+    </a>
+
+  </div>
+
+  }
+
+  }
+
+</section>

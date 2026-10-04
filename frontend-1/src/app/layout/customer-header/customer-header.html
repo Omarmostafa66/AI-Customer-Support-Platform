@@ -1,0 +1,387 @@
+<header class="customer-header">
+
+  <!-- =====================================================
+       Brand
+  ====================================================== -->
+
+  <a
+    class="brand"
+    routerLink="/customer/dashboard"
+    aria-label="AI Customer Support home"
+  >
+
+    <span
+      class="brand-icon"
+      aria-hidden="true"
+    >
+      ✳
+    </span>
+
+    <span>
+      AI Customer
+
+      <span class="brand-second">
+        Support
+      </span>
+    </span>
+
+  </a>
+
+
+  <!-- =====================================================
+       Navigation
+  ====================================================== -->
+
+  <nav
+    aria-label="Customer navigation"
+  >
+
+    <!-- AI Support -->
+
+    <a
+      routerLink="/customer/dashboard"
+      routerLinkActive="active"
+      ariaCurrentWhenActive="page"
+    >
+      AI Support
+    </a>
+
+
+    <!-- My Tickets -->
+
+    <a
+      routerLink="/customer/tickets"
+      [class.active]="ticketsActive()"
+      [attr.aria-current]="
+        ticketsActive()
+          ? 'page'
+          : null
+      "
+    >
+      My Tickets
+    </a>
+
+
+    <!-- My Account -->
+
+    <a
+      routerLink="/account"
+      routerLinkActive="active"
+      ariaCurrentWhenActive="page"
+    >
+      My Account
+    </a>
+
+  </nav>
+
+
+  <!-- =====================================================
+       Header Actions
+  ====================================================== -->
+
+  <div class="header-actions">
+
+    <!-- Ask AI -->
+
+    <a
+      class="header-cta"
+      routerLink="/customer/dashboard"
+    >
+      Ask AI
+
+      <span
+        aria-hidden="true"
+      >
+        ✦
+      </span>
+
+    </a>
+
+
+    <!-- ===================================================
+         Notifications
+    ==================================================== -->
+
+    <div
+      class="notification-wrapper"
+    >
+
+      <button
+        type="button"
+        class="notification-button"
+        [class.active]="notificationPanelOpen"
+        [attr.aria-expanded]="notificationPanelOpen"
+        aria-label="Open notifications"
+        (click)="toggleNotificationPanel()"
+      >
+
+        <span
+          class="notification-icon"
+          aria-hidden="true"
+        >
+          🔔
+        </span>
+
+
+        @if (unreadNotificationCount > 0) {
+
+        <span
+          class="notification-badge"
+          aria-hidden="true"
+        >
+            {{
+              unreadNotificationCount > 99
+                ? '99+'
+                : unreadNotificationCount
+            }}
+          </span>
+
+        }
+
+      </button>
+
+
+      <!-- ===============================================
+           Notification Panel
+      ================================================ -->
+
+      @if (notificationPanelOpen) {
+
+      <div
+        class="notification-panel"
+        role="dialog"
+        aria-label="Notifications"
+      >
+
+        <div
+          class="notification-panel-header"
+        >
+
+          <div>
+
+              <span
+                class="notification-panel-eyebrow"
+              >
+                Updates
+              </span>
+
+            <h3>
+              Notifications
+            </h3>
+
+          </div>
+
+
+          @if (unreadNotificationCount > 0) {
+
+          <span
+            class="notification-panel-count"
+          >
+                {{ unreadNotificationCount }}
+                unread
+              </span>
+
+          }
+
+        </div>
+
+
+        <!-- Loading -->
+
+        @if (notificationsLoading) {
+
+        <div
+          class="notification-state"
+        >
+          Loading notifications...
+        </div>
+
+        }
+
+
+        <!-- Error -->
+
+        @else if (notificationError) {
+
+        <div
+          class="notification-state notification-error"
+        >
+          {{ notificationError }}
+        </div>
+
+        }
+
+
+        <!-- Empty -->
+
+        @else if (notifications.length === 0) {
+
+        <div
+          class="notification-state notification-empty"
+        >
+
+              <span
+                class="notification-empty-icon"
+                aria-hidden="true"
+              >
+                ✓
+              </span>
+
+          <strong>
+            You're all caught up
+          </strong>
+
+          <span>
+                No new notifications right now.
+              </span>
+
+        </div>
+
+        }
+
+
+        <!-- Notification List -->
+
+        @else {
+
+        <div
+          class="notification-list"
+        >
+
+          @for (
+          notification of notifications;
+          track trackNotification($index, notification)
+          ) {
+
+          <button
+            type="button"
+            class="notification-item"
+            [class.unread]="isUnread(notification)"
+            (click)="markNotificationAsRead(notification)"
+          >
+
+                  <span
+                    class="notification-item-indicator"
+                    aria-hidden="true"
+                  ></span>
+
+
+            <span
+              class="notification-item-content"
+            >
+
+                    <span
+                      class="notification-item-top"
+                    >
+
+                      <strong>
+                        {{ notification.title }}
+                      </strong>
+
+                      @if (isUnread(notification)) {
+
+                        <span
+                          class="notification-new"
+                        >
+                          New
+                        </span>
+
+                      }
+
+                    </span>
+
+
+                    <span
+                      class="notification-item-message"
+                    >
+                      {{ notification.message }}
+                    </span>
+
+
+                    @if (notification.ticket) {
+
+                      <span
+                        class="notification-ticket"
+                      >
+                        Ticket #{{ notification.ticket.id }}
+                      </span>
+
+                    }
+
+
+                    @if (notification.createdAt) {
+
+                      <span
+                        class="notification-time"
+                      >
+                        {{ notification.createdAt | date:'MMM d, y · h:mm a' }}
+                      </span>
+
+                    }
+
+                  </span>
+
+          </button>
+
+          }
+
+        </div>
+
+        }
+
+      </div>
+
+      }
+
+    </div>
+
+
+    <!-- ===================================================
+         Profile
+    ==================================================== -->
+
+    <a
+      class="customer-profile"
+      routerLink="/account"
+      aria-label="Open my account"
+    >
+
+      <span
+        class="customer-profile-avatar"
+      >
+
+        @if (avatarSource) {
+
+          <img
+            [src]="avatarSource"
+            alt="Profile photo"
+          />
+
+        } @else {
+
+          <span>
+            {{ initials }}
+          </span>
+
+        }
+
+      </span>
+
+    </a>
+
+
+    <!-- ===================================================
+         Logout
+    ==================================================== -->
+
+    <button
+      type="button"
+      class="logout-button"
+      (click)="logout()"
+    >
+      Logout
+    </button>
+
+  </div>
+
+</header>

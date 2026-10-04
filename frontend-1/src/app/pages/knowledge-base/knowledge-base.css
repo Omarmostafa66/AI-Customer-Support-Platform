@@ -1,0 +1,88 @@
+.management-page {
+  padding-bottom: 60px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.search-input {
+  padding: 8px 16px;
+  border: 1px solid #e1ddec;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  width: 250px;
+}
+
+.editor-section, .articles-section {
+  margin-top: 32px;
+}
+
+.article-form {
+  background: white;
+  border: 1px solid #e1ddec;
+  border-radius: 12px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-row {
+  display: flex;
+  gap: 24px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #241a2f;
+  font-size: 0.9rem;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+  padding: 10px 14px;
+  border: 1px solid #e1ddec;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+  margin-top: 16px;
+  padding-top: 24px;
+  border-top: 1px solid #e1ddec;
+}
+
+.actions-cell {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.icon-button:hover {
+  background: #f1f0f4;
+}
+
+.icon-button.danger:hover {
+  color: #f05a3c;
+  background: #fce8e5;
+}

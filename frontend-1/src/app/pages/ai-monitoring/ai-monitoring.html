@@ -1,0 +1,122 @@
+<div class="management-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">ADMINISTRATION</p>
+      <h1>AI Monitoring</h1>
+      <p class="hint">Real-time metrics and logs for AI interactions across the support system.</p>
+    </div>
+    <button class="secondary-button" (click)="loadMetrics(); loadLogs()">
+      Refresh
+    </button>
+  </header>
+
+  <!-- Metrics Section -->
+  <section class="metrics-section">
+    <div class="section-heading">
+      <h2>Performance Overview</h2>
+    </div>
+
+    @if (loadingMetrics) {
+      <div class="loading-state">
+        <span class="loading-spinner"></span>
+        <p>Loading AI metrics...</p>
+      </div>
+    } @else if (metrics) {
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <span class="kpi-label">Total Interactions</span>
+          <strong class="kpi-value">{{ metrics.totalInteractions }}</strong>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Handled by AI</span>
+          <strong class="kpi-value">{{ metrics.handledInteractions }}</strong>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Escalated</span>
+          <strong class="kpi-value">{{ metrics.escalatedInteractions }}</strong>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">API Failures</span>
+          <strong class="kpi-value">{{ metrics.apiFailures }}</strong>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Fallback Used</span>
+          <strong class="kpi-value">{{ metrics.fallbackUsed }}</strong>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Handling Rate</span>
+          <strong class="kpi-value">
+            {{ (metrics.handledInteractions / (metrics.totalInteractions || 1)) | percent:'1.1-1' }}
+          </strong>
+        </div>
+      </div>
+    } @else {
+      <div class="empty-state">
+        <p>Metrics are currently unavailable.</p>
+      </div>
+    }
+  </section>
+
+  <!-- Logs Section -->
+  <section class="logs-section">
+    <div class="section-heading">
+      <h2>Recent Interactions</h2>
+    </div>
+
+    @if (loadingLogs && !logsPage) {
+      <div class="loading-state">
+        <span class="loading-spinner"></span>
+        <p>Loading interaction logs...</p>
+      </div>
+    } @else if (logsPage && logsPage.content.length > 0) {
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Conversation ID</th>
+              <th scope="col">Status</th>
+              <th scope="col">Confidence</th>
+              <th scope="col">Risk Level</th>
+              <th scope="col">Timestamp</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (log of logsPage.content; track log.id) {
+              <tr>
+                <td>#{{ log.id }}</td>
+                <td>{{ log.conversationId }}</td>
+                <td>
+                  <span class="badge" [attr.data-status]="log.escalated ? 'CLOSED' : 'OPEN'">
+                    {{ log.escalated ? 'ESCALATED' : 'HANDLED' }}
+                  </span>
+                </td>
+                <td>
+                  {{ log.confidenceScore | percent:'1.0-0' }}
+                </td>
+                <td>
+                  <span class="badge" [attr.data-status]="log.riskLevel === 'HIGH' ? 'ESCALATED' : 'OPEN'">
+                    {{ log.riskLevel }}
+                  </span>
+                </td>
+                <td>
+                  <span class="date-value">{{ log.createdAt | date:'medium' }}</span>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination">
+        <button class="secondary-button" [disabled]="logsPage.first || loadingLogs" (click)="prevPage()">Previous</button>
+        <span class="page-info">Page {{ logsPage.number + 1 }} of {{ logsPage.totalPages }}</span>
+        <button class="secondary-button" [disabled]="logsPage.last || loadingLogs" (click)="nextPage()">Next</button>
+      </div>
+    } @else {
+      <div class="empty-state">
+        <p>No interaction logs found.</p>
+      </div>
+    }
+  </section>
+</div>

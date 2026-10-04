@@ -1,0 +1,67 @@
+# ==============================
+# Frontend - Angular
+# ==============================
+
+node_modules/
+dist/
+.angular/
+
+# ==============================
+# Backend - Java / Maven
+# ==============================
+
+target/
+*.class
+*.jar
+*.war
+
+# ==============================
+# Python
+# ==============================
+
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.pyo
+
+# ==============================
+# IDE
+# ==============================
+
+.idea/
+.vscode/
+*.iml
+
+# ==============================
+# Environment / Secrets
+# ==============================
+
+.env
+.env.*
+!.env.example
+
+application-local.properties
+application-local.yml
+application-prod.properties
+application-prod.yml
+
+# ==============================
+# OS
+# ==============================
+
+.DS_Store
+Thumbs.db
+
+# ==============================
+# Logs
+# ==============================
+
+*.log
+logs/
+
+# ==============================
+# Build / Generated files
+# ==============================
+
+coverage/

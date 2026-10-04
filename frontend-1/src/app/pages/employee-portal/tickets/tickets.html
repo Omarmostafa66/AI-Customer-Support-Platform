@@ -1,0 +1,29 @@
+<div class="page-header">
+  <div>
+    <p class="workspace-kicker">SUPPORT WORKSPACE</p>
+
+    <h1>My Assigned Tickets</h1>
+
+    <p>Your assigned support tickets.</p>
+  </div>
+
+  <button
+    class="secondary-button"
+    (click)="reload()"
+    [disabled]="loading || !user.currentEmployeeId()"
+  >
+    Refresh
+  </button>
+</div>
+
+<app-portal-state
+  [loading]="loading"
+  [error]="error"
+/>
+
+@if (user.currentEmployeeId() && !loading && !error) {
+<app-portal-ticket-table
+  [tickets]="tickets"
+  [support]="true"
+/>
+}

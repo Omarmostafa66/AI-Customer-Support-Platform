@@ -1,0 +1,52 @@
+.management-page {
+  padding-bottom: 60px;
+}
+
+.metrics-section, .logs-section {
+  margin-top: 32px;
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 24px;
+}
+
+.kpi-card {
+  background: white;
+  border: 1px solid #e1ddec;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.kpi-label {
+  font-size: 0.85rem;
+  color: #6f6877;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.kpi-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #241a2f;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #e1ddec;
+}
+
+.page-info {
+  font-size: 0.9rem;
+  color: #6f6877;
+  font-weight: 500;
+}
