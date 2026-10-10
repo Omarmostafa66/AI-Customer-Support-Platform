@@ -37,6 +37,7 @@ I'm **Omar Mostafa Abdsttar Ali**, a Data Science and software engineering candi
 
 - 🎓 Data Science major at the **Faculty of Computer Science & AI**, Helwan National University (2023–2027)
 - 🤖 Built a **CNN face-mask detector (97%+ accuracy)** and a **Random Forest heart-failure model (85% accuracy)**
+- 💬 Developed a **full-stack AI customer support platform** powered by **Gemini AI**, with intelligent chat, ticket escalation, and SLA tracking
 - 🌐 Developed **GovFlow Tracker** with Angular, Spring Boot, and PostgreSQL during my internship at NTG Clarity Networks
 - 📊 Trained in **Machine Learning, AI, Big Data Analysis**, and the **Digital Egypt Pioneers Program (Data Scientist track)**
 - 🏆 **Honorable Mention** — ICPC ECPC Qualifications 2024
@@ -86,6 +87,7 @@ I'm **Omar Mostafa Abdsttar Ali**, a Data Science and software engineering candi
 ### Tools & Practices
 <img src="https://skillicons.dev/icons?i=git,github&perline=2" alt="Tools" />
 <br/>
+<img src="https://img.shields.io/badge/Gemini_AI-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white" alt="Gemini AI" />
 <img src="https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" alt="Streamlit" />
 <img src="https://img.shields.io/badge/Gradio-F97316?style=for-the-badge" alt="Gradio" />
 <img src="https://img.shields.io/badge/UML-2C5364?style=for-the-badge" alt="UML" />
@@ -115,6 +117,7 @@ I'm **Omar Mostafa Abdsttar Ali**, a Data Science and software engineering candi
 
 | Project | Domain | Date | Key Results |
 |:--|:--|:--|:--|
+| 🤖 **[AI Customer Support Platform](https://github.com/Omarmostafa66/AI-Customer-Support-Platform)** | Full-Stack AI System | 2026 | Full-stack AI-powered support platform with **intelligent chat**, **automated ticket escalation**, **AI-driven ticket analysis**, and **SLA tracking**. Built with **Java, Spring Boot, Angular, PostgreSQL, and Gemini AI**, with **JWT authentication**, **role-based access control**, and **persistent AI conversations** |
 | 😷 **Face Mask Detection** | Computer Vision | Sep 2025 | CNN built with **TensorFlow & OpenCV**, **97%+ accuracy**, real-time demo deployed with **Streamlit & Gradio** |
 | 🏛️ **GovFlow Tracker** | Full-Stack System | Jul–Sep 2025 | **Angular + Spring Boot + PostgreSQL**, JWT auth, RBAC, dashboards, automated workflows |
 | ❤️ **Heart Failure Prediction** | Machine Learning | Jul 2025 | Preprocessing, feature engineering, and evaluation on clinical data, **85% accuracy** with **Random Forest** and explainable insights |
@@ -198,7 +201,7 @@ I'm **Omar Mostafa Abdsttar Ali**, a Data Science and software engineering candi
 
 | Program | Provider | Duration | Date | Details |
 |:--|:--|:--|:--|:--|
-| 🥇 **Digital Egypt Pioneers Program (DEPI)** — AI & Data Science, Data Scientist | DEPI | 200 hours | Nov 2025 – Jul 2026 | Completed the program and achieved its core learning outcomes |
+| 🥇 **Digital Egypt Pioneers Program (DEPI)** — AI & Data Science, Data Scientist | DEPI | — | Nov 2025 – Jul 2026 | Completed the program and achieved its core learning outcomes |
 | 📊 **Big Data Analysis** | NTI / ITIDA | 120 hours | 05–30 Jul 2026 | 90 technical hours + 30 freelancing hours · Score: **85%** |
 | 🤖 **Machine Learning Program** | NTI | 120 hours | 2025 | Supervised learning, preprocessing, model evaluation · Score: **90.5%** |
 | 🧠 **Artificial Intelligence Training** | ITI | 72 hours | 2025 | Probability, statistics, linear algebra, neural-network foundations; practical AI and deep-learning models on real datasets |
