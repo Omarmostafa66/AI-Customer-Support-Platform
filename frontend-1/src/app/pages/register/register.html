@@ -1,9 +1,15 @@
 <div class="register-page">
 
-  <!-- Background decoration -->
+  <!-- NEXA ambient background -->
   <div class="background-shape shape-one" aria-hidden="true"></div>
   <div class="background-shape shape-two" aria-hidden="true"></div>
   <div class="background-grid" aria-hidden="true"></div>
+  <div class="register-ambient register-ambient--coral" aria-hidden="true"></div>
+  <div class="register-ambient register-ambient--teal" aria-hidden="true"></div>
+  <div class="register-light-streak register-light-streak--one" aria-hidden="true"></div>
+  <div class="register-light-streak register-light-streak--two" aria-hidden="true"></div>
+  <div class="register-particle register-particle--one" aria-hidden="true"></div>
+  <div class="register-particle register-particle--two" aria-hidden="true"></div>
 
 
   <main class="auth-shell">
@@ -12,17 +18,18 @@
          Brand Panel
          ===================================================== -->
 
-    <section class="brand-panel">
+    <section class="brand-panel" aria-label="About NEXA">
+
+      <header class="register-brand-header">
+        <a class="register-brand-lockup" routerLink="/register" aria-label="NEXA home">
+          <img class="register-brand-logo" src="/favicon.png" alt="NEXA" />
+        </a>
+        <div class="brand-label">AI CUSTOMER SUPPORT</div>
+      </header>
 
       <div class="brand-content">
 
-        <div class="brand-mark" aria-hidden="true">
-          <span>AI</span>
-        </div>
-
-        <div class="brand-label">
-          AI CUSTOMER SUPPORT
-        </div>
+        <div class="register-section-kicker"><span></span> YOUR SUPPORT, SIMPLIFIED</div>
 
         <h1>
           Join smarter.
@@ -122,12 +129,9 @@
 
         <!-- Mobile brand -->
 
-        <div class="mobile-brand" aria-hidden="true">
-
-          <div class="mobile-brand-mark">
-            <span>AI</span>
-          </div>
-
+        <div class="mobile-brand">
+          <img src="/favicon.png" alt="NEXA" />
+          <span>AI CUSTOMER SUPPORT</span>
         </div>
 
 

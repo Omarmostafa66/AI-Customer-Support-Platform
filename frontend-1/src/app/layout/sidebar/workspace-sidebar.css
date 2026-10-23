@@ -1,9 +1,17 @@
+
 /* =========================================================
-   AI Customer Support — Workspace Sidebar
-   Palette
-   #241A2F → Deep Plum
-   #F05A3C → Burnt Orange
-   #14B8A6 → Teal
+   NEXA — Employee Workspace Sidebar
+   AI Customer Support
+
+   Brand Palette:
+   #241A2F — Deep Plum
+   #F05A3C — Primary Coral
+   #14B8A6 — Teal Accent
+   ========================================================= */
+
+
+/* =========================================================
+   Host
    ========================================================= */
 
 :host {
@@ -18,18 +26,19 @@
 
 .sidebar {
   position: relative;
+  isolation: isolate;
 
   width: 252px;
   min-height: 100vh;
 
   box-sizing: border-box;
-
   padding: 24px 16px;
 
   display: flex;
   flex-direction: column;
 
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 
   background:
     radial-gradient(
@@ -46,15 +55,18 @@
       160deg,
       #241A2F 0%,
       #211829 55%,
-      #1d1526 100%
+      #1D1526 100%
     );
 
-  color: #ffffff;
+  color: #FFFFFF;
 
   border-right: 1px solid rgba(255, 255, 255, 0.055);
 
   box-shadow:
     8px 0 30px rgba(36, 26, 47, 0.08);
+
+  animation:
+    workspaceSidebarIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 
@@ -68,6 +80,7 @@
   position: absolute;
   inset: 0;
 
+  z-index: -1;
   pointer-events: none;
 
   opacity: 0.18;
@@ -95,7 +108,8 @@
 
 
 /* =========================================================
-   Brand
+   NEXA Brand
+   Matches employee-sidebar.ts
    ========================================================= */
 
 .brand {
@@ -107,93 +121,121 @@
 
   gap: 11px;
 
-  margin-bottom: 34px;
+  min-width: 0;
 
+  margin-bottom: 34px;
   padding: 2px 4px;
+
+  animation:
+    workspaceBrandIn 0.5s ease both;
 }
 
-.brand-mark {
+
+/* Logo link */
+
+.brand-lockup {
   position: relative;
 
-  width: 40px;
-  height: 40px;
+  width: 46px;
+  height: 46px;
 
-  flex-shrink: 0;
+  flex: 0 0 46px;
 
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  border-radius: 12px;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 13px;
 
   background:
     linear-gradient(
       135deg,
-      #F05A3C,
-      #e9472c
+      rgba(240, 90, 60, 0.20),
+      rgba(36, 26, 47, 0.95)
     );
 
-  color: #ffffff;
-
-  font-size: 20px;
-  font-weight: 800;
-
   box-shadow:
-    0 8px 20px rgba(240, 90, 60, 0.24);
+    0 8px 20px rgba(0, 0, 0, 0.18);
+
+  text-decoration: none;
 
   transition:
     transform 0.25s ease,
-    box-shadow 0.25s ease;
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
 }
 
-.brand-mark::after {
-  content: '';
 
-  position: absolute;
+/* Actual NEXA logo */
 
-  width: 7px;
-  height: 7px;
+.brand-logo {
+  display: block;
 
-  top: -2px;
-  right: -2px;
+  width: 100%;
+  height: 100%;
 
-  border-radius: 50%;
+  box-sizing: border-box;
+  padding: 3px;
 
-  background: #14B8A6;
+  object-fit: contain;
+
+  border-radius: inherit;
+}
+
+
+/* Logo interaction */
+
+.brand-lockup:hover {
+  transform: translateY(-2px);
+
+  border-color: rgba(240, 90, 60, 0.55);
 
   box-shadow:
-    0 0 0 4px rgba(20, 184, 166, 0.10);
+    0 11px 24px rgba(240, 90, 60, 0.20);
 }
 
-.brand:hover .brand-mark {
-  transform:
-    translateY(-2px)
-    rotate(4deg);
-
-  box-shadow:
-    0 11px 24px rgba(240, 90, 60, 0.30);
+.brand-lockup:focus-visible {
+  outline: 3px solid rgba(20, 184, 166, 0.55);
+  outline-offset: 3px;
 }
 
-.brand h2 {
+
+/* Brand text */
+
+.brand-content {
+  min-width: 0;
+}
+
+.brand h2,
+.brand-content h2 {
   margin: 0;
 
-  color: #ffffff;
+  color: #FFFFFF;
 
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 18px;
+  font-weight: 800;
 
-  line-height: 1.25;
+  line-height: 1.2;
 
-  letter-spacing: -0.25px;
+  letter-spacing: 1.1px;
 }
 
-.brand p {
+.brand p,
+.brand-content p {
   margin: 5px 0 0;
 
-  color: #a99ead;
+  color: #A99EAD;
 
   font-size: 10px;
+  font-weight: 500;
 
   line-height: 1.4;
+
+  letter-spacing: 0.2px;
 }
 
 
@@ -207,12 +249,15 @@
 
   margin: 0 0 10px 8px;
 
-  color: #8e8296;
+  color: #8E8296;
 
   font-size: 9px;
   font-weight: 800;
 
   letter-spacing: 1.7px;
+
+  animation:
+    workspaceContentIn 0.55s ease both;
 }
 
 
@@ -240,23 +285,20 @@
 
   min-height: 45px;
 
+  box-sizing: border-box;
   padding: 10px 12px;
 
-  box-sizing: border-box;
+  overflow: hidden;
 
-  color: #c8bdce;
+  color: #C8BDCE;
 
   text-decoration: none;
 
-  border:
-    1px solid transparent;
-
+  border: 1px solid transparent;
   border-radius: 10px;
 
   font-size: 13px;
   font-weight: 550;
-
-  overflow: hidden;
 
   transition:
     background-color 0.2s ease,
@@ -265,6 +307,42 @@
     transform 0.2s ease,
     box-shadow 0.2s ease;
 }
+
+
+/* Animated hover highlight */
+
+.nav-links a::after {
+  content: '';
+
+  position: absolute;
+
+  top: 0;
+  bottom: 0;
+  left: -70px;
+
+  width: 60px;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.08),
+      transparent
+    );
+
+  transform: skewX(-18deg);
+
+  transition: left 0.45s ease;
+}
+
+.nav-links a:hover::after {
+  left: calc(100% + 30px);
+}
+
+
+/* Active item indicator */
 
 .nav-links a::before {
   content: '';
@@ -279,7 +357,7 @@
 
   border-radius: 0 5px 5px 0;
 
-  background: #ffffff;
+  background: #FFFFFF;
 
   transform: translateY(-50%);
 
@@ -292,7 +370,7 @@
    ========================================================= */
 
 .nav-links a:hover {
-  color: #ffffff;
+  color: #FFFFFF;
 
   background:
     rgba(255, 255, 255, 0.055);
@@ -311,17 +389,17 @@
 
 
 /* =========================================================
-   Active
+   Active Navigation
    ========================================================= */
 
 .nav-links a.active {
-  color: #ffffff;
+  color: #FFFFFF;
 
   background:
     linear-gradient(
       135deg,
       #F05A3C,
-      #e84f34
+      #E84F34
     );
 
   border-color:
@@ -336,12 +414,23 @@
 }
 
 .nav-links a.active .nav-icon {
-  color: #ffffff;
+  color: #FFFFFF;
+
+  transform: scale(1.06);
+}
+
+
+/* Click feedback */
+
+.nav-links a:active {
+  transform:
+    translateX(2px)
+    scale(0.985);
 }
 
 
 /* =========================================================
-   Icons
+   Navigation Icons
    ========================================================= */
 
 .nav-icon {
@@ -353,9 +442,10 @@
   align-items: center;
   justify-content: center;
 
-  color: #92859b;
+  color: #92859B;
 
   font-size: 16px;
+  line-height: 1;
 
   transition:
     color 0.2s ease,
@@ -364,13 +454,16 @@
 
 
 /* =========================================================
-   Focus
+   Focus Accessibility
    ========================================================= */
 
 .nav-links a:focus-visible {
-  outline:
-    3px solid rgba(20, 184, 166, 0.32);
+  outline: 3px solid rgba(20, 184, 166, 0.55);
+  outline-offset: 3px;
+}
 
+.logout-button:focus-visible {
+  outline: 3px solid rgba(20, 184, 166, 0.55);
   outline-offset: 3px;
 }
 
@@ -384,8 +477,10 @@
   z-index: 1;
 
   margin-top: auto;
-
   padding: 24px 4px 0;
+
+  animation:
+    workspaceFooterIn 0.6s ease both;
 }
 
 
@@ -398,15 +493,17 @@
 
   padding: 14px 13px;
 
-  border:
-    1px solid rgba(255, 255, 255, 0.065);
+  overflow: hidden;
 
+  border: 1px solid rgba(255, 255, 255, 0.065);
   border-radius: 11px;
 
   background:
-    rgba(255, 255, 255, 0.025);
-
-  overflow: hidden;
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.045),
+      rgba(255, 255, 255, 0.018)
+    );
 }
 
 .workspace-label::before {
@@ -428,7 +525,7 @@
 .workspace-label strong {
   display: block;
 
-  color: #f0ebf2;
+  color: #F0EBF2;
 
   font-size: 12px;
   font-weight: 700;
@@ -437,7 +534,7 @@
 .workspace-label p {
   margin: 5px 0 0;
 
-  color: #958a9d;
+  color: #958A9D;
 
   font-size: 10px;
 
@@ -452,22 +549,25 @@
 .logout-button {
   width: 100%;
 
-  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
+  gap: 8px;
+
+  box-sizing: border-box;
+  margin-top: 12px;
   padding: 11px 14px;
 
-  border:
-    1px solid rgba(255, 255, 255, 0.10);
-
+  border: 1px solid rgba(255, 255, 255, 0.10);
   border-radius: 10px;
 
   background:
     rgba(255, 255, 255, 0.025);
 
-  color: #cfc5d4;
+  color: #CFC5D4;
 
   font: inherit;
-
   font-size: 12px;
   font-weight: 650;
 
@@ -485,7 +585,7 @@
   background:
     rgba(240, 90, 60, 0.10);
 
-  color: #ffffff;
+  color: #FFFFFF;
 
   border-color:
     rgba(240, 90, 60, 0.35);
@@ -497,19 +597,67 @@
 }
 
 .logout-button:active {
-  transform: scale(0.98);
-}
-
-.logout-button:focus-visible {
-  outline:
-    3px solid rgba(20, 184, 166, 0.32);
-
-  outline-offset: 3px;
+  transform:
+    translateY(0)
+    scale(0.98);
 }
 
 
 /* =========================================================
-   Responsive
+   Animations
+   ========================================================= */
+
+@keyframes workspaceSidebarIn {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes workspaceBrandIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes workspaceContentIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes workspaceFooterIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================================================
+   Tablet
    ========================================================= */
 
 @media (max-width: 900px) {
@@ -523,13 +671,21 @@
     gap: 9px;
   }
 
-  .brand-mark {
-    width: 36px;
-    height: 36px;
+  .brand-lockup {
+    width: 40px;
+    height: 40px;
+
+    flex-basis: 40px;
   }
 
-  .brand h2 {
-    font-size: 14px;
+  .brand h2,
+  .brand-content h2 {
+    font-size: 16px;
+  }
+
+  .brand p,
+  .brand-content p {
+    font-size: 9px;
   }
 
   .nav-links a {
@@ -545,19 +701,27 @@
   .nav-icon {
     width: 19px;
     flex-basis: 19px;
+
+    font-size: 15px;
   }
 }
 
 
+/* =========================================================
+   Mobile
+   ========================================================= */
+
 @media (max-width: 600px) {
   .sidebar {
     width: 100%;
+    height: auto;
     min-height: auto;
 
     padding: 16px;
 
-    border-right: none;
+    overflow: visible;
 
+    border-right: none;
     border-bottom:
       1px solid rgba(255, 255, 255, 0.06);
 
@@ -569,8 +733,21 @@
     margin-bottom: 18px;
   }
 
-  .brand p {
-    display: none;
+  .brand-lockup {
+    width: 40px;
+    height: 40px;
+
+    flex-basis: 40px;
+  }
+
+  .brand h2,
+  .brand-content h2 {
+    font-size: 16px;
+  }
+
+  .brand p,
+  .brand-content p {
+    font-size: 10px;
   }
 
   .nav-label {
@@ -585,16 +762,18 @@
   }
 
   .nav-links a {
-    flex:
-      1 1 calc(50% - 6px);
+    flex: 1 1 calc(50% - 6px);
 
     min-width: 120px;
-
     min-height: 40px;
 
     justify-content: center;
 
     padding: 9px 10px;
+  }
+
+  .nav-links a:hover {
+    transform: translateY(-1px);
   }
 
   .nav-links a.active::before {
@@ -615,7 +794,6 @@
 
   .logout-button {
     width: auto;
-
     min-width: 115px;
 
     margin-left: auto;
@@ -623,7 +801,15 @@
 }
 
 
+/* =========================================================
+   Very Small Screens
+   ========================================================= */
+
 @media (max-width: 390px) {
+  .sidebar {
+    padding: 14px 12px;
+  }
+
   .nav-links a {
     flex: 1 1 100%;
   }
@@ -636,119 +822,11 @@
 
 @media (prefers-reduced-motion: reduce) {
   *,
-  *::before {
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-
-.brand-avatar {
-  width: 46px;
-  height: 46px;
-  min-width: 46px;
-  border-radius: 14px;
-  object-fit: cover;
-  display: block;
-  border: 2px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
-}
-
-
-
-/* =========================================================
-   Profile Avatar
-   ========================================================= */
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.brand-avatar {
-  width: 48px;
-  height: 48px;
-  min-width: 48px;
-
-  border-radius: 14px;
-
-  overflow: hidden;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background:
-    linear-gradient(
-      135deg,
-      #f05a3c,
-      #241a2f
-    );
-
-  color: #ffffff;
-
-  font-size: 14px;
-  font-weight: 800;
-
-  box-shadow:
-    0 8px 20px rgba(36, 26, 47, 0.18);
-
-  border: 1px solid
-    rgba(255, 255, 255, 0.18);
-
-  flex-shrink: 0;
-}
-
-.brand-avatar img {
-  width: 100%;
-  height: 100%;
-
-  display: block;
-
-  object-fit: cover;
-}
-
-.brand-avatar span {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-  height: 100%;
-}
-
-.brand-content {
-  min-width: 0;
-}
-
-.brand-content h2 {
-  margin: 0;
-}
-
-.brand-content p {
-  margin: 3px 0 0;
-}
-
-
-
-.brand-avatar {
-  width: 52px;
-  height: 52px;
-  flex: 0 0 52px;
-
-  object-fit: cover;
-
-  border-radius: 14px;
-
-  border: 2px solid rgba(240, 90, 60, 0.35);
-
-  background: #241a2f;
-
-  box-shadow:
-    0 8px 18px rgba(36, 26, 47, 0.18);
-
-  display: block;
 }

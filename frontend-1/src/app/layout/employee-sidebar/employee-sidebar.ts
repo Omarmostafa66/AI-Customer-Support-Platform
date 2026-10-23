@@ -1,3 +1,4 @@
+
 import {
   Component,
   OnDestroy,
@@ -28,38 +29,31 @@ import { ToastService } from '../../shared/toast/toast.service';
     <aside class="sidebar">
 
       <!-- =========================
-           Brand
+           NEXA Brand
       ========================== -->
 
       <div class="brand">
 
-        <div class="brand-avatar">
-
-          @if (avatarSource) {
-
-            <img
-              [src]="avatarSource"
-              alt="Profile photo"
-            />
-
-          } @else {
-
-            <span>
-              {{ initials }}
-            </span>
-
-          }
-
-        </div>
+        <a
+          class="brand-lockup"
+          routerLink="/employee/dashboard"
+          aria-label="NEXA Employee Dashboard"
+        >
+          <img
+            class="brand-logo"
+            src="/favicon.png"
+            alt="NEXA logo"
+          />
+        </a>
 
         <div class="brand-content">
 
           <h2>
-            AI Customer Support
+            NEXA
           </h2>
 
           <p>
-            Support Agent Portal
+            AI Customer Support
           </p>
 
         </div>
@@ -182,6 +176,8 @@ import { ToastService } from '../../shared/toast/toast.service';
         </div>
 
 
+        <!-- Logout -->
+
         <button
           type="button"
           class="logout-button"
@@ -220,6 +216,7 @@ export class EmployeeSidebar
 
   // =========================
   // Avatar
+  // Preserved for account-related functionality
   // =========================
 
   avatarSource: string | null = null;
@@ -287,6 +284,7 @@ export class EmployeeSidebar
 
   // =========================
   // Initials
+  // Preserved
   // =========================
 
   get initials(): string {

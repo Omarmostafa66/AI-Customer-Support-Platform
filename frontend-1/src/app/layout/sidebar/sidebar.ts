@@ -1,3 +1,4 @@
+
 import { Component, inject } from '@angular/core';
 
 import {
@@ -24,33 +25,26 @@ import { ToastService } from '../../shared/toast/toast.service';
     <aside class="sidebar">
 
       <!-- =========================
-           Brand
+           NEXA Brand Identity
       ========================== -->
 
       <div class="brand">
 
-        @if (auth.avatar()) {
-
+        <a
+          class="brand-lockup"
+          routerLink="/dashboard"
+          aria-label="NEXA Admin Dashboard"
+        >
           <img
-            class="brand-avatar"
-            [src]="auth.avatar()!"
-            alt="Account profile"
+            class="brand-logo"
+            src="/favicon.png"
+            alt="NEXA logo"
           />
+        </a>
 
-        } @else {
-
-          <span
-            class="brand-mark"
-            aria-hidden="true"
-          >
-            ✳
-          </span>
-
-        }
-
-        <div>
-          <h2>AI Customer Support</h2>
-          <p>Management workspace</p>
+        <div class="brand-content">
+          <h2>NEXA</h2>
+          <p>AI Customer Support</p>
         </div>
 
       </div>
