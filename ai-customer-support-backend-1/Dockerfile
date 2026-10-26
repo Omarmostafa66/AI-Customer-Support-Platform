@@ -1,18 +1,14 @@
 
 # Build stage
-FROM eclipse-temurin:17-jdk AS build
+FROM maven:3.9-eclipse-temurin-17 AS build
 
 WORKDIR /app
 
-COPY .mvn/ .mvn/
-COPY mvnw pom.xml ./
-
-RUN chmod +x mvnw
-RUN ./mvnw -B dependency:go-offline
+COPY pom.xml .
+RUN mvn -B dependency:go-offline
 
 COPY src/ src/
-
-RUN ./mvnw -B clean package -DskipTests
+RUN mvn -B clean package -DskipTests
 
 # Runtime stage
 FROM eclipse-temurin:17-jre
@@ -23,4 +19,4 @@ COPY --from=build /app/target/*.jar app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
